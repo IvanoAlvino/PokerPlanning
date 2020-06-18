@@ -16,7 +16,7 @@ returns roomId
 2. People connect to it, and enter their name. A POST api is sent to create a user. In his body there is the name and the room id
 ```
 POST /api/user
-{name: string, roomId: number}
+{name: string, roomId: string}
 ```
 
 3. GET a room. In the request we pass the room id. Returns room name and users and userName
@@ -36,7 +36,7 @@ GET /api/room
 POST /api/votes
 {
 	estimate: number
-	roomId: number
+	roomId: string
 }
 ```
 
@@ -45,7 +45,7 @@ All votes are returned in the response -> a list of objects
 ```
 POST /api/finishVoting
 {
-	roomId: number
+	roomId: string
 }
 returns
 [
@@ -55,7 +55,7 @@ returns
 
 5. GET updates. In the request we send the room id, in the response there is a list of objects: each object contains username, voted (y/n) and last vote.
 ```
-GET /api/updates?roomId=number
+GET /api/updates?roomId=string
 [
 {username: string, voted: boolean, previousVote: number}
 ]
