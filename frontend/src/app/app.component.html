@@ -4,17 +4,20 @@
 	<form class="name-form">
 		<mat-form-field>
 			<mat-label>Insert your name</mat-label>
-			<textarea matInput placeholder="Ex. Tamino"></textarea>
+			<textarea matInput placeholder="Ex. Tamino, Mutamino, ..." name="username"
+			          #nameInput="matInput" #name="ngModel"
+			          [(ngModel)]="username" required>
+			</textarea>
 		</mat-form-field>
 	</form>
 
 	<button mat-raised-button color="primary" class="p-2 main-button mb-3"
-	        (click)="startPlanning()">
+	        (click)="startPlanning()" [disabled]="name.invalid">
 		I want to start a planning
 	</button>
 
 	<button mat-raised-button class="p-2 main-button"
-			(click)="joinPlanning()">
+			(click)="joinPlanning()" [disabled]="name.invalid">
 		I want to join a planning
 	</button>
 </div>
