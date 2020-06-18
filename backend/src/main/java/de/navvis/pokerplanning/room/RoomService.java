@@ -4,13 +4,14 @@ import de.navvis.pokerplanning.room.web.UserVoteInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.stream.Collectors.toList;
 
 @Service
 public class RoomService {
 	private static final Object mutex = new Object();
-	private static final Set<Integer> allowedEstimates = Set.of(1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
+	private static final Set<Integer> allowedEstimates = Set.of(0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
 	private static final Map<UUID, Room> rooms = new HashMap<>();
 
 	public UUID createRoom(String name, String moderatorUsername) {
@@ -25,6 +26,7 @@ public class RoomService {
 	public SimpleRoomInfo getRoomInfo(String roomId) throws NoSuchRoomException {
 		synchronized (mutex) {
 			var room = getRoom(roomId);
+			removeStaleRooms();
 			return new SimpleRoomInfo(room.name, new ArrayList<>(room.usernames));
 		}
 	}
@@ -70,7 +72,13 @@ public class RoomService {
 		}
 	}
 
+	private void removeStaleRooms() {
+		var currentTime = System.currentTimeMillis();
+		rooms.entrySet().removeIf((entry) -> currentTime - entry.getValue().creationTime > TimeUnit.HOURS.toMillis(1));
+	}
+
 	private static class Room {
+		long creationTime = System.currentTimeMillis();
 		UUID id;
 		String name;
 		Set<String> usernames = new HashSet<>();
