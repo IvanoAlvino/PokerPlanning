@@ -3,11 +3,10 @@
 }
 
 .name-form {
-	min-width: 150px;
-	max-width: 30%;
-	width: 100%;
+	width: 30%;
+}
 
-	textarea {
-		line-height: 12px;
-	}
+mat-form-field {
+	text-align: center;
+	width: 100%;
 }

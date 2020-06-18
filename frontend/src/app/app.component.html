@@ -8,11 +8,13 @@
 		</mat-form-field>
 	</form>
 
-	<button mat-raised-button color="primary" class="p-2 main-button mb-3">
+	<button mat-raised-button color="primary" class="p-2 main-button mb-3"
+	        (click)="startPlanning()">
 		I want to start a planning
 	</button>
 
-	<button mat-raised-button class="p-2 main-button">
+	<button mat-raised-button class="p-2 main-button"
+			(click)="joinPlanning()">
 		I want to join a planning
 	</button>
 </div>

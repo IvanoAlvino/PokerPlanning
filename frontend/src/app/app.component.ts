@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {RoomService} from "../services/room/room.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'NavVis Poker Planning';
+
+  constructor(private RoomService: RoomService)
+  {
+  }
+
+  public startPlanning()
+  {
+    this.RoomService.createRoom().subscribe((response) => console.log(response));
+  }
+
+  public joinPlanning()
+  {
+
+  }
 }

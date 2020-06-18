@@ -1,0 +1,3 @@
+interface RoomResponse {
+	roomId: string;
+}
