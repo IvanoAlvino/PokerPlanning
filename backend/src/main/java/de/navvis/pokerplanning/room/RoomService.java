@@ -1,7 +1,6 @@
 package de.navvis.pokerplanning.room;
 
 import de.navvis.pokerplanning.room.web.UserVoteInfo;
-import de.navvis.pokerplanning.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,9 +14,8 @@ public class RoomService {
 	private static final Map<UUID, Room> rooms = new HashMap<>();
 
 	public UUID createRoom(String name, String moderatorUsername) {
-		var moderator = new User(moderatorUsername, true);
 		var room = new Room(UUID.randomUUID(), name);
-		room.addUserWithoutCheck(moderator);
+		room.addUserWithoutCheck(moderatorUsername, true);
 		synchronized (mutex) {
 			rooms.put(room.id, room);
 		}
@@ -32,35 +30,44 @@ public class RoomService {
 	}
 
 	public void addUser(String name, String roomId) throws NoSuchRoomException, UserAlreadyExistsException {
-		var user = new User(name, false);
-		getRoom(roomId).addUser(user);
+		synchronized (mutex) {
+			getRoom(roomId).addUser(name, false);
+		}
 	}
 
 	public void vote(String roomId, String username, Integer estimate) throws NoSuchRoomException {
 		if (!allowedEstimates.contains(estimate)) throw new IllegalArgumentException();
-		var room = getRoom(roomId);
-		room.addVote(username, estimate);
+		synchronized (mutex) {
+			var room = getRoom(roomId);
+			room.addVote(username, estimate);
+		}
 	}
 
 	public void finishVoting(String roomId, String username) throws NoSuchRoomException {
-		getRoom(roomId).finishVoting(username);
+		synchronized (mutex) {
+			getRoom(roomId).finishVoting(username);
+		}
 	}
 
 	public List<UserVoteInfo> status(String roomId) throws NoSuchRoomException {
-		var room = getRoom(roomId);
-		return room.usernames.stream().map(username -> {
-			var vote = new UserVoteInfo();
-			vote.setUsername(username);
-			vote.setVoted(room.votes.containsKey(username));
-			vote.setPreviousVote(room.formerVotes.get(username));
-			return vote;
-		}).collect(toList());
+		synchronized (mutex) {
+			var room = getRoom(roomId);
+			return room.usernames.stream().map(username -> {
+				var vote = new UserVoteInfo();
+				vote.setUsername(username);
+				vote.setVoted(room.votes.containsKey(username));
+				vote.setPreviousVote(room.formerVotes.get(username));
+				return vote;
+			}).collect(toList());
+		}
 	}
 
 	private Room getRoom(String roomId) throws NoSuchRoomException {
-		var room = rooms.get(UUID.fromString(roomId));
-		if (room == null) throw new NoSuchRoomException();
-		return room;
+		synchronized (mutex) {
+			var room = rooms.get(UUID.fromString(roomId));
+			if (room == null) throw new NoSuchRoomException();
+			return room;
+		}
 	}
 
 	private static class Room {
@@ -76,16 +83,16 @@ public class RoomService {
 			this.name = name;
 		}
 
-		void addUserWithoutCheck(User user) {
-			usernames.add(user.getName());
-			if (user.isModerator()) {
-				moderatorUsernames.add(user.getName());
+		void addUserWithoutCheck(String username, boolean moderator) {
+			usernames.add(username);
+			if (moderator) {
+				moderatorUsernames.add(username);
 			}
 		}
 
-		void addUser(User user) throws UserAlreadyExistsException {
-			if (usernames.contains(user.getName())) throw new UserAlreadyExistsException();
-			addUserWithoutCheck(user);
+		void addUser(String username, boolean moderator) throws UserAlreadyExistsException {
+			if (usernames.contains(username)) throw new UserAlreadyExistsException();
+			addUserWithoutCheck(username, moderator);
 		}
 
 		void addVote(String username, Integer estimate) {
