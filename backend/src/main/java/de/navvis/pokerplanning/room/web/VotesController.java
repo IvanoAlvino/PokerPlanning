@@ -4,10 +4,7 @@ import de.navvis.pokerplanning.room.NoSuchRoomException;
 import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.web.AttributeName;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +18,7 @@ public class VotesController {
 	}
 
 	@PostMapping("/api/votes")
-	public void vote(VoteRequest request, HttpSession session) {
+	public void vote(@RequestBody VoteRequest request, HttpSession session) {
 		var username = session.getAttribute(AttributeName.USERNAME).toString();
 		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
 		try {
