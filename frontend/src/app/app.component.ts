@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void
   {
-    setTimeout(() => this.input.focus());
+    setTimeout(() => this.input.focus(), 700);
   }
 
   public startPlanning()
