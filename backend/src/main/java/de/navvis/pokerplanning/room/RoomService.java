@@ -26,10 +26,12 @@ public class RoomService {
 	}
 
 	public SimpleRoomInfo getRoomInfo(String roomId) {
-		var room = rooms.get(UUID.fromString(roomId));
-		return new SimpleRoomInfo(room.getName(),
-				room.getUsers().stream()
-						.map(User::getName)
-						.collect(toList()));
+		synchronized (mutex) {
+			var room = rooms.get(UUID.fromString(roomId));
+			return new SimpleRoomInfo(room.getName(),
+					room.getUsers().stream()
+							.map(User::getName)
+							.collect(toList()));
+		}
 	}
 }
