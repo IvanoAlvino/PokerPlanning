@@ -25,13 +25,15 @@ export class WelcomePageComponent implements AfterViewInit {
     setTimeout(() => this.input.focus(), 700);
   }
 
-  public startPlanning()
+  public startPlanning(): void
   {
     this.RoomService.createRoom(this.username).subscribe((response) => console.log(response));
-    this.router.navigateByUrl('/poker');
+    this.router.navigateByUrl('/poker')
+        .then(() => {})
+        .catch(() => console.log("Not possible to navigate to /poker"));
   }
 
-  public joinPlanning()
+  public joinPlanning(): void
   {
 
   }
