@@ -43,9 +43,8 @@ public class VotesController {
 		}
 	}
 
-	@GetMapping("/api/updates")
-	public UpdateResponse updates(HttpSession session) {
-		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
+	@GetMapping("/api/updates/{roomId}")
+	public UpdateResponse updates(@PathVariable String roomId, HttpSession session) {
 		try {
 			return new UpdateResponse(roomService.status(roomId), roomService.currentRound(roomId));
 		}	catch (NoSuchRoomException e) {

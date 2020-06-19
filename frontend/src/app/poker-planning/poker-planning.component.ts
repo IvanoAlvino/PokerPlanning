@@ -47,7 +47,7 @@ export class PokerPlanningComponent implements OnInit {
 
   private fetchUpdates(): void
   {
-    this.RoomService.updates()
+    this.RoomService.updates(this.roomId)
         .then((updates) => this.userList = updates.votes)
         .catch((error) => console.log("Error while fetching updates", error));
   }
