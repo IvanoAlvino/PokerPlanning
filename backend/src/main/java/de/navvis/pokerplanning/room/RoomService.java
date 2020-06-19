@@ -64,6 +64,13 @@ public class RoomService {
 		}
 	}
 
+	public Integer currentRound(String roomId) throws NoSuchRoomException {
+			synchronized (mutex) {
+				var room = getRoom(roomId);
+				return room.round;
+			}
+		}
+
 	private Room getRoom(String roomId) throws NoSuchRoomException {
 		synchronized (mutex) {
 			var room = rooms.get(UUID.fromString(roomId));
@@ -78,6 +85,7 @@ public class RoomService {
 	}
 
 	private static class Room {
+		Integer round = 1;
 		long creationTime = System.currentTimeMillis();
 		UUID id;
 		String name;
@@ -111,6 +119,7 @@ public class RoomService {
 			if (!moderatorUsernames.contains(username)) throw new IllegalArgumentException();
 			formerVotes = votes;
 			votes = new HashMap<>();
+			round++;
 		}
 	}
 }

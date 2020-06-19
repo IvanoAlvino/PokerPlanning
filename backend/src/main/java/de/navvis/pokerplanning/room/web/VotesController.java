@@ -47,7 +47,7 @@ public class VotesController {
 	public UpdateResponse updates(HttpSession session) {
 		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
 		try {
-			return new UpdateResponse(roomService.status(roomId));
+			return new UpdateResponse(roomService.status(roomId), roomService.currentRound(roomId));
 		}	catch (NoSuchRoomException e) {
 			session.removeAttribute(AttributeName.ROOM_ID);
 			session.removeAttribute(AttributeName.USERNAME);

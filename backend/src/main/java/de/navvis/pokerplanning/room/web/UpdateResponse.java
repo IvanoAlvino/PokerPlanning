@@ -11,4 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateResponse {
 	private List<UserVoteInfo> votes;
+	private Integer round;
 }
