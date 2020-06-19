@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {ApiError, ErrorResponse} from "./domain/error/ApiError";
 
 @Injectable({
   providedIn: 'root'
@@ -43,11 +44,10 @@ export class RoomService {
     };
     try {
       await this.http.post<void>(this.userUrl, userRequest).toPromise();
+      this.username = username;
     } catch (e) {
       this.handleApiError(e);
     }
-    this.username = username;
-    return;
   }
 
   private handleApiError(e: HttpErrorResponse): void {
@@ -67,3 +67,4 @@ export class RoomService {
     }
   }
 }
+

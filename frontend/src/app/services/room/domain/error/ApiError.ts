@@ -3,3 +3,9 @@ export class ApiError extends Error {
     super(message);
   }
 }
+
+export enum ErrorResponse {
+  ROOM_DOESNT_EXIST,
+  USER_DOESNT_EXIST,
+  USERNAME_IS_TAKEN
+}
