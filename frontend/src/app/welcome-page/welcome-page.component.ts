@@ -3,11 +3,11 @@ import {RoomService} from "../services/room/room.service";
 import {MatInput} from "@angular/material/input";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'welcome-page',
+  templateUrl: './welcome-page.component.html',
+  styleUrls: ['./welcome-page.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class WelcomePageComponent implements AfterViewInit {
 
   public username: string;
 
