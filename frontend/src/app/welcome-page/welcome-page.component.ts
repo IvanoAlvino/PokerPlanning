@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {RoomService} from "../services/room/room.service";
 import {MatInput} from "@angular/material/input";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'welcome-page',
@@ -14,7 +15,8 @@ export class WelcomePageComponent implements AfterViewInit {
   @ViewChild('nameInput', {static: true})
   private input: MatInput;
 
-  constructor(private RoomService: RoomService)
+  constructor(private RoomService: RoomService,
+              private router: Router)
   {
   }
 
@@ -25,7 +27,8 @@ export class WelcomePageComponent implements AfterViewInit {
 
   public startPlanning()
   {
-    this.RoomService.createRoom().subscribe((response) => console.log(response));
+    this.RoomService.createRoom(this.username).subscribe((response) => console.log(response));
+    this.router.navigateByUrl('/poker');
   }
 
   public joinPlanning()

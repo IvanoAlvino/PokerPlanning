@@ -8,10 +8,14 @@ import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {WelcomePageComponent} from "./welcome-page/welcome-page.component";
+import { PokerPlanningComponent } from './poker-planning/poker-planning.component';
+import {AppComponent} from "./app.component";
 
 @NgModule({
   declarations: [
-	  WelcomePageComponent
+  	  AppComponent,
+	  WelcomePageComponent,
+	  PokerPlanningComponent,
   ],
 	imports: [
 		BrowserModule,
@@ -23,6 +27,6 @@ import {WelcomePageComponent} from "./welcome-page/welcome-page.component";
 		FormsModule
 	],
   providers: [],
-  bootstrap: [WelcomePageComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

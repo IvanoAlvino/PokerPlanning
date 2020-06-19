@@ -1,12 +1,10 @@
-<h1 class="text-center">NavVis Poker Planning</h1>
-
 <div class="d-flex flex-column bd-highlight mt-5 mb-3 align-items-center">
 	<form class="name-form">
 		<mat-form-field>
 			<mat-label>Insert your name</mat-label>
 			<textarea matInput placeholder="Ex. Tamino, Mutamino, ..." name="username"
 			          #nameInput="matInput" #name="ngModel"
-			          [(ngModel)]="username" required>
+			          [(ngModel)]="username" required minlength="3">
 			</textarea>
 		</mat-form-field>
 	</form>
@@ -21,5 +19,3 @@
 		I want to join a planning
 	</button>
 </div>
-
-<router-outlet></router-outlet>

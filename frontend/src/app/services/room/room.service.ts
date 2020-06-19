@@ -13,9 +13,9 @@ export class RoomService {
     this.roomUrl = 'http://localhost:8080/api/room';
   }
 
-  public createRoom(): Observable<RoomResponse> {
+  public createRoom(username: string): Observable<RoomResponse> {
     const roomRequest: RoomRequest = {
-      username: "Lisa",
+      username: username,
       roomName: "IV room"
     };
     return this.http.post<RoomResponse>(this.roomUrl, roomRequest);
