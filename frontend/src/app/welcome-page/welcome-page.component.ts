@@ -23,7 +23,6 @@ export class WelcomePageComponent implements AfterViewInit {
   public ngAfterViewInit(): void
   {
     setTimeout(() => this.input.focus(), 700);
-    this.RoomService.roomInfo()
   }
 
   public async startPlanning(): Promise<void>
