@@ -1,0 +1,5 @@
+# Ignore everything
+**
+
+# Allow jar files
+!backend/target/*.jar
