@@ -12,7 +12,9 @@ export class PokerPlanningComponent implements OnInit {
 
   public roomId: string;
 
-  private userList: string[] = [];
+  private userList: UserVote[] = [];
+
+  private updatesIntervalId: number;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -23,13 +25,13 @@ export class PokerPlanningComponent implements OnInit {
 
   async ngOnInit() {
     this.roomId = this.route.snapshot.paramMap.get('room-id');
-
     const roomInfo = await this.RoomService.roomInfo(this.roomId);
-    console.log("On init, user list", roomInfo);
-
-    this.userList = roomInfo.users;
-
     this.createUserIfNeeded(roomInfo);
+
+    if (!this.updatesIntervalId) {
+      this.updatesIntervalId = setInterval(() => this.fetchUpdates(), 1000);
+    }
+
   }
 
   private createUserIfNeeded(roomInfo: RoomInfoResponse): void
@@ -43,4 +45,10 @@ export class PokerPlanningComponent implements OnInit {
     }
   }
 
+  private fetchUpdates(): void
+  {
+    this.RoomService.updates()
+        .then((updates) => this.userList = updates.votes)
+        .catch((error) => console.log("Error while fetching updates", error));
+  }
 }
