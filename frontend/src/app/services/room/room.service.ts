@@ -26,8 +26,24 @@ export class RoomService {
     return roomResponse;
   }
 
-  public roomInfo(): Promise<RoomInfoResponse> {
-    return this.http.get<RoomInfoResponse>(this.roomUrl).toPromise();
+  public async roomInfo(): Promise<RoomInfoResponse> {
+    try {
+      const roomInfo = await this.http.get<RoomInfoResponse>(this.roomUrl).toPromise();
+      this.username = roomInfo.username;
+      return roomInfo;
+    } catch (e) {
+      switch (e.status) {
+        case 404:
+          this.roomId = undefined;
+          this.username = undefined;
+          throw new ApiError("Specified room doesn't exist!", ErrorResponse.ROOM_DOESNT_EXIST);
+        case 401:
+          this.username = undefined;
+          throw new ApiError("User is not registered in a room!", ErrorResponse.USER_DOESNT_EXIST);
+        default:
+          throw new Error("Unknown server error");
+      }
+    }
   }
 
   public async createUser(username: string): Promise<void> {
