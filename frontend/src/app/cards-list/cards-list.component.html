@@ -1,1 +1,8 @@
-<p>cards-list works!</p>
+<div class="card-list">
+  <card
+    *ngFor="let value of values"
+    [value]="value"
+    [selected]="value === selectedValue"
+    (select)="selectCard(value)"
+  ></card>
+</div>
