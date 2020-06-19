@@ -33,14 +33,15 @@ public class RoomController {
 	public RoomInfoResponse roomInfo(HttpSession session) {
 		var roomId = Optional.ofNullable(session.getAttribute(AttributeName.ROOM_ID));
 		var username = Optional.ofNullable(session.getAttribute(AttributeName.USERNAME));
-		if (roomId.isEmpty() || username.isEmpty()) throw new NotFoundException();
+		if (roomId.isEmpty()) throw new NotFoundException();
+		if (username.isEmpty()) throw new UnauthorizedException();
 		SimpleRoomInfo roomInfo;
 		try {
 			roomInfo = roomService.getRoomInfo(roomId.get().toString());
 		} catch (NoSuchRoomException e) {
 			session.removeAttribute(AttributeName.ROOM_ID);
 			session.removeAttribute(AttributeName.USERNAME);
-			throw new UnauthorizedException();
+			throw new NotFoundException();
 		}
 		return new RoomInfoResponse(
 				roomInfo.getRoomName(),
