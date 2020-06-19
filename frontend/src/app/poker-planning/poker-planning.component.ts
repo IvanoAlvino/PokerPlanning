@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-poker-planning',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokerPlanningComponent implements OnInit {
 
-  constructor() { }
+  private roomId: string;
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.roomId = this.route.snapshot.paramMap.get('room-id');
+    console.log("room id is", this.roomId);
   }
 
 }
