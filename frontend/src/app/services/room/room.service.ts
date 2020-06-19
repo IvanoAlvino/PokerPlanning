@@ -1,23 +1,26 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
 
-  private roomUrl: string;
+  private readonly roomUrl: string;
 
   constructor(private http: HttpClient) {
-    this.roomUrl = 'http://localhost:8080/api/room';
+    this.roomUrl = '/api/room';
   }
 
-  public createRoom(username: string): Observable<RoomResponse> {
+  public createRoom(username: string): Promise<RoomResponse> {
     const roomRequest: RoomRequest = {
       username: username,
       roomName: "IV room"
     };
-    return this.http.post<RoomResponse>(this.roomUrl, roomRequest);
+    return this.http.post<RoomResponse>(this.roomUrl, roomRequest).toPromise();
+  }
+
+  public roomInfo(): Promise<RoomInfoResponse> {
+    return this.http.get<RoomInfoResponse>(this.roomUrl).toPromise();
   }
 }
