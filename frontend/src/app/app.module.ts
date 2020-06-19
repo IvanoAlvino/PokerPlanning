@@ -10,20 +10,22 @@ import {FormsModule} from "@angular/forms";
 import {WelcomePageComponent} from "./welcome-page/welcome-page.component";
 import { PokerPlanningComponent } from './poker-planning/poker-planning.component';
 import {AppComponent} from "./app.component";
-import { UserListComponent } from './user-list/user-list.component';
 import { CardsListComponent } from './cards-list/cards-list.component';
 import { CardComponent } from './card/card.component';
 import { ResultsComponent } from './results/results.component';
+import { UserComponent } from './user/user.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 @NgModule({
   declarations: [
   	  AppComponent,
 	  WelcomePageComponent,
 	  PokerPlanningComponent,
-	  UserListComponent,
 	  CardsListComponent,
 	  CardComponent,
 	  ResultsComponent,
+	  UserComponent,
+	  UsersListComponent,
   ],
 	imports: [
 		BrowserModule,
