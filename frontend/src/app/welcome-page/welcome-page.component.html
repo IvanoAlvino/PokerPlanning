@@ -9,11 +9,11 @@
 </form>
 
 <button mat-raised-button color="primary" class="p-2 main-button mb-3"
-        (click)="startPlanning()" [disabled]="name.invalid">
+        (click)="startPlanning()" [disabled]="name.invalid" [hidden]="onlyJoining">
 	I want to start a planning
 </button>
 
 <button mat-raised-button class="p-2 main-button"
-        (click)="joinPlanning()" [disabled]="name.invalid">
+        (click)="joinPlanning()" [disabled]="name.invalid" [hidden]="!onlyJoining">
 	I want to join a planning
 </button>

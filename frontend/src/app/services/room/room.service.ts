@@ -29,6 +29,7 @@ export class RoomService {
 
   public async roomInfo(roomId: string): Promise<RoomInfoResponse> {
     try {
+      this.roomId = roomId;
       const roomInfo = await this.http.get<RoomInfoResponse>(`${this.roomUrl}/${roomId}`).toPromise();
       this.username = roomInfo.username;
       return roomInfo;
