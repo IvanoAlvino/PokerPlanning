@@ -6,14 +6,20 @@ import {ApiError, ErrorResponse} from "./domain/error/ApiError";
   providedIn: 'root'
 })
 export class RoomService {
-  private readonly roomUrl: string;
-  private readonly userUrl: string;
   public roomId: string;
   public username: string;
+  private readonly roomUrl: string;
+  private readonly userUrl: string;
+  private readonly voteUrl: string;
+  private readonly finishVotingUrl: string;
+  private readonly updatesUrl: string;
 
   constructor(private http: HttpClient) {
     this.roomUrl = '/api/room';
     this.userUrl = '/api/user';
+    this.voteUrl = '/api/votes';
+    this.finishVotingUrl = '/api/finishVoting';
+    this.updatesUrl = '/api/updates';
   }
 
   public async createRoom(username: string): Promise<RoomResponse> {
@@ -45,6 +51,33 @@ export class RoomService {
     try {
       await this.http.post<void>(this.userUrl, userRequest).toPromise();
       this.username = username;
+    } catch (e) {
+      this.handleApiError(e);
+    }
+  }
+
+  public async vote(estimate: number): Promise<void> {
+    const voteRequest: VoteRequest = {
+      estimate
+    }
+    try {
+      await this.http.post(this.voteUrl, voteRequest).toPromise();
+    } catch (e) {
+      this.handleApiError(e);
+    }
+  }
+
+  public async finishVoting(): Promise<void> {
+    try {
+      await this.http.post(this.finishVotingUrl, undefined).toPromise();
+    } catch (e) {
+      this.handleApiError(e);
+    }
+  }
+
+  public async updates(): Promise<UpdatesResponse> {
+    try {
+      return await this.http.get<UpdatesResponse>(this.updatesUrl).toPromise();
     } catch (e) {
       this.handleApiError(e);
     }
