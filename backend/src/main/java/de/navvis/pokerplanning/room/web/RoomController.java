@@ -5,7 +5,6 @@ import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.SimpleRoomInfo;
 import de.navvis.pokerplanning.web.AttributeName;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
-import de.navvis.pokerplanning.web.exception.UnauthorizedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,15 +28,12 @@ public class RoomController {
 		return new CreateRoomResponse(roomId.toString());
 	}
 
-	@GetMapping
-	public RoomInfoResponse roomInfo(HttpSession session) {
-		var roomId = Optional.ofNullable(session.getAttribute(AttributeName.ROOM_ID));
+	@GetMapping("/{roomId}")
+	public RoomInfoResponse roomInfo(@PathVariable String roomId, HttpSession session) {
 		var username = Optional.ofNullable(session.getAttribute(AttributeName.USERNAME));
-		if (roomId.isEmpty()) throw new NotFoundException();
-		if (username.isEmpty()) throw new UnauthorizedException();
 		SimpleRoomInfo roomInfo;
 		try {
-			roomInfo = roomService.getRoomInfo(roomId.get().toString());
+			roomInfo = roomService.getRoomInfo(roomId);
 		} catch (NoSuchRoomException e) {
 			session.removeAttribute(AttributeName.ROOM_ID);
 			session.removeAttribute(AttributeName.USERNAME);

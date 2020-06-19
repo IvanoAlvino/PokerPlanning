@@ -29,7 +29,7 @@ export class WelcomePageComponent implements AfterViewInit {
   {
     const createRoomResp = await this.RoomService.createRoom(this.username);
     console.log(createRoomResp);
-    const roomInfo = await this.RoomService.roomInfo();
+    const roomInfo = await this.RoomService.roomInfo(createRoomResp.roomId);
     console.log(roomInfo);
 
     this.router.navigateByUrl('/poker/' + createRoomResp.roomId)
