@@ -58,4 +58,11 @@ export class PokerPlanningComponent implements OnInit {
         .then((updates) => this.userList = updates.votes)
         .catch((error) => console.log("Error while fetching updates", error));
   }
+
+  public finishVoting(): void
+  {
+    this.RoomService.finishVoting()
+        .then(() => console.log("Voting finished"))
+        .catch((error) => console.log("Error while finish voting", error));
+  }
 }
