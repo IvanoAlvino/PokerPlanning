@@ -20,9 +20,9 @@ export class CardsListComponent implements OnInit {
   }
 
   public async selectCard(estimate: number): Promise<void> {
-    this.selectedValue = estimate;
+    this.selectedValue = this.selectedValue !== estimate ? estimate : undefined;
     try {
-      await this.RoomService.vote(estimate);
+      await this.RoomService.vote(this.selectedValue);
     } catch (e) {
       switch (e.response) {
         case (ErrorResponse.ROOM_DOESNT_EXIST): {

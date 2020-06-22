@@ -27,3 +27,7 @@
   box-shadow: 4px 6px 12px -1px #828282;
   transform: scale(1.05);
 }
+
+button:focus {
+  outline: none;
+}

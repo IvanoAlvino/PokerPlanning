@@ -40,7 +40,9 @@ public class RoomService {
 	}
 
 	public void vote(String roomId, String username, Integer estimate) throws NoSuchRoomException {
-		if (!allowedEstimates.contains(estimate)) throw new IllegalArgumentException();
+		if (estimate != null && !allowedEstimates.contains(estimate)) {
+			throw new IllegalArgumentException();
+		}
 		synchronized (mutex) {
 			var room = getRoom(roomId);
 			room.addVote(username, estimate);
@@ -115,6 +117,11 @@ public class RoomService {
 		}
 
 		void addVote(String username, Integer estimate) {
+			if (estimate == null)
+			{
+				votes.remove(username);
+				return;
+			}
 			votes.put(username, estimate);
 		}
 
