@@ -25,13 +25,20 @@ export class PokerPlanningComponent implements OnInit {
 
   async ngOnInit() {
     this.roomId = this.route.snapshot.paramMap.get('room-id');
-    const roomInfo = await this.RoomService.roomInfo(this.roomId);
-    this.createUserIfNeeded(roomInfo);
-
-    if (!this.updatesIntervalId) {
-      this.updatesIntervalId = setInterval(() => this.fetchUpdates(), 1000);
+    try
+    {
+      const roomInfo = await this.RoomService.roomInfo(this.roomId);
+      this.createUserIfNeeded(roomInfo);
+      if (!this.updatesIntervalId) {
+        this.updatesIntervalId = setInterval(() => this.fetchUpdates(), 1000);
+      }
     }
-
+    catch (e)
+    {
+      this.router.navigate(['/welcome'])
+          .then(() => {})
+          .catch(() => console.log("Not possible to navigate to /welcome"));
+    }
   }
 
   private createUserIfNeeded(roomInfo: RoomInfoResponse): void
