@@ -1,6 +1,7 @@
 <div class="d-flex">
-	<app-users-list [userList]="userList" class="w-25"></app-users-list>
+	<app-users-list [userList]="update.votes" class="w-25"></app-users-list>
 	<cards-list class="w-75" *ngIf="isVoteOngoing"></cards-list>
+	<vote-results [results]="update.votes" class="w-50" *ngIf="!isVoteOngoing"></vote-results>
 </div>
 <div class="d-flex justify-content-center">
 	<button type="button" class="btn btn-success m-2"

@@ -16,6 +16,7 @@ import {ResultsComponent} from './results/results.component';
 import {UserComponent} from './user/user.component';
 import {UsersListComponent} from './users-list/users-list.component';
 import {VoteResultsComponent} from './vote-results/vote-results.component';
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {VoteResultsComponent} from './vote-results/vote-results.component';
 		MatButtonModule,
 		MatInputModule,
 		HttpClientModule,
-		FormsModule
+		FormsModule,
+		ChartsModule
 	],
   providers: [],
   bootstrap: [AppComponent]

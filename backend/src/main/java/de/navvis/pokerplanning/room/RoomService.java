@@ -55,7 +55,7 @@ public class RoomService {
 			var vote = new UserVoteInfo();
 			vote.setUsername(username);
 			vote.setVoted(room.votes.containsKey(username));
-			vote.setPreviousVote(room.formerVotes.get(username));
+			vote.setVote(room.votes.get(username));
 			return vote;
 		}).collect(toList());
 	}
@@ -84,7 +84,6 @@ public class RoomService {
 		Set<String> usernames = new HashSet<>();
 		Set<String> moderatorUsernames = new HashSet<>();
 		Map<String, Integer> votes = new HashMap<>();
-		Map<String, Integer> formerVotes = new HashMap<>();
 		private boolean isVotingPhase = false;
 
 		Room(UUID id, String name) {
@@ -115,6 +114,7 @@ public class RoomService {
 
 		public void startVoting()
 		{
+			votes = new HashMap<>();
 			this.isVotingPhase = true;
 		}
 
@@ -122,8 +122,6 @@ public class RoomService {
 			if (!moderatorUsernames.contains(username)) {
 				throw new IllegalArgumentException();
 			}
-			formerVotes = votes;
-			votes = new HashMap<>();
 			this.isVotingPhase = false;
 		}
 	}

@@ -22,7 +22,9 @@
     "@angular/platform-browser-dynamic": "~8.2.11",
     "@angular/router": "~8.2.11",
     "bootstrap": "^5.0.0-alpha1",
+    "chart.js": "^2.9.3",
     "hammerjs": "^2.0.8",
+    "ng2-charts": "^2.3.2",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
@@ -46,6 +48,7 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "ng2-charts-schematics": "^0.1.7"
   }
 }

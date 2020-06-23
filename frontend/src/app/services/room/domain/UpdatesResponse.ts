@@ -6,5 +6,5 @@ interface UpdatesResponse {
 interface UserVote {
   username: string;
   voted: boolean;
-  previousVote: number;
+  vote: number;
 }

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class UserVoteInfo {
 	private String username;
 	private Boolean voted;
-	private Integer previousVote;
+	private Integer vote;
 }

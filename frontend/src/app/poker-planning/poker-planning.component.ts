@@ -12,11 +12,11 @@ export class PokerPlanningComponent implements OnInit {
 
   public roomId: string;
 
-  private userList: UserVote[] = [];
-
-  private updatesIntervalId: number;
+  public update: UpdatesResponse;
 
   public isVoteOngoing: boolean = false;
+
+  private updatesIntervalId: number;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -58,7 +58,11 @@ export class PokerPlanningComponent implements OnInit {
   {
     this.RoomService.updates(this.roomId)
         .then((updates) => {
-          this.userList = updates.votes;
+          // Only change the reference and trigger all template re-renders if something has changed
+          if (JSON.stringify(this.update) !== JSON.stringify(updates))
+          {
+            this.update = updates;
+          }
           this.isVoteOngoing = updates.votingOngoing;
         })
         .catch((error) => console.log("Error while fetching updates", error));

@@ -1,8 +1,9 @@
-<div *ngIf="estimateCounts.length > 0">
-  <title>Estimate counts</title>
-  <div *ngFor="let estimateCount of estimateCounts">
-    {{estimateCount.estimate}}: {{estimateCount.count}}
-  </div>
-  <title>Average estimate:</title>
-  <div>{{average}}</div>
+<div style="width: 100%">
+	<canvas baseChart
+	        [datasets]="voteData"
+	        [labels]="barChartLabels"
+	        [options]="barChartOptions"
+	        [legend]="false"
+	        [chartType]="barChartType">
+	</canvas>
 </div>
