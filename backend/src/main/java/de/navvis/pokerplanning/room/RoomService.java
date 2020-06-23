@@ -10,77 +10,60 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class RoomService {
-	private static final Object mutex = new Object();
 	private static final Set<Integer> allowedEstimates = Set.of(0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89);
 	private static final Map<UUID, Room> rooms = new HashMap<>();
 	private static final int roomAliveTime = 8;
 
-	public UUID createRoom(String name, String moderatorUsername) {
+	public synchronized UUID createRoom(String name, String moderatorUsername) {
 		var room = new Room(UUID.randomUUID(), name);
 		room.addUserWithoutCheck(moderatorUsername, true);
-		synchronized (mutex) {
-			rooms.put(room.id, room);
-		}
+		rooms.put(room.id, room);
 		return room.id;
 	}
 
-	public SimpleRoomInfo getRoomInfo(String roomId) throws NoSuchRoomException {
-		synchronized (mutex) {
-			removeStaleRooms();
-			var room = getRoom(roomId);
-			removeStaleRooms();
-			return new SimpleRoomInfo(room.name, new ArrayList<>(room.usernames));
-		}
+	public synchronized SimpleRoomInfo getRoomInfo(String roomId) throws NoSuchRoomException {
+		removeStaleRooms();
+		var room = getRoom(roomId);
+		removeStaleRooms();
+		return new SimpleRoomInfo(room.name, new ArrayList<>(room.usernames));
 	}
 
-	public void addUser(String name, String roomId) throws NoSuchRoomException, UserAlreadyExistsException {
-		synchronized (mutex) {
-			getRoom(roomId).addUser(name, false);
-		}
+	public synchronized void addUser(String name, String roomId) throws NoSuchRoomException, UserAlreadyExistsException {
+		getRoom(roomId).addUser(name, false);
 	}
 
-	public void vote(String roomId, String username, Integer estimate) throws NoSuchRoomException {
+	public synchronized void vote(String roomId, String username, Integer estimate) throws NoSuchRoomException {
 		if (estimate != null && !allowedEstimates.contains(estimate)) {
 			throw new IllegalArgumentException();
 		}
-		synchronized (mutex) {
-			var room = getRoom(roomId);
-			room.addVote(username, estimate);
-		}
+		var room = getRoom(roomId);
+		room.addVote(username, estimate);
 	}
 
-	public void finishVoting(String roomId, String username) throws NoSuchRoomException {
-		synchronized (mutex) {
-			getRoom(roomId).finishVoting(username);
-		}
+	public void startVoting(String roomId, String username) throws NoSuchRoomException
+	{
+		getRoom(roomId).startVoting();
 	}
 
-	public List<UserVoteInfo> status(String roomId) throws NoSuchRoomException {
-		synchronized (mutex) {
-			var room = getRoom(roomId);
-			return room.usernames.stream().map(username -> {
-				var vote = new UserVoteInfo();
-				vote.setUsername(username);
-				vote.setVoted(room.votes.containsKey(username));
-				vote.setPreviousVote(room.formerVotes.get(username));
-				return vote;
-			}).collect(toList());
-		}
+	public synchronized void finishVoting(String roomId, String username) throws NoSuchRoomException {
+		getRoom(roomId).finishVoting(username);
 	}
 
-	public Integer currentRound(String roomId) throws NoSuchRoomException {
-			synchronized (mutex) {
-				var room = getRoom(roomId);
-				return room.round;
-			}
-		}
+	public synchronized List<UserVoteInfo> status(String roomId) throws NoSuchRoomException {
+		var room = getRoom(roomId);
+		return room.usernames.stream().map(username -> {
+			var vote = new UserVoteInfo();
+			vote.setUsername(username);
+			vote.setVoted(room.votes.containsKey(username));
+			vote.setPreviousVote(room.formerVotes.get(username));
+			return vote;
+		}).collect(toList());
+	}
 
-	private Room getRoom(String roomId) throws NoSuchRoomException {
-		synchronized (mutex) {
-			var room = rooms.get(UUID.fromString(roomId));
-			if (room == null) throw new NoSuchRoomException();
-			return room;
-		}
+	private synchronized Room getRoom(String roomId) throws NoSuchRoomException {
+		var room = rooms.get(UUID.fromString(roomId));
+		if (room == null) throw new NoSuchRoomException();
+		return room;
 	}
 
 	private void removeStaleRooms() {
@@ -89,8 +72,12 @@ public class RoomService {
 				TimeUnit.HOURS.toMillis(roomAliveTime));
 	}
 
+	public boolean isVotingOngoing(String roomId) throws NoSuchRoomException
+	{
+		return getRoom(roomId).isVotingPhase;
+	}
+
 	private static class Room {
-		Integer round = 1;
 		long creationTime = System.currentTimeMillis();
 		UUID id;
 		String name;
@@ -98,6 +85,7 @@ public class RoomService {
 		Set<String> moderatorUsernames = new HashSet<>();
 		Map<String, Integer> votes = new HashMap<>();
 		Map<String, Integer> formerVotes = new HashMap<>();
+		private boolean isVotingPhase = false;
 
 		Room(UUID id, String name) {
 			this.id = id;
@@ -125,11 +113,18 @@ public class RoomService {
 			votes.put(username, estimate);
 		}
 
+		public void startVoting()
+		{
+			this.isVotingPhase = true;
+		}
+
 		void finishVoting(String username) {
-			if (!moderatorUsernames.contains(username)) throw new IllegalArgumentException();
+			if (!moderatorUsernames.contains(username)) {
+				throw new IllegalArgumentException();
+			}
 			formerVotes = votes;
 			votes = new HashMap<>();
-			round++;
+			this.isVotingPhase = false;
 		}
 	}
 }

@@ -43,10 +43,23 @@ public class VotesController {
 		}
 	}
 
+	@PostMapping("/api/startVoting")
+	public void startVoting(HttpSession session) {
+		var username = session.getAttribute(AttributeName.USERNAME).toString();
+		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
+		try {
+			roomService.startVoting(roomId, username);
+		}	catch (NoSuchRoomException e) {
+			session.removeAttribute(AttributeName.ROOM_ID);
+			session.removeAttribute(AttributeName.USERNAME);
+			throw new UnauthorizedException();
+		}
+	}
+
 	@GetMapping("/api/updates/{roomId}")
 	public UpdateResponse updates(@PathVariable String roomId, HttpSession session) {
 		try {
-			return new UpdateResponse(roomService.status(roomId), roomService.currentRound(roomId));
+			return new UpdateResponse(roomService.status(roomId), roomService.isVotingOngoing(roomId));
 		}	catch (NoSuchRoomException e) {
 			session.removeAttribute(AttributeName.ROOM_ID);
 			session.removeAttribute(AttributeName.USERNAME);

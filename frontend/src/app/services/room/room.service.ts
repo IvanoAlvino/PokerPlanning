@@ -13,12 +13,14 @@ export class RoomService {
   private readonly voteUrl: string;
   private readonly finishVotingUrl: string;
   private readonly updatesUrl: string;
+  private readonly startVotingUrl: string;
 
   constructor(private http: HttpClient) {
     this.roomUrl = '/api/room';
     this.userUrl = '/api/user';
     this.voteUrl = '/api/votes';
     this.finishVotingUrl = '/api/finishVoting';
+    this.startVotingUrl = '/api/startVoting';
     this.updatesUrl = '/api/updates';
   }
 
@@ -71,6 +73,14 @@ export class RoomService {
   public async finishVoting(): Promise<void> {
     try {
       await this.http.post(this.finishVotingUrl, undefined).toPromise();
+    } catch (e) {
+      this.handleApiError(e);
+    }
+  }
+
+  public async startVoting(): Promise<void> {
+    try {
+      await this.http.post(this.startVotingUrl, undefined).toPromise();
     } catch (e) {
       this.handleApiError(e);
     }

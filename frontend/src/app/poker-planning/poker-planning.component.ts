@@ -16,6 +16,8 @@ export class PokerPlanningComponent implements OnInit {
 
   private updatesIntervalId: number;
 
+  public isVoteOngoing: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private RoomService: RoomService,
@@ -55,14 +57,24 @@ export class PokerPlanningComponent implements OnInit {
   private fetchUpdates(): void
   {
     this.RoomService.updates(this.roomId)
-        .then((updates) => this.userList = updates.votes)
+        .then((updates) => {
+          this.userList = updates.votes;
+          this.isVoteOngoing = updates.votingOngoing;
+        })
         .catch((error) => console.log("Error while fetching updates", error));
+  }
+
+  public startVoting(): void
+  {
+    this.RoomService.startVoting()
+        .then(() => this.isVoteOngoing = true)
+        .catch((error) => console.log("Error while starting voting", error));
   }
 
   public finishVoting(): void
   {
     this.RoomService.finishVoting()
-        .then(() => console.log("Voting finished"))
+        .then(() => this.isVoteOngoing = false)
         .catch((error) => console.log("Error while finish voting", error));
   }
 }

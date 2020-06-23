@@ -1,6 +1,6 @@
 interface UpdatesResponse {
   votes: UserVote[];
-  round: number;
+  votingOngoing: boolean;
 }
 
 interface UserVote {

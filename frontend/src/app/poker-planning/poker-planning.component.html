@@ -1,9 +1,14 @@
-<div class="d-flex flex-column align-items-center">
-	<div class="d-flex">
-		<app-users-list [userList]="userList" class="w-25"></app-users-list>
-		<cards-list class="w-75"></cards-list>
-	</div>
-	<button type="button" class="btn btn-success m-2" (click)="finishVoting()">
+<div class="d-flex">
+	<app-users-list [userList]="userList" class="w-25"></app-users-list>
+	<cards-list class="w-75" *ngIf="isVoteOngoing"></cards-list>
+</div>
+<div class="d-flex justify-content-center">
+	<button type="button" class="btn btn-success m-2"
+	        (click)="startVoting()" *ngIf="!isVoteOngoing">
+		Start Voting
+	</button>
+	<button type="button" class="btn btn-success m-2"
+	        (click)="finishVoting()" *ngIf="isVoteOngoing">
 		Finish Voting
 	</button>
 </div>
