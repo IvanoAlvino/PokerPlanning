@@ -1,81 +1,135 @@
-import {ChangeDetectorRef, Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Label} from "ng2-charts";
 
 @Component({
-  selector: 'vote-results',
-  templateUrl: './vote-results.component.html',
-  styleUrls: ['./vote-results.component.scss']
+	selector: 'vote-results',
+	templateUrl: './vote-results.component.html',
+	styleUrls: ['./vote-results.component.scss']
 })
-export class VoteResultsComponent {
+export class VoteResultsComponent
+{
 
-  private _results: UserVote[];
+	private _results: UserVote[];
 
-  @Input()
-  public set results(value: UserVote[])
-  {
-    this._results = value;
-    this.displayVotesResult();
-  }
+	@Input()
+	public set results(value: UserVote[])
+	{
+		this._results = value;
+		this.displayVotesResult();
+	}
 
-  public get results(): UserVote[]
-  {
-    return this._results;
-  }
+	public get results(): UserVote[]
+	{
+		return this._results;
+	}
 
-  public barChartType: ChartType = 'bar';
+	public colors: string[] = ['rgba(255, 99, 132, 0.2)',
+	                           'rgba(54, 162, 235, 0.2)',
+	                           'rgba(255, 206, 86, 0.2)',
+	                           'rgba(75, 192, 192, 0.2)',
+	                           'rgba(153, 102, 255, 0.2)',
+	                           'rgba(255, 159, 64, 0.2)'];
 
-  public barChartOptions: ChartOptions = {
-    responsive: true,
-    // We use these empty structures as placeholders for dynamic theming.
-    scales: { xAxes: [{}], yAxes: [{}] },
-    plugins: {
-      datalabels: {
-        anchor: 'end',
-        align: 'end',
-      }
-    }
-  };
+	public barChartType: ChartType = 'bar';
 
-  public barChartLabels: Label[] = ['0', '1', '2', '3', '5', '6', '13', '21', '34', '55', '89'];
+	public barChartOptions: ChartOptions = {
+		responsive: true,
+		scales: {
+			xAxes: [{
+				scaleLabel: {
+					labelString: "Estimate",
+					display: true,
+					fontSize: 18,
+				},
+				ticks: {
+					beginAtZero: true,
+					fontSize: 24
+				}
+			}], yAxes: [{
+				scaleLabel: {
+					labelString: "Number of votes",
+					display: true,
+					fontSize: 18
+				},
+				ticks: {
+					beginAtZero: true,
+					// return the value to display only if integer
+					callback: (value: number) => value % 1 === 0 ? value : undefined
+				}
+			}]
+		},
+    animation: {
+      duration: 0
+    },
+		plugins: {
+			datalabels: {
+				anchor: 'end',
+				align: 'end',
+			}
+		}
+	};
 
-  public voteData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  ];
+	public barChartLabels: Label[] = [];
 
-  private displayVotesResult(): void
-  {
-    const resultsOccurrences: Map<string, number> = new Map<string, number>();
-    const labels: Set<string> = new Set<string>();
+	public voteData: ChartDataSets[] = [];
 
-    this.results.forEach((result) => {
-      if (!result.voted)
-      {
-        return;
-      }
+	public averageVote: number;
 
-      labels.add(result.vote.toString());
+	private displayVotesResult(): void
+	{
+		const resultsOccurrences: Map<string, number> = new Map<string, number>();
+		const labels: Set<string> = new Set<string>();
+		let sum: number = 0;
+		let voteCounts: number = 0;
 
-      let voteOccurrences = resultsOccurrences.get(result.vote.toString());
-      if (!voteOccurrences) {
-        resultsOccurrences.set(result.vote.toString(), 1);
-      }
-      else {
-        resultsOccurrences.set(result.vote.toString(), voteOccurrences + 1);
-      }
-    });
+		this.results.forEach((result) =>
+		{
+			if (!result.voted)
+			{
+				return;
+			}
 
-    this.barChartLabels = [...labels];
-    this.voteData = [{
-      data: this.getValuesForLabels(resultsOccurrences, labels)
-    }];
-  }
+			voteCounts++;
+			sum += result.vote;
+			labels.add(result.vote.toString());
 
-  private getValuesForLabels(resultsOccurrences: Map<string, number>, labels: Set<string>): number[]
-  {
-    const results: number[] = [];
-    labels.forEach((label) => results.push(resultsOccurrences.get(label)));
-    return results;
-  }
+			let voteOccurrences = resultsOccurrences.get(result.vote.toString());
+			if (!voteOccurrences)
+			{
+				resultsOccurrences.set(result.vote.toString(), 1);
+			}
+			else
+			{
+				resultsOccurrences.set(result.vote.toString(), voteOccurrences + 1);
+			}
+		});
+
+		this.averageVote = Math.round(sum / voteCounts * 10) / 10;
+		this.barChartLabels = [...(labels)].sort();
+		this.voteData = [{
+			data: this.getValuesForLabels(resultsOccurrences, [...(labels)].sort()),
+			backgroundColor: this.colors,
+			hoverBackgroundColor: this.colors,
+			borderColor: [
+				'rgba(255, 99, 132, 1)',
+				'rgba(54, 162, 235, 1)',
+				'rgba(255, 206, 86, 1)',
+				'rgba(75, 192, 192, 1)',
+				'rgba(153, 102, 255, 1)',
+				'rgba(255, 159, 64, 1)'
+			],
+			borderWidth: 1,
+			barThickness: "flex",
+			label: "Number of votes"
+		}];
+	}
+
+	private getValuesForLabels(resultsOccurrences: Map<string, number>,
+		labels: string[]): number[]
+	{
+		const results: number[] = [];
+		labels.forEach((label) => results.push(resultsOccurrences.get(label)));
+		return results;
+	}
 }
