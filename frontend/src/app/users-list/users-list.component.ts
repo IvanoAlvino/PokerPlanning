@@ -1,18 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-users-list',
-  templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss']
+	selector: 'app-users-list',
+	templateUrl: './users-list.component.html',
+	styleUrls: ['./users-list.component.scss']
 })
-export class UsersListComponent implements OnInit {
-
-  @Input()
-  public userList: UserEstimate[];
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class UsersListComponent
+{
+	@Input()
+	public userList: UserEstimate[];
 }

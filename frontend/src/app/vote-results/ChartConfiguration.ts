@@ -3,7 +3,8 @@ import {ChartOptions, ChartType} from "chart.js";
 /**
  * Holds the configuration for the chart used to represent the estimates results.
  */
-export class ChartConfiguration {
+export class ChartConfiguration
+{
 
 	/**
 	 * The colors for the chart bars. First bar will have CHART_COLORS[0] color, and then any

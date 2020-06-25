@@ -12,24 +12,22 @@ import {PokerPlanningComponent} from './poker-planning/poker-planning.component'
 import {AppComponent} from "./app.component";
 import {CardsListComponent} from './cards-list/cards-list.component';
 import {CardComponent} from './card/card.component';
-import {ResultsComponent} from './results/results.component';
 import {UserComponent} from './user/user.component';
 import {UsersListComponent} from './users-list/users-list.component';
 import {VoteResultsComponent} from './vote-results/vote-results.component';
 import {ChartsModule} from "ng2-charts";
 
 @NgModule({
-  declarations: [
-  	  AppComponent,
-	  WelcomePageComponent,
-	  PokerPlanningComponent,
-	  CardsListComponent,
-	  CardComponent,
-	  ResultsComponent,
-	  UserComponent,
-	  UsersListComponent,
-	  VoteResultsComponent,
-  ],
+	declarations: [
+		AppComponent,
+		WelcomePageComponent,
+		PokerPlanningComponent,
+		CardsListComponent,
+		CardComponent,
+		UserComponent,
+		UsersListComponent,
+		VoteResultsComponent,
+	],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
@@ -40,7 +38,9 @@ import {ChartsModule} from "ng2-charts";
 		FormsModule,
 		ChartsModule
 	],
-  providers: [],
-  bootstrap: [AppComponent]
+	providers: [],
+	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule
+{
+}

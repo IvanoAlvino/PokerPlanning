@@ -1,28 +1,33 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+	selector: 'card',
+	templateUrl: './card.component.html',
+	styleUrls: ['./card.component.scss']
 })
-export class CardComponent implements OnInit {
-  @Input()
-  public value: number;
+export class CardComponent
+{
 
-  @Input()
-  public selected: boolean = false;
+	@Input()
+	public estimate: string;
 
-  @Output()
-  public select = new EventEmitter<boolean>();
+	/**
+	 * Whether this card is currently selected.
+	 */
+	@Input()
+	public selected: boolean = false;
 
+	/**
+	 * Output event emitted when this card has been selected.
+	 */
+	@Output()
+	public onCardSelect = new EventEmitter<void>();
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  public toggle(): void {
-    this.select.emit(this.selected);
-  }
-
+	/**
+	 * Emit the event to signal the card has been selected.
+	 */
+	public emitCardSelected(): void
+	{
+		this.onCardSelect.emit();
+	}
 }

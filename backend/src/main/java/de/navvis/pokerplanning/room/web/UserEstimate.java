@@ -22,5 +22,5 @@ public class UserEstimate
 	/**
 	 * The estimate this user has selected. Can be null if {@link #voted} is false.
 	 */
-	private Integer estimate;
+	private String estimate;
 }

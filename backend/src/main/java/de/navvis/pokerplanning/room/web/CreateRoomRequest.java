@@ -6,6 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CreateRoomRequest {
-	private String username;
-	private String roomName;
+	private String moderatorUsername;
 }

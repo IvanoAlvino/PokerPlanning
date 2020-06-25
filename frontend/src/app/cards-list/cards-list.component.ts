@@ -1,36 +1,69 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {RoomService} from "../services/room/room.service";
 import {ErrorResponse} from "../services/room/domain/error/ApiError";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'cards-list',
-  templateUrl: './cards-list.component.html',
-  styleUrls: ['./cards-list.component.scss']
+	selector: 'cards-list',
+	templateUrl: './cards-list.component.html',
+	styleUrls: ['./cards-list.component.scss']
 })
-export class CardsListComponent implements OnInit {
-  public readonly values = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89];
+export class CardsListComponent
+{
 
-  public selectedValue: number = undefined;
+	/**
+	 * The list of all possible estimates.
+	 */
+	public readonly possibleEstimates: string[] =
+		["0", "0.5", "1", "2", "3", "5", "8", "13", "20", "40", "100", "?"];
 
-  constructor(private RoomService: RoomService,
-              private router: Router) { }
+	/**
+	 * The currently selected card's estimate.
+	 */
+	public selectedEstimate: string = undefined;
 
-  ngOnInit() {
-  }
+	constructor(private RoomService: RoomService,
+		private router: Router)
+	{
+	}
 
-  public async selectCard(estimate: number): Promise<void> {
-    this.selectedValue = this.selectedValue !== estimate ? estimate : undefined;
-    try {
-      await this.RoomService.vote(this.selectedValue);
-    } catch (e) {
-      switch (e.response) {
-        case (ErrorResponse.ROOM_DOESNT_EXIST): {
-          this.router.navigateByUrl('/welcome')
-            .then(() => {})
-            .catch(() => console.log("Not possible to navigate to /poker"));
-        }
-      }
-    }
-  }
+	/**
+	 * Update the {@link selectedEstimate} based on the selected card.
+	 * If the {@link selectedEstimate} was different than the provided estimate coming from the
+	 * selected card, calling this method will assign such value to {@link selectedEstimate}.
+	 * If the card was already selected, calling this method will set {@link selectedEstimate} to
+	 * undefined, basically deselecting the previously selected card.
+	 * @param estimate The estimate coming from the card that has been selected
+	 */
+	public async toggleCard(estimate: string): Promise<void>
+	{
+		this.selectedEstimate = this.selectedEstimate !== estimate ? estimate : undefined;
+
+		try
+		{
+			await this.RoomService.vote(this.selectedEstimate);
+		}
+		catch (e)
+		{
+			this.handleErrorResponse(e.response);
+		}
+	}
+
+	/**
+	 * Handle the error.
+	 * @param errorResponse The error response to handle.
+	 */
+	private handleErrorResponse(errorResponse: ErrorResponse): void
+	{
+		switch (errorResponse)
+		{
+			default:
+			case (ErrorResponse.ROOM_DOESNT_EXIST):
+			{
+				this.router.navigateByUrl('/welcome')
+					.then(() => {})
+					.catch(() => console.log("Not possible to navigate to /poker"));
+			}
+		}
+	}
 }

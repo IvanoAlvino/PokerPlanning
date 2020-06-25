@@ -5,52 +5,70 @@ import {Router} from "@angular/router";
 import {UserService} from "../services/user/user.service";
 
 @Component({
-  selector: 'welcome-page',
-  templateUrl: './welcome-page.component.html',
-  styleUrls: ['./welcome-page.component.scss']
+	selector: 'welcome-page',
+	templateUrl: './welcome-page.component.html',
+	styleUrls: ['./welcome-page.component.scss']
 })
-export class WelcomePageComponent implements OnInit, AfterViewInit {
+export class WelcomePageComponent implements OnInit, AfterViewInit
+{
 
-  public username: string;
+	/**
+	 * The username introduced in the form.
+	 */
+	public username: string;
 
-  public onlyJoining: boolean;
+	/**
+	 * Whether the user is only joining a room and simply needs to define a username.
+	 * This will be set to true when e.g. a link of an already created room is visited.
+	 */
+	public onlyJoining: boolean;
 
-  @ViewChild('nameInput', {static: true})
-  private input: MatInput;
+	@ViewChild('nameInput', {static: true})
+	private usernameInput: MatInput;
 
-  constructor(private RoomService: RoomService,
-              private UserService: UserService,
-              private router: Router)
-  {
-  }
+	constructor(private RoomService: RoomService,
+		private UserService: UserService,
+		private router: Router)
+	{
+	}
 
-  public ngOnInit(): void
-  {
-    // check if user has landed on this page from an invite link
-    this.onlyJoining = this.UserService.onlyJoining;
-  }
+	public ngOnInit(): void
+	{
+		// check if user has landed on this page from an invite link
+		this.onlyJoining = this.UserService.onlyJoining;
+	}
 
-  public ngAfterViewInit(): void
-  {
-    // set the focus on the name input
-    setTimeout(() => this.input.focus(), 700);
-  }
+	public ngAfterViewInit(): void
+	{
+		// set the focus on the name input
+		setTimeout(() => this.usernameInput.focus(), 700);
+	}
 
-  public async startPlanning(): Promise<void>
-  {
-    const createRoomResp = await this.RoomService.createRoom(this.username);
-    this.router.navigateByUrl('/poker/' + createRoomResp.roomId)
-        .then(() => {})
-        .catch(() => console.log("Not possible to navigate to /poker"));
-  }
+	/**
+	 * Create a new room to start a new planning.
+	 */
+	public async createNewRoom(): Promise<void>
+	{
+		await this.RoomService.createRoom(this.username);
+		this.navigateToPokerPlanningPage();
+	}
 
-  public async joinPlanning(): Promise<void>
-  {
-    // create user
-    await this.UserService.createUser(this.username, this.RoomService.roomId)
-    // navigate to poker planning page
-    this.router.navigateByUrl('/poker/' + this.RoomService.roomId)
-        .then(() => {})
-        .catch(() => console.log("Not possible to navigate to /poker"));
-  }
+	/**
+	 * Create the user with the introduced username and navigate to the poker planning page.
+	 */
+	public async joinPlanning(): Promise<void>
+	{
+		await this.UserService.createUser(this.username, this.RoomService.roomId)
+		this.navigateToPokerPlanningPage();
+	}
+
+	/**
+	 * Navigate the browser page to the poker planning page where user can play scrum poker.
+	 */
+	private navigateToPokerPlanningPage()
+	{
+		this.router.navigateByUrl('/poker/' + this.RoomService.roomId)
+			.then(() => {})
+			.catch(() => console.log("Not possible to navigate to /poker"));
+	}
 }

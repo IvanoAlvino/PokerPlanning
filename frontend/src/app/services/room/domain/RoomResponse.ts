@@ -1,3 +1,4 @@
-interface RoomResponse {
+interface RoomResponse
+{
 	roomId: string;
 }

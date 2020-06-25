@@ -1,0 +1,4 @@
+interface UserSessionOpenResponse
+{
+	userSessionOpen: boolean;
+}

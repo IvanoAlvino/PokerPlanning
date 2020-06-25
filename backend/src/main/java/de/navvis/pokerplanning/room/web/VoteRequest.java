@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteRequest {
-	private Integer estimate;
+public class VoteRequest
+{
+	private String estimate;
+
+	private String roomId;
 }

@@ -1,4 +1,4 @@
-interface RoomRequest {
-	username: string;
-	roomName: string;
+interface RoomRequest
+{
+	moderatorUsername: string;
 }

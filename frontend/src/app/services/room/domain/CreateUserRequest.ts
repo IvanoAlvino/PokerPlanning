@@ -1,4 +1,5 @@
-interface CreateUserRequest {
-  name: string;
-  roomId: string;
+interface CreateUserRequest
+{
+	name: string;
+	roomId: string;
 }

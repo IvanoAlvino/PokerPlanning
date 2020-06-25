@@ -9,8 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomInfoResponse {
-	private String roomName;
-	private String username;
-	private List<String> users;
+public class UserSessionOpenResponse
+{
+	private boolean isUserSessionOpen;
 }

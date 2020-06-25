@@ -1,3 +1,5 @@
-interface VoteRequest {
-  estimate: number;
+interface VoteRequest
+{
+	estimate: string;
+	roomId: string;
 }

@@ -76,19 +76,19 @@ export class VoteResultsComponent
 
 		this.estimates.forEach((result) =>
 		{
-			// if user has not voted, jump to next estimate
-			if (!result.voted)
+			// if user has not voted, or voted with '?', jump to next estimate
+			if (!result.voted || result.estimate === "?")
 			{
 				return;
 			}
 
 			// Update data used for average estimate calculation
 			totalEstimates++;
-			estimatesSum += result.estimate;
+			estimatesSum += parseInt(result.estimate);
 
 			// Update data that will be displayed in the chart
 			uniqueEstimates.add(result.estimate.toString());
-			this.incrementOccurrenceForEstimate(estimatesOccurrences, result.estimate);
+			this.incrementOccurrenceForEstimate(estimatesOccurrences, +result.estimate);
 		});
 
 		this.calculateAverageEstimate(estimatesSum, totalEstimates);

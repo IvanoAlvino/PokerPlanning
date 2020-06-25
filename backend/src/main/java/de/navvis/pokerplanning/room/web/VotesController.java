@@ -20,7 +20,7 @@ public class VotesController {
 	@PostMapping("/api/votes")
 	public void vote(@RequestBody VoteRequest request, HttpSession session) {
 		var username = session.getAttribute(AttributeName.USERNAME).toString();
-		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
+		var roomId = request.getRoomId();
 		try {
 			roomService.vote(roomId, username, request.getEstimate());
 		}	catch (NoSuchRoomException e) {
