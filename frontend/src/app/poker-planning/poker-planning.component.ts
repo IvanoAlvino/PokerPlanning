@@ -12,7 +12,7 @@ export class PokerPlanningComponent implements OnInit {
 
   public roomId: string;
 
-  public update: UpdatesResponse;
+  public update: UpdateResponse;
 
   public isVoteOngoing: boolean = false;
 

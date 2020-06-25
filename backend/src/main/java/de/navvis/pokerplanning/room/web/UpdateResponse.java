@@ -10,6 +10,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateResponse {
-	private List<UserVoteInfo> votes;
+
+	/**
+	 * The list of all estimates for all users.
+	 */
+	private List<UserEstimate> estimates;
+
+	/**
+	 * Whether the voting phase is ongoing. If false, means results can be displayed.
+	 */
 	private boolean isVotingOngoing;
 }

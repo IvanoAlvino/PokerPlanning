@@ -1,10 +1,10 @@
-<div class="text-center">Average: {{averageVote}}</div>
+<div class="text-center">Average: {{averageEstimate}}</div>
 <div style="width: 100%">
 	<canvas baseChart
-	        [datasets]="voteData"
-	        [labels]="barChartLabels"
-	        [options]="barChartOptions"
+	        [datasets]="chartEstimateData"
+	        [labels]="chartXAxisLabels"
+	        [options]="chartOptions"
 	        [legend]="false"
-	        [chartType]="barChartType">
+	        [chartType]="chartType">
 	</canvas>
 </div>

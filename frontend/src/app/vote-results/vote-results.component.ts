@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Label} from "ng2-charts";
+import {ChartConfiguration} from "./ChartConfiguration";
 
 @Component({
 	selector: 'vote-results',
@@ -10,126 +11,151 @@ import {Label} from "ng2-charts";
 export class VoteResultsComponent
 {
 
-	private _results: UserVote[];
+	/**
+	 * The list of estimates for all users.
+	 */
+	private _estimates: UserEstimate[];
 
 	@Input()
-	public set results(value: UserVote[])
+	public set estimates(value: UserEstimate[])
 	{
-		this._results = value;
-		this.displayVotesResult();
+		this._estimates = value;
+		this.displayEstimatesResult();
 	}
 
-	public get results(): UserVote[]
+	public get estimates(): UserEstimate[]
 	{
-		return this._results;
+		return this._estimates;
 	}
 
-	public colors: string[] = ['rgba(255, 99, 132, 0.2)',
-	                           'rgba(54, 162, 235, 0.2)',
-	                           'rgba(255, 206, 86, 0.2)',
-	                           'rgba(75, 192, 192, 0.2)',
-	                           'rgba(153, 102, 255, 0.2)',
-	                           'rgba(255, 159, 64, 0.2)'];
+	/**
+	 * The type of chart to display.
+	 */
+	public chartType: ChartType = ChartConfiguration.CHART_TYPE_BAR;
 
-	public barChartType: ChartType = 'bar';
+	/**
+	 * The chart options.
+	 */
+	public chartOptions: ChartOptions = ChartConfiguration.CHART_OPTIONS;
 
-	public barChartOptions: ChartOptions = {
-		responsive: true,
-		scales: {
-			xAxes: [{
-				scaleLabel: {
-					labelString: "Estimate",
-					display: true,
-					fontSize: 18,
-				},
-				ticks: {
-					beginAtZero: true,
-					fontSize: 24
-				}
-			}], yAxes: [{
-				scaleLabel: {
-					labelString: "Number of votes",
-					display: true,
-					fontSize: 18
-				},
-				ticks: {
-					beginAtZero: true,
-					// return the value to display only if integer
-					callback: (value: number) => value % 1 === 0 ? value : undefined
-				}
-			}]
-		},
-    animation: {
-      duration: 0
-    },
-		plugins: {
-			datalabels: {
-				anchor: 'end',
-				align: 'end',
-			}
-		}
-	};
+	/**
+	 * The labels to use for th x-axis in the chart.
+	 */
+	public chartXAxisLabels: Label[] = [];
 
-	public barChartLabels: Label[] = [];
+	/**
+	 * The estimates data used to plot in the chart.
+	 */
+	public chartEstimateData: ChartDataSets[] = [];
 
-	public voteData: ChartDataSets[] = [];
+	/**
+	 * The average estimate.
+	 */
+	public averageEstimate: number;
 
-	public averageVote: number;
+	/**
+	 * The precision used to round the {@link averageEstimate}.
+	 * A value of 0.1 means the average will be rounded to decimals e.g. 7.1
+	 * A value of 0.01 means the average will be rounded to cents e.g. 7.13
+	 */
+	private ROUNDING_PRECISION: number = 0.1;
 
-	private displayVotesResult(): void
+	/**
+	 * Calculate the chart data and the {@link averageEstimate} so to display this information
+	 * as a result.
+	 */
+	private displayEstimatesResult(): void
 	{
-		const resultsOccurrences: Map<string, number> = new Map<string, number>();
-		const labels: Set<string> = new Set<string>();
-		let sum: number = 0;
-		let voteCounts: number = 0;
+		// Variables used to build estimates chart data
+		const uniqueEstimates: Set<string> = new Set<string>();
+		const estimatesOccurrences: Map<string, number> = new Map<string, number>();
 
-		this.results.forEach((result) =>
+		// Variables to calculate estimates average
+		let estimatesSum: number = 0;
+		let totalEstimates: number = 0;
+
+		this.estimates.forEach((result) =>
 		{
+			// if user has not voted, jump to next estimate
 			if (!result.voted)
 			{
 				return;
 			}
 
-			voteCounts++;
-			sum += result.vote;
-			labels.add(result.vote.toString());
+			// Update data used for average estimate calculation
+			totalEstimates++;
+			estimatesSum += result.estimate;
 
-			let voteOccurrences = resultsOccurrences.get(result.vote.toString());
-			if (!voteOccurrences)
-			{
-				resultsOccurrences.set(result.vote.toString(), 1);
-			}
-			else
-			{
-				resultsOccurrences.set(result.vote.toString(), voteOccurrences + 1);
-			}
+			// Update data that will be displayed in the chart
+			uniqueEstimates.add(result.estimate.toString());
+			this.incrementOccurrenceForEstimate(estimatesOccurrences, result.estimate);
 		});
 
-		this.averageVote = Math.round(sum / voteCounts * 10) / 10;
-		this.barChartLabels = [...(labels)].sort();
-		this.voteData = [{
-			data: this.getValuesForLabels(resultsOccurrences, [...(labels)].sort()),
-			backgroundColor: this.colors,
-			hoverBackgroundColor: this.colors,
-			borderColor: [
-				'rgba(255, 99, 132, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(255, 206, 86, 1)',
-				'rgba(75, 192, 192, 1)',
-				'rgba(153, 102, 255, 1)',
-				'rgba(255, 159, 64, 1)'
-			],
+		this.calculateAverageEstimate(estimatesSum, totalEstimates);
+		this.calculateEstimatesChartData(uniqueEstimates, estimatesOccurrences);
+	}
+
+	/**
+	 * Builds the labels to display on the x-axis based on all unique estimates ordered asc, and
+	 * build all occurrences on the y-axis per unique estimate value.
+	 * @param uniqueEstimates The unordered list of unique estimates. WIll be ordered in this method
+	 * @param estimatesOccurrences The map of occurrences per each estimate value
+	 */
+	private calculateEstimatesChartData(uniqueEstimates: Set<string>,
+		estimatesOccurrences: Map<string, number>): void
+	{
+		let sortedUniqueEstimates = [...uniqueEstimates].sort();
+		this.chartXAxisLabels = sortedUniqueEstimates;
+		this.chartEstimateData = [{
+			data: this.getOccurrencesForEstimates(estimatesOccurrences, sortedUniqueEstimates),
+			backgroundColor: ChartConfiguration.CHART_COLORS,
+			hoverBackgroundColor: ChartConfiguration.CHART_COLORS,
+			borderColor: ChartConfiguration.CHART_BORDER_COLORS,
 			borderWidth: 1,
 			barThickness: "flex",
 			label: "Number of votes"
 		}];
 	}
 
-	private getValuesForLabels(resultsOccurrences: Map<string, number>,
-		labels: string[]): number[]
+	/**
+	 * Calculate the average estimate, with decimal precision.
+	 * @param estimatesSum The total sum of all estimates
+	 * @param totalEstimates The
+	 */
+	private calculateAverageEstimate(estimatesSum: number, totalEstimates: number)
 	{
-		const results: number[] = [];
-		labels.forEach((label) => results.push(resultsOccurrences.get(label)));
-		return results;
+		let precisionFactor = 1 / this.ROUNDING_PRECISION;
+		let averageEstimate = estimatesSum / totalEstimates;
+		this.averageEstimate = Math.round(averageEstimate * precisionFactor) / precisionFactor;
+	}
+
+	/**
+	 * Increment the number of occurrences for the given estimate.
+	 * @param estimatesOccurrences The map used to track the number of occurrences of each estimate
+	 * @param estimate The estimate for which to increment the occurrence
+	 */
+	private incrementOccurrenceForEstimate(estimatesOccurrences: Map<string, number>,
+		estimate: number): void
+	{
+		let voteOccurrences = estimatesOccurrences.get(estimate.toString());
+		if (!voteOccurrences)
+		{
+			estimatesOccurrences.set(estimate.toString(), 1);
+		}
+		else
+		{
+			estimatesOccurrences.set(estimate.toString(), voteOccurrences + 1);
+		}
+	}
+
+	/**
+	 * Get a list of occurrences per each estimate value present in the given uniqueEstimates array.
+	 * @param estimatesOccurrences The map used to track the number of occurrences of each estimate
+	 * @param uniqueEstimates The list of unique estimates
+	 */
+	private getOccurrencesForEstimates(estimatesOccurrences: Map<string, number>,
+		uniqueEstimates: string[]): number[]
+	{
+		return uniqueEstimates.map((estimate) => estimatesOccurrences.get(estimate));
 	}
 }

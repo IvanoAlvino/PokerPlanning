@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class UsersListComponent implements OnInit {
 
   @Input()
-  public userList: UserVote[];
+  public userList: UserEstimate[];
 
   constructor() { }
 

@@ -86,9 +86,9 @@ export class RoomService {
     }
   }
 
-  public async updates(roomId: string): Promise<UpdatesResponse> {
+  public async updates(roomId: string): Promise<UpdateResponse> {
     try {
-      return await this.http.get<UpdatesResponse>(`${this.updatesUrl}/${roomId}`).toPromise();
+      return await this.http.get<UpdateResponse>(`${this.updatesUrl}/${roomId}`).toPromise();
     } catch (e) {
       this.handleApiError(e);
     }

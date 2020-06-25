@@ -1,6 +1,6 @@
 package de.navvis.pokerplanning.room;
 
-import de.navvis.pokerplanning.room.web.UserVoteInfo;
+import de.navvis.pokerplanning.room.web.UserEstimate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -49,13 +49,13 @@ public class RoomService {
 		getRoom(roomId).finishVoting(username);
 	}
 
-	public synchronized List<UserVoteInfo> status(String roomId) throws NoSuchRoomException {
+	public synchronized List<UserEstimate> status(String roomId) throws NoSuchRoomException {
 		var room = getRoom(roomId);
 		return room.usernames.stream().map(username -> {
-			var vote = new UserVoteInfo();
+			var vote = new UserEstimate();
 			vote.setUsername(username);
 			vote.setVoted(room.votes.containsKey(username));
-			vote.setVote(room.votes.get(username));
+			vote.setEstimate(room.votes.get(username));
 			return vote;
 		}).collect(toList());
 	}
