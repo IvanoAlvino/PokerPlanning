@@ -3,7 +3,6 @@ import {Routes, RouterModule} from '@angular/router';
 import {PokerPlanningComponent} from "./poker-planning/poker-planning.component";
 import {WelcomePageComponent} from "./welcome-page/welcome-page.component";
 
-
 const routes: Routes = [
 	{path: '', redirectTo: '/welcome', pathMatch: 'full'},
 	{path: 'welcome', component: WelcomePageComponent},
