@@ -23,6 +23,7 @@ public class UserController
 
 	/**
 	 * Create a new user with the provided name and assign it to the room with the provided roomId.
+	 *
 	 * @param userInfo The object that holds the information about the user
 	 */
 	@PostMapping

@@ -5,7 +5,7 @@ import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.web.rest.CreateRoomRequest;
 import de.navvis.pokerplanning.room.web.rest.CreateRoomResponse;
 import de.navvis.pokerplanning.room.web.rest.UserSessionOpenResponse;
-import de.navvis.pokerplanning.web.AttributeName;
+import de.navvis.pokerplanning.web.domain.AttributeName;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
 
 import org.springframework.web.bind.annotation.*;

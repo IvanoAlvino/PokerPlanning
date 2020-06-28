@@ -4,7 +4,7 @@ import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
 import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.web.rest.UpdateResponse;
 import de.navvis.pokerplanning.room.web.rest.VoteRequest;
-import de.navvis.pokerplanning.web.AttributeName;
+import de.navvis.pokerplanning.web.domain.AttributeName;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
 import org.springframework.web.bind.annotation.*;
 
