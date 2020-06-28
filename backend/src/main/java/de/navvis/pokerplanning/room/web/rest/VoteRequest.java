@@ -1,13 +1,15 @@
-package de.navvis.pokerplanning.user.web;
+package de.navvis.pokerplanning.room.web.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequest {
-	private String name;
+@AllArgsConstructor
+public class VoteRequest
+{
+	private String estimate;
+
 	private String roomId;
 }

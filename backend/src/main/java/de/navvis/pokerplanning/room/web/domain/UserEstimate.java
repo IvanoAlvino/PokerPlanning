@@ -1,4 +1,4 @@
-package de.navvis.pokerplanning.room.web;
+package de.navvis.pokerplanning.room.web.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

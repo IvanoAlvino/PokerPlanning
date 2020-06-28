@@ -1,6 +1,9 @@
 package de.navvis.pokerplanning.room;
 
-import de.navvis.pokerplanning.room.web.UserEstimate;
+import de.navvis.pokerplanning.room.web.domain.UserEstimate;
+import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
+import de.navvis.pokerplanning.room.web.exception.UserAlreadyExistsException;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,12 +25,15 @@ public class RoomService {
 		return room.id;
 	}
 
-	public synchronized void doesRoomExist(String roomId) throws NoSuchRoomException {
+	public synchronized void doesRoomExist(String roomId) throws NoSuchRoomException
+	{
 		removeStaleRooms();
 		getRoom(roomId);
 	}
 
-	public synchronized void addUser(String name, String roomId) throws NoSuchRoomException, UserAlreadyExistsException {
+	public synchronized void addUser(String name, String roomId) throws NoSuchRoomException,
+		UserAlreadyExistsException
+	{
 		getRoom(roomId).addUser(name, false);
 	}
 

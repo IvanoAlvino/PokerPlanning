@@ -1,8 +1,12 @@
 package de.navvis.pokerplanning.room.web;
 
-import de.navvis.pokerplanning.room.NoSuchRoomException;
+import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
 import de.navvis.pokerplanning.room.RoomService;
+import de.navvis.pokerplanning.room.web.rest.CreateRoomRequest;
+import de.navvis.pokerplanning.room.web.rest.CreateRoomResponse;
+import de.navvis.pokerplanning.room.web.rest.UserSessionOpenResponse;
 import de.navvis.pokerplanning.web.AttributeName;
+import de.navvis.pokerplanning.web.exception.NotFoundException;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -36,10 +40,17 @@ public class RoomController {
 
 	@GetMapping("/{roomId}")
 	public UserSessionOpenResponse isUserSessionOpen(@PathVariable String roomId,
-		HttpSession session) throws NoSuchRoomException
+		HttpSession session)
 	{
-		roomService.doesRoomExist(roomId);
-		boolean isUserSessionOpen = session.getAttribute(AttributeName.USERNAME) != null;
-		return new UserSessionOpenResponse(isUserSessionOpen);
+		try
+		{
+			roomService.doesRoomExist(roomId);
+			boolean isUserSessionOpen = session.getAttribute(AttributeName.USERNAME) != null;
+			return new UserSessionOpenResponse(isUserSessionOpen);
+		}
+		catch (NoSuchRoomException e)
+		{
+			throw new NotFoundException();
+		}
 	}
 }

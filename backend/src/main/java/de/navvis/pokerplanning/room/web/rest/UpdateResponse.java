@@ -1,10 +1,12 @@
-package de.navvis.pokerplanning.room.web;
+package de.navvis.pokerplanning.room.web.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
+import de.navvis.pokerplanning.room.web.domain.UserEstimate;
 
 @Data
 @AllArgsConstructor
