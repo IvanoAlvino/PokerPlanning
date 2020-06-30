@@ -117,12 +117,12 @@ export class RoomService
 	/**
 	 * Fetch updates for the current room.
 	 */
-	public async fetchUpdates(): Promise<UpdateResponse>
+	public async fetchUpdates(): Promise<RoomStatus>
 	{
 		try
 		{
 			const url = `${this.updatesUrl}/${this.roomId}`;
-			return await this.http.get<UpdateResponse>(url).toPromise();
+			return await this.http.get<RoomStatus>(url).toPromise();
 		}
 		catch (e)
 		{

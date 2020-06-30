@@ -16,7 +16,7 @@ export class PokerPlanningComponent implements OnInit
 	 * Storing this update is useful so to avoid re-render the child components for every updates
 	 * from server that have no new data.
 	 */
-	public lastMeaningfulUpdate: UpdateResponse;
+	public lastMeaningfulUpdate: RoomStatus;
 
 	/**
 	 * Whether the room is currently in a voting phase.

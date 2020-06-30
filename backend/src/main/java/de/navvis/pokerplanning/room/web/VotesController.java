@@ -1,71 +1,90 @@
 package de.navvis.pokerplanning.room.web;
 
+import de.navvis.pokerplanning.room.web.domain.UserEstimate;
 import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
 import de.navvis.pokerplanning.room.RoomService;
-import de.navvis.pokerplanning.room.web.rest.UpdateResponse;
+import de.navvis.pokerplanning.room.web.rest.RoomStatus;
 import de.navvis.pokerplanning.room.web.rest.VoteRequest;
 import de.navvis.pokerplanning.web.domain.AttributeName;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @CrossOrigin
-public class VotesController {
+public class VotesController
+{
 	private final RoomService roomService;
 
-	public VotesController(RoomService roomService) {
-		this.roomService = roomService;
-	}
+	private final HttpSession session;
 
 	@PostMapping("/api/votes")
-	public void vote(@RequestBody VoteRequest request, HttpSession session) {
-		var username = session.getAttribute(AttributeName.USERNAME).toString();
+	public void vote(@RequestBody VoteRequest request)
+	{
+		var username = safelyGetAttribute(AttributeName.USERNAME, String.class);
 		var roomId = request.getRoomId();
-		try {
+		try
+		{
 			roomService.vote(roomId, username, request.getEstimate());
-		}	catch (NoSuchRoomException e) {
-			session.removeAttribute(AttributeName.ROOM_ID);
-			session.removeAttribute(AttributeName.USERNAME);
-			throw new UnauthorizedException();
 		}
-	}
-
-	@PostMapping("/api/finishVoting")
-	public void finishVoting(HttpSession session) {
-		var username = session.getAttribute(AttributeName.USERNAME).toString();
-		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
-		try {
-			roomService.finishVoting(roomId, username);
-		}	catch (NoSuchRoomException e) {
-			session.removeAttribute(AttributeName.ROOM_ID);
-			session.removeAttribute(AttributeName.USERNAME);
+		catch (NoSuchRoomException e)
+		{
 			throw new UnauthorizedException();
 		}
 	}
 
 	@PostMapping("/api/startVoting")
-	public void startVoting(HttpSession session) {
-		var username = session.getAttribute(AttributeName.USERNAME).toString();
-		var roomId = session.getAttribute(AttributeName.ROOM_ID).toString();
-		try {
-			roomService.startVoting(roomId, username);
-		}	catch (NoSuchRoomException e) {
-			session.removeAttribute(AttributeName.ROOM_ID);
-			session.removeAttribute(AttributeName.USERNAME);
+	public void startVoting()
+	{
+		UUID roomId = safelyGetAttribute(AttributeName.ROOM_ID, UUID.class);
+		try
+		{
+			roomService.startVoting(roomId);
+		}
+		catch (NoSuchRoomException | IllegalAccessException e)
+		{
+			throw new UnauthorizedException();
+		}
+	}
+
+	@PostMapping("/api/finishVoting")
+	public void finishVoting()
+	{
+		var roomId = safelyGetAttribute(AttributeName.ROOM_ID, UUID.class);
+		try
+		{
+			roomService.finishVoting(roomId);
+		}
+		catch (NoSuchRoomException | IllegalAccessException e)
+		{
 			throw new UnauthorizedException();
 		}
 	}
 
 	@GetMapping("/api/updates/{roomId}")
-	public UpdateResponse updates(@PathVariable String roomId, HttpSession session) {
-		try {
-			return new UpdateResponse(roomService.status(roomId), roomService.isVotingOngoing(roomId));
-		}	catch (NoSuchRoomException e) {
-			session.removeAttribute(AttributeName.ROOM_ID);
-			session.removeAttribute(AttributeName.USERNAME);
+	public RoomStatus fetchRoomStatus(@PathVariable UUID roomId)
+	{
+		try
+		{
+			List<UserEstimate> roomStatus = roomService.getStatus(roomId);
+			boolean isVotingOngoing = roomService.isVotingOngoing(roomId);
+			return new RoomStatus(roomStatus, isVotingOngoing);
+		}
+		catch (NoSuchRoomException e)
+		{
 			throw new UnauthorizedException();
 		}
+	}
+
+	private <T> T safelyGetAttribute(String attributeName, Class<T> clazz)
+	{
+		Object attribute = session.getAttribute(attributeName);
+		return clazz.cast(attribute);
 	}
 }

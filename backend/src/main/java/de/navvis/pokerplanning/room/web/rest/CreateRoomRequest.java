@@ -5,6 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CreateRoomRequest {
+public class CreateRoomRequest
+{
+	/**
+	 * The name of the user who will be moderator of the room.
+	 */
 	private String moderatorUsername;
 }

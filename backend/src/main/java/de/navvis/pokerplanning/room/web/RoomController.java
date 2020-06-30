@@ -8,38 +8,32 @@ import de.navvis.pokerplanning.room.web.rest.UserSessionOpenResponse;
 import de.navvis.pokerplanning.web.domain.AttributeName;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @CrossOrigin
 @RequestMapping("/api/room")
-public class RoomController {
+public class RoomController
+{
 	private final RoomService roomService;
 
-	public RoomController(RoomService roomService) {
-		this.roomService = roomService;
-	}
-
-	// TODO to kick a user out of the room, we need to destroy its session
-	// Look at https://stackoverflow.com/questions/18109665/how-do-i-remotely-invalidate-users-servlet-session-on-the-fly
-	// to understand how to store reference to sessions: this way the admin can retrieve session
-	// for a user and destroy it.
-	// In order to do so, every user should have an unique id
-
-	// TODO mark somebody else as admin
-
 	@PostMapping
-	public CreateRoomResponse createRoom(@RequestBody CreateRoomRequest request, HttpSession session) {
-		var roomId = roomService.createRoom(request.getModeratorUsername());
+	public CreateRoomResponse createRoom(@RequestBody CreateRoomRequest request,
+		HttpSession session)
+	{
+		UUID roomId = roomService.createRoom(request.getModeratorUsername());
 		session.setAttribute(AttributeName.USERNAME, request.getModeratorUsername());
 		session.setAttribute(AttributeName.ROOM_ID, roomId);
-		return new CreateRoomResponse(roomId.toString());
+		return new CreateRoomResponse(roomId);
 	}
 
 	@GetMapping("/{roomId}")
-	public UserSessionOpenResponse isUserSessionOpen(@PathVariable String roomId,
+	public UserSessionOpenResponse isUserSessionOpen(@PathVariable UUID roomId,
 		HttpSession session)
 	{
 		try

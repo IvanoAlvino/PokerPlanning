@@ -1,4 +1,4 @@
-interface UpdateResponse
+interface RoomStatus
 {
 	estimates: UserEstimate[];
 	votingOngoing: boolean;

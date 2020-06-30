@@ -11,5 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class UserSessionOpenResponse
 {
+	/**
+	 * Whether the user session is currently open.
+	 */
 	private boolean isUserSessionOpen;
 }

@@ -32,7 +32,7 @@ public class UserController
 		try
 		{
 			userService.createUser(userInfo);
-			roomService.addUser(userInfo.getName(), userInfo.getRoomId());
+			roomService.addUserToRoom(userInfo.getName(), userInfo.getRoomId());
 		}
 		catch (NoSuchRoomException e)
 		{

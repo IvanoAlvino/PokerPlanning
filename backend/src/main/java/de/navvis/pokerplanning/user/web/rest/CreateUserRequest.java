@@ -3,6 +3,7 @@ package de.navvis.pokerplanning.user.web.rest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +18,5 @@ public class CreateUserRequest
 	/**
 	 * The if of the room where the user will be assigned.
 	 */
-	private String roomId;
+	private UUID roomId;
 }

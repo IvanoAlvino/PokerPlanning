@@ -11,8 +11,8 @@ import de.navvis.pokerplanning.room.web.domain.UserEstimate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateResponse {
-
+public class RoomStatus
+{
 	/**
 	 * The list of all estimates for all users.
 	 */

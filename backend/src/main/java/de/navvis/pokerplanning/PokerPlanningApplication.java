@@ -10,13 +10,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @SpringBootApplication
 @EnableSpringHttpSession
-public class PokerPlanningApplication {
-	public static void main(String[] args) {
+public class PokerPlanningApplication
+{
+	public static void main(String[] args)
+	{
 		SpringApplication.run(PokerPlanningApplication.class, args);
 	}
 
 	@Bean
-	public MapSessionRepository sessionRepository() {
+	public MapSessionRepository sessionRepository()
+	{
 		return new MapSessionRepository(new ConcurrentHashMap<>());
 	}
 }
