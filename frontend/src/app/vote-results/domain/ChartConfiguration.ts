@@ -65,9 +65,6 @@ export class ChartConfiguration
 				}
 			}]
 		},
-		animation: {
-			duration: 0
-		},
 		plugins: {
 			datalabels: {
 				anchor: 'end',
