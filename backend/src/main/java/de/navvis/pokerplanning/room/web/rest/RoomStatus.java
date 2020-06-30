@@ -22,4 +22,14 @@ public class RoomStatus
 	 * Whether the voting phase is ongoing. If false, means results can be displayed.
 	 */
 	private boolean isVotingOngoing;
+
+	/**
+	 * The name of the room moderator.
+	 */
+	private String moderatorUsername;
+
+	/**
+	 * The name of the user connected to the room.
+	 */
+	private String loggedInUsername;
 }

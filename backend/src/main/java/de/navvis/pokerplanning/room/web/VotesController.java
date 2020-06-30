@@ -74,7 +74,9 @@ public class VotesController
 		{
 			List<UserEstimate> roomStatus = roomService.getStatus(roomId);
 			boolean isVotingOngoing = roomService.isVotingOngoing(roomId);
-			return new RoomStatus(roomStatus, isVotingOngoing);
+			String moderatorUsername = roomService.getModeratorUsername(roomId);
+			String username = safelyGetAttribute(AttributeName.USERNAME, String.class);
+			return new RoomStatus(roomStatus, isVotingOngoing, moderatorUsername, username);
 		}
 		catch (NoSuchRoomException e)
 		{

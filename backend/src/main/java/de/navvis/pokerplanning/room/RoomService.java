@@ -199,4 +199,15 @@ public class RoomService
 	{
 		return getRoom(roomId).isVotingPhase();
 	}
+
+	/**
+	 * Get the moderator username for the room with the provided roomId.
+	 * @param roomId The id of the room
+	 * @return the moderator username
+	 * @throws NoSuchRoomException if no room with the given id is found
+	 */
+	public String getModeratorUsername(UUID roomId) throws NoSuchRoomException
+	{
+		return getRoom(roomId).getModeratorUsername();
+	}
 }

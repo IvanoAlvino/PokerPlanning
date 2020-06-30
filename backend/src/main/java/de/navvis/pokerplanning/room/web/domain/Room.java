@@ -29,7 +29,7 @@ public class Room
 	/**
 	 * The list of moderators for the room.
 	 */
-	private Set<String> moderatorUsernames = new HashSet<>();
+	private String moderatorUsername;
 
 	/**
 	 * The votes for a the current voting phase. This only contains votes for the given round, and
@@ -50,7 +50,7 @@ public class Room
 	public void addModeratorUser(String username)
 	{
 		usernames.add(username);
-		moderatorUsernames.add(username);
+		this.moderatorUsername = username;
 	}
 
 	/**
@@ -103,9 +103,14 @@ public class Room
 		this.isVotingPhase = false;
 	}
 
-	public boolean isModerator(String name)
+	/**
+	 * Check whether the provided username is the room moderator.
+	 * @param username The name to check for moderator rights.
+	 * @return true if provided username is the room moderator.
+	 */
+	public boolean isModerator(String username)
 	{
-		return moderatorUsernames.contains(name);
+		return Objects.equals(this.moderatorUsername, username);
 	}
 
 	/**

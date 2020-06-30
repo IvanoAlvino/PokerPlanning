@@ -128,4 +128,18 @@ export class PokerPlanningComponent implements OnInit
 			.then(() => this.isVoteOngoing = false)
 			.catch((error) => console.log("Error while finish voting", error));
 	}
+
+	/**
+	 * Check whether the current user is a moderator.
+	 */
+	public isModerator(): boolean
+	{
+		// If no information about the room is available, bail out
+		if (!this.lastMeaningfulUpdate)
+		{
+			return false;
+		}
+		return this.lastMeaningfulUpdate.loggedInUsername ===
+		       this.lastMeaningfulUpdate.moderatorUsername;
+	}
 }

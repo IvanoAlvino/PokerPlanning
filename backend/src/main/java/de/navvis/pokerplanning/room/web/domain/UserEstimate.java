@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class UserEstimate
 {
 	/**
-	 * The user's username.
+	 * The name of the user.
 	 */
 	private String username;
 
