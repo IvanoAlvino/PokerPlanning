@@ -1,10 +1,11 @@
 <div class="d-flex">
-	<app-users-list *ngIf="lastMeaningfulUpdate"
-	                [userList]="lastMeaningfulUpdate.estimates"
-	                class="w-25">
-	</app-users-list>
+	<users-list *ngIf="lastMeaningfulUpdate"
+	            [userList]="lastMeaningfulUpdate.estimates"
+	            [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing"
+	            class="w-25">
+	</users-list>
 
-	<cards-list class="w-75" *ngIf="isVoteOngoing">
+	<cards-list class="w-75" *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
 	</cards-list>
 
 	<vote-results *ngIf="lastMeaningfulUpdate && !isVoteOngoing"

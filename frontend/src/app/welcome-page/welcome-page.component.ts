@@ -11,7 +11,6 @@ import {UserService} from "../services/user/user.service";
 })
 export class WelcomePageComponent implements OnInit, AfterViewInit
 {
-
 	/**
 	 * The username introduced in the form.
 	 */

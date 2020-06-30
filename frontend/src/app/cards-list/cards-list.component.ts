@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {RoomService} from "../services/room/room.service";
 import {ErrorResponse} from "../services/room/domain/error/ApiError";
 import {Router} from "@angular/router";
@@ -10,6 +10,11 @@ import {Router} from "@angular/router";
 })
 export class CardsListComponent
 {
+	/**
+	 * Output event emitted when this card has been selected.
+	 */
+	@Output()
+	public onCardSelect = new EventEmitter<void>();
 
 	/**
 	 * The list of all possible estimates.
@@ -38,6 +43,7 @@ export class CardsListComponent
 	public async toggleCard(estimate: string): Promise<void>
 	{
 		this.selectedEstimate = this.selectedEstimate !== estimate ? estimate : undefined;
+		this.onCardSelect.emit();
 
 		try
 		{

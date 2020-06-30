@@ -10,7 +10,6 @@ import {ChartConfiguration} from "./domain/ChartConfiguration";
 })
 export class VoteResultsComponent
 {
-
 	/**
 	 * The list of estimates for all users.
 	 */
@@ -77,7 +76,7 @@ export class VoteResultsComponent
 		this.estimates.forEach((result) =>
 		{
 			// if user has not voted, or voted with '?', jump to next estimate
-			if (!result.voted || result.estimate === "?")
+			if (!result.voted || !result.estimate || result.estimate === "?")
 			{
 				return;
 			}

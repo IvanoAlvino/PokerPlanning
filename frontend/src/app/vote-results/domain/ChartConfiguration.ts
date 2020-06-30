@@ -5,7 +5,6 @@ import {ChartOptions, ChartType} from "chart.js";
  */
 export class ChartConfiguration
 {
-
 	/**
 	 * The colors for the chart bars. First bar will have CHART_COLORS[0] color, and then any
 	 * following bar will increase the index and use that color.

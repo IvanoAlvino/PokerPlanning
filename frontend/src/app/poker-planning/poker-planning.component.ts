@@ -4,13 +4,12 @@ import {RoomService} from "../services/room/room.service";
 import {UserService} from "../services/user/user.service";
 
 @Component({
-	selector: 'app-poker-planning',
+	selector: 'poker-planning',
 	templateUrl: './poker-planning.component.html',
 	styleUrls: ['./poker-planning.component.scss']
 })
 export class PokerPlanningComponent implements OnInit
 {
-
 	/**
 	 * The last update fetched from server that had new data.
 	 * Storing this update is useful so to avoid re-render the child components for every updates
@@ -81,8 +80,8 @@ export class PokerPlanningComponent implements OnInit
 				if (JSON.stringify(this.lastMeaningfulUpdate) !== JSON.stringify(update))
 				{
 					this.lastMeaningfulUpdate = update;
+					this.isVoteOngoing = update.votingOngoing;
 				}
-				this.isVoteOngoing = update.votingOngoing;
 			})
 			.catch((error) => console.log("Error while fetching updates", error));
 	}
@@ -114,8 +113,12 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	public startVoting(): void
 	{
+		// Set local state accordingly without waiting on the request from the server to make the
+		// UI snappier
+		this.getCurrentUserFromLastMeaningfulUpdate().voted = false;
+		this.isVoteOngoing = true;
+
 		this.RoomService.startVoting()
-			.then(() => this.isVoteOngoing = true)
 			.catch((error) => console.log("Error while starting voting", error));
 	}
 
@@ -124,8 +127,8 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	public finishVoting(): void
 	{
+		this.isVoteOngoing = false;
 		this.RoomService.finishVoting()
-			.then(() => this.isVoteOngoing = false)
 			.catch((error) => console.log("Error while finish voting", error));
 	}
 
@@ -141,5 +144,27 @@ export class PokerPlanningComponent implements OnInit
 		}
 		return this.lastMeaningfulUpdate.loggedInUsername ===
 		       this.lastMeaningfulUpdate.moderatorUsername;
+	}
+
+	/**
+	 * Flip the {@link UserEstimate#voted} state for the current user.
+	 * This operation is not strictly required, because the state is updated accordingly as soon
+	 * as the result of the update operation comes in from the server, but updating the local
+	 * state before that makes the UI snappier.
+	 */
+	public flipVotedStateForCurrentUser(): void
+	{
+		let currentUser = this.getCurrentUserFromLastMeaningfulUpdate();
+		currentUser.voted = !currentUser.voted;
+	}
+
+	/**
+	 * Get the {@link UserEstimate} object corresponding to the current user from the
+	 * {@link lastMeaningfulUpdate} object.
+	 */
+	private getCurrentUserFromLastMeaningfulUpdate(): UserEstimate
+	{
+		return this.lastMeaningfulUpdate.estimates.filter(
+			(estimate) => estimate.username === this.lastMeaningfulUpdate.loggedInUsername)[0];
 	}
 }
