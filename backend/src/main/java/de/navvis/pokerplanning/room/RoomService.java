@@ -151,7 +151,7 @@ public class RoomService
 	 */
 	public synchronized List<UserEstimate> getStatus(UUID roomId) throws NoSuchRoomException
 	{
-		var room = getRoom(roomId);
+		Room room = getRoom(roomId);
 		return room
 			.getUsernames()
 			.stream()
@@ -159,7 +159,11 @@ public class RoomService
 				var vote = new UserEstimate();
 				vote.setUsername(username);
 				vote.setVoted(room.getVotes().containsKey(username));
-				vote.setEstimate(room.getVotes().get(username));
+				// Only return the real estimates if the voting phase is finished
+				if (!room.isVotingPhase())
+				{
+					vote.setEstimate(room.getVotes().get(username));
+				}
 				return vote;
 			})
 			.collect(toList());
