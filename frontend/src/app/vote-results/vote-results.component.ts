@@ -103,7 +103,10 @@ export class VoteResultsComponent
 	private calculateEstimatesChartData(uniqueEstimates: Set<string>,
 		estimatesOccurrences: Map<string, number>): void
 	{
-		let sortedUniqueEstimates = [...uniqueEstimates].sort();
+		let sortedUniqueEstimates = [...uniqueEstimates]
+			.map((estimate) => parseInt(estimate))
+			.sort((first, second) => first - second)
+			.map((estimate) => estimate.toString());
 		this.chartXAxisLabels = sortedUniqueEstimates;
 		this.chartEstimateData = [{
 			data: this.getOccurrencesForEstimates(estimatesOccurrences, sortedUniqueEstimates),
