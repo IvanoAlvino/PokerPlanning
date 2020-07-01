@@ -8,6 +8,7 @@ import de.navvis.pokerplanning.core.SessionService;
 import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
 import de.navvis.pokerplanning.room.web.exception.UserAlreadyExistsException;
+import de.navvis.pokerplanning.room.web.rest.ChangeModeratorRequest;
 import de.navvis.pokerplanning.room.web.rest.CreateRoomRequest;
 import de.navvis.pokerplanning.room.web.rest.CreateRoomResponse;
 import de.navvis.pokerplanning.room.web.rest.UserSessionOpenResponse;
@@ -16,6 +17,7 @@ import de.navvis.pokerplanning.user.web.domain.User;
 import de.navvis.pokerplanning.web.domain.AttributeName;
 import de.navvis.pokerplanning.web.exception.ConflictException;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
+import de.navvis.pokerplanning.web.exception.UnauthorizedException;
 
 @RequiredArgsConstructor
 @RestController
@@ -62,6 +64,23 @@ public class RoomController
 		catch (NoSuchRoomException e)
 		{
 			throw new NotFoundException();
+		}
+	}
+
+	@PostMapping
+	public void changeRoomModerator(@RequestBody ChangeModeratorRequest request)
+	{
+		try
+		{
+			roomService.changeModerator(request.getRoomId(), request.getNewModeratorId());
+		}
+		catch (NoSuchRoomException e)
+		{
+			throw new NotFoundException();
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new UnauthorizedException();
 		}
 	}
 }

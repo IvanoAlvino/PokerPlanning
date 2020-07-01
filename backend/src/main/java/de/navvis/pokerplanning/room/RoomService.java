@@ -215,6 +215,7 @@ public class RoomService
 
 	/**
 	 * Set the user with the given userId as moderator of the room with the given roomId
+	 *
 	 * @param userId The id of the user to set as moderator
 	 * @param roomId The id of the room where to set the moderator
 	 * @throws NoSuchRoomException if no room with the given id is found
@@ -222,6 +223,23 @@ public class RoomService
 	public void setModeratorForRoom(UUID userId, UUID roomId)
 		throws NoSuchRoomException
 	{
-		getRoom(roomId).setModerator(userId);
+		getRoom(roomId).setModeratorId(userId);
+	}
+
+	/**
+	 * Assign the user identified by the newModeratorId for the room with the given roomId. Only a
+	 * moderator can trigger this change.
+	 *
+	 * @param roomId         The id of the room
+	 * @param newModeratorId The id of the new moderator
+	 * @throws NoSuchRoomException    if no room with the given id is found
+	 * @throws IllegalAccessException if the user triggering this change is not a moderator
+	 */
+	public void changeModerator(UUID roomId, UUID newModeratorId)
+		throws NoSuchRoomException, IllegalAccessException
+	{
+		Room room = getRoom(roomId);
+		enforceModeratorRights(room);
+		room.setModeratorId(newModeratorId);
 	}
 }

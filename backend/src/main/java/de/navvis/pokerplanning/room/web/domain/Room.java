@@ -42,16 +42,6 @@ public class Room
 	private boolean isVotingPhase = false;
 
 	/**
-	 * Create a user with the given username and make it moderator of the room
-	 *
-	 * @param userId The id of the user to add as moderator
-	 */
-	public void setModerator(UUID userId)
-	{
-		this.moderatorId = userId;
-	}
-
-	/**
 	 * Add the given user to the room.
 	 *
 	 * @param user The user to add to the room
