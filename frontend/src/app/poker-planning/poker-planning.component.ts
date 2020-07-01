@@ -142,8 +142,9 @@ export class PokerPlanningComponent implements OnInit
 		{
 			return false;
 		}
-		return this.lastMeaningfulUpdate.loggedInUsername ===
-		       this.lastMeaningfulUpdate.moderatorUsername;
+
+		return this.lastMeaningfulUpdate.userId ===
+		       this.lastMeaningfulUpdate.moderatorId;
 	}
 
 	/**
@@ -164,7 +165,8 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	private getCurrentUserFromLastMeaningfulUpdate(): UserEstimate
 	{
-		return this.lastMeaningfulUpdate.estimates.filter(
-			(estimate) => estimate.username === this.lastMeaningfulUpdate.loggedInUsername)[0];
+		return this.lastMeaningfulUpdate
+			.estimates
+			.find((estimate) => estimate.userId === this.lastMeaningfulUpdate.userId);
 	}
 }

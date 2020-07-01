@@ -1,13 +1,12 @@
 package de.navvis.pokerplanning.room.web.domain;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import de.navvis.pokerplanning.room.web.exception.UserAlreadyExistsException;
+import de.navvis.pokerplanning.user.web.domain.User;
 
-@Component
 @Data
 public class Room
 {
@@ -19,23 +18,23 @@ public class Room
 	/**
 	 * The id of the room.
 	 */
-	private UUID id = UUID.randomUUID();
+	private final UUID id = UUID.randomUUID();
 
 	/**
 	 * The list of users registered to the room.
 	 */
-	private Set<String> usernames = new HashSet<>();
+	private Set<User> users = new HashSet<>();
 
 	/**
-	 * The list of moderators for the room.
+	 * The id of the moderator for the room.
 	 */
-	private String moderatorUsername;
+	private UUID moderatorId;
 
 	/**
-	 * The votes for a the current voting phase. This only contains votes for the given round, and
-	 * is emptied before starting a new voting phase.
+	 * The votes for each user in the current voting round. It is emptied before starting a new
+	 * voting phase. The key is the userId and the value its estimate.
 	 */
-	private Map<String, String> votes = new HashMap<>();
+	private Map<UUID, String> votes = new HashMap<>();
 
 	/**
 	 * Whether votes in this room are currently active.
@@ -45,43 +44,47 @@ public class Room
 	/**
 	 * Create a user with the given username and make it moderator of the room
 	 *
-	 * @param username The name for the user to create
+	 * @param userId The id of the user to add as moderator
 	 */
-	public void addModeratorUser(String username)
+	public void setModerator(UUID userId)
 	{
-		usernames.add(username);
-		this.moderatorUsername = username;
+		this.moderatorId = userId;
 	}
 
 	/**
-	 * Add a user with the given username.
+	 * Add the given user to the room.
 	 *
-	 * @param username The name of the user to create
+	 * @param user The user to add to the room
 	 * @throws UserAlreadyExistsException if a user with such username already exists
 	 */
-	public void addUser(String username) throws UserAlreadyExistsException
+	public void addUser(User user) throws UserAlreadyExistsException
 	{
-		if (usernames.contains(username))
+		if (users.contains(user))
 		{
 			throw new UserAlreadyExistsException();
 		}
-		usernames.add(username);
+		users.add(user);
 	}
 
 	/**
 	 * Add a vote for the given username with the given estimate
 	 *
-	 * @param username The username who is voting
+	 * @param userId   The id of the user who is voting
 	 * @param estimate The estimate which is being voted
 	 */
-	public void registerVote(String username, String estimate)
+	public void registerVote(UUID userId, String estimate)
 	{
-		if (estimate == null)
+		if (userId == null)
 		{
-			votes.remove(username);
 			return;
 		}
-		votes.put(username, estimate);
+
+		if (estimate == null)
+		{
+			votes.remove(userId);
+			return;
+		}
+		votes.put(userId, estimate);
 	}
 
 	/**
@@ -105,12 +108,13 @@ public class Room
 
 	/**
 	 * Check whether the provided username is the room moderator.
-	 * @param username The name to check for moderator rights.
+	 *
+	 * @param userId The id of the user to check for moderator rights.
 	 * @return true if provided username is the room moderator.
 	 */
-	public boolean isModerator(String username)
+	public boolean isModerator(UUID userId)
 	{
-		return Objects.equals(this.moderatorUsername, username);
+		return Objects.equals(this.moderatorId, userId);
 	}
 
 	/**

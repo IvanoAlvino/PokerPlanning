@@ -11,14 +11,14 @@ interface RoomStatus
 	votingOngoing: boolean;
 
 	/**
-	 * The name of the room moderator.
+	 * The id of the room moderator.
 	 */
-	moderatorUsername: string;
+	moderatorId: string;
 
 	/**
 	 * The name of the user connected to the room.
 	 */
-	loggedInUsername: string;
+	userId: string;
 }
 
 interface UserEstimate
@@ -27,6 +27,11 @@ interface UserEstimate
 	 * The name of the user.
 	 */
 	username: string;
+
+	/**
+	 * The unique id of the user.
+	 */
+	userId: string;
 
 	/**
 	 * Whether this user has provided an estimate.

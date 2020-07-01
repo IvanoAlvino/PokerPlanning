@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 import de.navvis.pokerplanning.room.web.domain.UserEstimate;
 
@@ -24,12 +25,12 @@ public class RoomStatus
 	private boolean isVotingOngoing;
 
 	/**
-	 * The name of the room moderator.
+	 * The id of the room moderator.
 	 */
-	private String moderatorUsername;
+	private UUID moderatorId;
 
 	/**
-	 * The name of the user connected to the room.
+	 * The id of the current user connected to the room.
 	 */
-	private String loggedInUsername;
+	private UUID userId;
 }

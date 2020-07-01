@@ -4,6 +4,7 @@ import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
 import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.web.exception.UserAlreadyExistsException;
 import de.navvis.pokerplanning.user.UserService;
+import de.navvis.pokerplanning.user.web.domain.User;
 import de.navvis.pokerplanning.user.web.rest.CreateUserRequest;
 import de.navvis.pokerplanning.web.exception.ConflictException;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
@@ -31,8 +32,8 @@ public class UserController
 	{
 		try
 		{
-			userService.createUser(userInfo);
-			roomService.addUserToRoom(userInfo.getName(), userInfo.getRoomId());
+			User user = userService.createUser(userInfo);
+			roomService.addUserToRoom(user, userInfo.getRoomId());
 		}
 		catch (NoSuchRoomException e)
 		{
