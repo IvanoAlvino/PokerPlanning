@@ -1,4 +1,4 @@
-interface RoomRequest
+export interface RoomRequest
 {
 	moderatorUsername: string;
 }

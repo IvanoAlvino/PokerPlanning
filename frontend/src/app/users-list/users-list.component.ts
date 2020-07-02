@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {UserEstimate} from "../services/room/domain/RoomStatus";
 
 @Component({
 	selector: 'users-list',

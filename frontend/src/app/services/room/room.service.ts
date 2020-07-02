@@ -1,6 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApiError, ErrorResponse} from "./domain/error/ApiError";
+import {RoomRequest} from "./domain/RoomRequest";
+import {UserSessionOpenResponse} from "./domain/UserSessionOpenResponse";
+import {VoteRequest} from "./domain/VoteRequest";
+import {RoomStatus} from "./domain/RoomStatus";
 
 @Injectable({
 	providedIn: 'root'

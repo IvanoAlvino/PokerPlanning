@@ -1,4 +1,4 @@
-interface CreateUserRequest
+export interface CreateUserRequest
 {
 	name: string;
 	roomId: string;

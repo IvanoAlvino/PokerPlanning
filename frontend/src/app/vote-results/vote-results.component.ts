@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Label} from "ng2-charts";
 import {ChartConfiguration} from "./domain/ChartConfiguration";
+import {UserEstimate} from "../services/room/domain/RoomStatus";
 
 @Component({
 	selector: 'vote-results',

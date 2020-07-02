@@ -1,4 +1,4 @@
-interface RoomStatus
+export interface RoomStatus
 {
 	/**
 	 * The list of all estimates for all users.
@@ -21,7 +21,7 @@ interface RoomStatus
 	userId: string;
 }
 
-interface UserEstimate
+export interface UserEstimate
 {
 	/**
 	 * The name of the user.

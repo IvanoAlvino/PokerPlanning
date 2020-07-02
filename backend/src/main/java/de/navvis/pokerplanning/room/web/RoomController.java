@@ -67,7 +67,7 @@ public class RoomController
 		}
 	}
 
-	@PostMapping
+	@PostMapping("/moderator")
 	public void changeRoomModerator(@RequestBody ChangeModeratorRequest request)
 	{
 		try

@@ -1,4 +1,4 @@
-interface UserSessionOpenResponse
+export interface UserSessionOpenResponse
 {
 	userSessionOpen: boolean;
 }

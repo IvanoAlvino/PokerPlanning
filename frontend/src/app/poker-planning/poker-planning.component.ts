@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RoomService} from "../services/room/room.service";
 import {UserService} from "../services/user/user.service";
+import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
 
 @Component({
 	selector: 'poker-planning',
