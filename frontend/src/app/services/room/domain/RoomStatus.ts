@@ -16,7 +16,7 @@ export interface RoomStatus
 	moderatorId: string;
 
 	/**
-	 * The name of the user connected to the room.
+	 * The id of the user connected to the room.
 	 */
 	userId: string;
 }

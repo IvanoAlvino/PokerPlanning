@@ -15,6 +15,18 @@ export class UsersListComponent
 	public userList: UserEstimate[];
 
 	/**
+	 * Whether the currently logged in user is the room moderator.
+	 */
+	@Input()
+	public isModerator: boolean;
+
+	/**
+	 * The id of the currently logged in user.
+	 */
+	@Input()
+	public userId: string;
+
+	/**
 	 * Whether the voting phase is currently ongoing.
 	 */
 	@Input()

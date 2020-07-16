@@ -1,4 +1,8 @@
-<div [class.voted]="user.voted" [class.not-voted]="!user.voted">
+<div class="flex-container" [class.voted]="user.voted" [class.not-voted]="!user.voted">
+	<div *ngIf="isModerator && user.userId !== userId"
+	     (click)="changeModerator(user.userId)"
+		 class="icon star">
+	</div>
 	{{user.username}}
 	<span *ngIf="!isVotingOngoing && user.voted">
 		{{user.estimate}}

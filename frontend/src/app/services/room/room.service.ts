@@ -5,6 +5,7 @@ import {RoomRequest} from "./domain/RoomRequest";
 import {UserSessionOpenResponse} from "./domain/UserSessionOpenResponse";
 import {VoteRequest} from "./domain/VoteRequest";
 import {RoomStatus} from "./domain/RoomStatus";
+import {ChangeModeratorRequest} from "./domain/ChangeModeratorRequest";
 
 @Injectable({
 	providedIn: 'root'
@@ -12,6 +13,8 @@ import {RoomStatus} from "./domain/RoomStatus";
 export class RoomService
 {
 	private readonly roomUrl: string = '/api/room';
+
+	private readonly changeModeratorUrl: string = '/api/room/moderator';
 
 	private readonly voteUrl: string = '/api/votes';
 
@@ -127,6 +130,28 @@ export class RoomService
 		{
 			const url = `${this.updatesUrl}/${this.roomId}`;
 			return await this.http.get<RoomStatus>(url).toPromise();
+		}
+		catch (e)
+		{
+			this.handleApiError(e);
+		}
+	}
+
+	/**
+	 * Change the room moderator to be the user with the provided newModeratorId
+	 * Only admins can call this method, otherwise the backend request will fail
+	 * @param newModeratorId The id of the user who will become room moderator
+	 */
+	public async changeModerator(newModeratorId): Promise<void>
+	{
+		try
+		{
+			const url = this.changeModeratorUrl;
+			const changeModeratorRequest: ChangeModeratorRequest = {
+				newModeratorId: newModeratorId,
+				roomId: this.roomId
+			}
+			return await this.http.post<void>(url, changeModeratorRequest).toPromise();
 		}
 		catch (e)
 		{

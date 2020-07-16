@@ -5,3 +5,43 @@
 .not-voted {
 	color: red;
 }
+
+.flex-container {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.star {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACKEl\
+	EQVRIS7XVS6hPURQG8N9FiJAoJdfMK89SCIWQMvAoeZSJRzJRMiQzzDxCSZGBCCUMDDzKI4qJQiQmXimFQuSRR6vW0bl/93/\
+	PucWa7NPa61vfWvusb+8W/9laOpG/G26iN8bjRx1sZwhW4mgmje9j/5KgKx5gRCZ9hDF1uqjbwQocx/MkGIrwnajqog5BVH8\
+	fo7AGgTmEhxiLnx2R1CFYlpU+w7AkeILoIvZOdYagCwZjeCaLdVMmWI+Dpe8D+b0LjxGksb4qd1V0sB2b8Q3d26kogOPwNfd\
+	64F4W0hhe5NiBLQXBCwzJyPc5MUVFkfwSwl+2fpibJEXHoxH+sJdoLQim4UZunMXyUrVVg1LsR1cnsTAd00OY5Z88GReygvN\
+	Ygi81s/fEaczPTufhdmAbp2hiHkd/XMRifK4g6YXoOo7rXa53Ckx7Yxr3zGUMTGCQdGRnsAhvMAd3y8HNdDADV/ERfSsIPqA\
+	PAnO9MbYZwUxcyXOcUkEQZz0JgblWl2AD9uIw1pZAIcLQydOSL2JWIzD76xKEYtelindjUIgmk0SOfQhxvs6YnanyUHsba3Z\
+	E8bBMxVJMwEbEtJTtE/akomP+AxOzX0kQpCH3eMHKdg5b07ENCxr2vyPE9qtqilpL937Exs+Oe+pWQ8L4+XHfzCr544aNa+e\
+	PtXdEAxAvVqh4VWqi2SAFfjaOINQ8Em+rCGI/gG1abcbQUOxfmDoPTo3czUN+AwHnaxnO8+HiAAAAAElFTkSuQmCC");
+
+	&:hover {
+		background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAA\
+		Cv0lEQVRIS7WVT0gUURzHf++9ndG1cHbXNXUtczdXjPDUrVDMoEDoaELkRYKIkECIkGhtywJBKMJDl+giFXarQ0ERrIf\
+		oEB1ECP/tWrK6Lqu7o7bqzLz3Yha2dnTVp9a7DfP7fT/v++Y334fgPy+0G331c/F5ThF1NKgfRfuEAXwUZDWhzHCMqIO\
+		mqtAZMEQgwoBUyHkVEfbUFEUG6ShuWnz+zwD8K0ipFccstnG3KcoMNO+IpyrRRaA7QYQcLIVcHZzQZxYxxtuVxqXBfQP\
+		4EJDUIUcU23hZrhjXIao0qVUIAdsOssmBKahWKEcR8FrAUAsUnQIMbXlFOLwEzL8AgjGuo3FlXv258dj+ANRh5RXDqB4\
+		Yr8EY5J2s53vPANYx8ElAaEQ5rV7KDES2cGGodNzm0fx7Ed7Yo89JY+7WRJ0FMNfjfSL5051S9dq+GPq0HbSJokeeYLj\
+		LAuAAKHbX1y/5VrskX3pPEG3SDjRS1FcWDHcjAG4BmA8mZDbgDcretTuyf3cQbfwAGNP2QPm9qd6s+CZAdtuzAV+37E8\
+		/lLyrQk70cBHoE4U3K+5H+jc2bPmjLQyVhmwerVGEoEcLPrnb4mfz1W4JSL4pGcEuo14EQJfwN1dL8uTuAB+cKWxnihA\
+		gjRdd55IlwoBMuP1yrGPCLQ5p0pbRIE5rUjOKmGM+JecLv7xHtBJy1lPCRrI7YsvEnG0wEvIwQoCIW2swpwwf/BumSGN\
+		1xc3LY0IfOfnWdQM76WO+hjPCWtQ2Sgi5VR4MvzMFYgFfC+OsT6rUT8g1aUCFDGhSuua6kMjcF7krr4P4wJHrSGYDRpT\
+		McE5uV3yPvECvrdnPW4HEjh+7DNjoJR7jMFu3XSnv/GGN9NwsyqXGevw+yoxmDfNBb3B62+yI9FQXFnDUzil+X/lgakb\
+		IgcjkiNYI3WiiYvnqfgNerAkotdzh2AAAAABJRU5ErkJggg==");
+	}
+}
+
+.icon {
+	width: 24px;
+	height: 24px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	margin-right: 2px;
+}

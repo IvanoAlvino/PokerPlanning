@@ -1,6 +1,9 @@
 <div class="user-list">
 	<h3>User List</h3>
 	<span *ngFor="let user of userList">
-		<user [user]="user" [isVotingOngoing]="isVotingOngoing"></user>
+		<user [user]="user"
+		      [isVotingOngoing]="isVotingOngoing"
+		      [userId]="userId"
+			  [isModerator]="isModerator"></user>
 	</span>
 </div>
