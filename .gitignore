@@ -8,3 +8,5 @@ out/
 *.ipr
 *.iws
 .DS_Store
+/backend/docker/
+/backend/root/
