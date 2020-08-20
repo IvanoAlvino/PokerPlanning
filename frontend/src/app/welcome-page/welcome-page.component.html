@@ -1,10 +1,11 @@
 <form class="name-form">
 	<mat-form-field>
 		<mat-label>Insert your name</mat-label>
-		<textarea matInput placeholder="Ex. Tamino, Mutamino, ..." name="username"
+		<textarea matInput placeholder="Ex. Lisa, Lisa or Lisa" name="username"
 		          #nameInput="matInput" #name="ngModel"
+		          (keydown.enter)="onlyJoining ? joinPlanning() : createNewRoom()"
 		          [(ngModel)]="username" required minlength="3">
-			</textarea>
+		</textarea>
 	</mat-form-field>
 </form>
 

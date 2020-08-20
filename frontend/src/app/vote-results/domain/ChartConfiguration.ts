@@ -45,6 +45,7 @@ export class ChartConfiguration
 			xAxes: [{
 				scaleLabel: {
 					labelString: "Estimate",
+					fontStyle: "italic",
 					display: true,
 					fontSize: 18,
 				},
@@ -55,6 +56,7 @@ export class ChartConfiguration
 			}], yAxes: [{
 				scaleLabel: {
 					labelString: "Number of votes",
+					fontStyle: "italic",
 					display: true,
 					fontSize: 18
 				},

@@ -39,7 +39,7 @@ export class VoteResultsComponent
 	public chartOptions: ChartOptions = ChartConfiguration.CHART_OPTIONS;
 
 	/**
-	 * The labels to use for th x-axis in the chart.
+	 * The labels to use for the x-axis in the chart.
 	 */
 	public chartXAxisLabels: Label[] = [];
 
@@ -129,6 +129,12 @@ export class VoteResultsComponent
 	{
 		let precisionFactor = 1 / this.ROUNDING_PRECISION;
 		let averageEstimate = estimatesSum / totalEstimates;
+
+		if (estimatesSum == 0 || totalEstimates == 0)
+		{
+			this.averageEstimate = 0;
+			return;
+		}
 		this.averageEstimate = Math.round(averageEstimate * precisionFactor) / precisionFactor;
 	}
 
