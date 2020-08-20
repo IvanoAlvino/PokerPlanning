@@ -70,4 +70,17 @@ export class WelcomePageComponent implements OnInit, AfterViewInit
 			.then(() => {})
 			.catch(() => console.log("Not possible to navigate to /poker"));
 	}
+
+	/**
+	 * Handle the enter key depending on whether the user is creating or joining a room.
+	 */
+	public handleEnterKey(): void
+	{
+		if (this.onlyJoining) {
+			this.joinPlanning().catch(() => {});
+		}
+		else {
+			this.createNewRoom().catch(() => {});
+		}
+	}
 }

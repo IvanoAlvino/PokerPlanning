@@ -3,7 +3,7 @@
 		<mat-label>Insert your name</mat-label>
 		<textarea matInput placeholder="Ex. Lisa, Lisa or Lisa" name="username"
 		          #nameInput="matInput" #name="ngModel"
-		          (keydown.enter)="onlyJoining ? joinPlanning() : createNewRoom()"
+		          (keydown.enter)="handleEnterKey()"
 		          [(ngModel)]="username" required minlength="3">
 		</textarea>
 	</mat-form-field>
