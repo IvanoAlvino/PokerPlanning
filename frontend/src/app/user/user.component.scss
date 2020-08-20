@@ -41,7 +41,17 @@
 .icon {
 	width: 24px;
 	height: 24px;
+	min-width: 24px;
 	background-repeat: no-repeat;
 	display: inline-block;
 	margin-right: 2px;
+}
+
+.info {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.vote {
+	min-width: 35px;
 }
