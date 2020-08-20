@@ -39,7 +39,7 @@ public class Room
 	/**
 	 * Whether votes in this room are currently active.
 	 */
-	private boolean isVotingPhase = false;
+	private boolean isVotingPhase = true;
 
 	/**
 	 * Add the given user to the room.
