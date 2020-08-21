@@ -53,7 +53,8 @@ export class ChartConfiguration
 					beginAtZero: true,
 					fontSize: 24
 				}
-			}], yAxes: [{
+			}],
+			yAxes: [{
 				scaleLabel: {
 					labelString: "Number of votes",
 					fontStyle: "italic",
