@@ -10,7 +10,7 @@
 	<cards-list class="w-75" *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
 	</cards-list>
 
-	<vote-results *ngIf="lastMeaningfulUpdate && !isVoteOngoing"
+	<vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
 	              [estimates]="lastMeaningfulUpdate.estimates"
 	              class="w-50">
 	</vote-results>

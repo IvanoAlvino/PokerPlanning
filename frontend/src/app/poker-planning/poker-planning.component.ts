@@ -72,9 +72,9 @@ export class PokerPlanningComponent implements OnInit
 	 * Fetch room updates and update {@link lastMeaningfulUpdate} only if the newly received data
 	 * has some changes with respect to the previous data.
 	 */
-	private fetchUpdates(): void
+	private async fetchUpdates(): Promise<void>
 	{
-		this.RoomService.fetchUpdates()
+		await this.RoomService.fetchUpdates()
 			.then((update) =>
 			{
 				// Avoid triggering all template re-renders if there are no changes
@@ -128,8 +128,9 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	public finishVoting(): void
 	{
-		this.isVoteOngoing = false;
 		this.RoomService.finishVoting()
+			.then(() => this.fetchUpdates())
+			.then(() => this.isVoteOngoing = false)
 			.catch((error) => console.log("Error while finish voting", error));
 	}
 
