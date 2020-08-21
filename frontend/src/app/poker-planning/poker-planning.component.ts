@@ -117,9 +117,10 @@ export class PokerPlanningComponent implements OnInit
 		// Set local state accordingly without waiting on the request from the server to make the
 		// UI snappier
 		this.getCurrentUserFromLastMeaningfulUpdate().voted = false;
-		this.isVoteOngoing = true;
 
 		this.RoomService.startVoting()
+			.then(() => this.fetchUpdates())
+			.then(() => this.isVoteOngoing = true)
 			.catch((error) => console.log("Error while starting voting", error));
 	}
 

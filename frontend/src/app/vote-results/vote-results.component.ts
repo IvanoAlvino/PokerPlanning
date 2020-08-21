@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, Input, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
-import {BaseChartDirective, Label, ThemeService} from "ng2-charts";
+import {Label} from "ng2-charts";
 import {ChartConfiguration} from "./domain/ChartConfiguration";
 import {UserEstimate} from "../services/room/domain/RoomStatus";
 
@@ -54,25 +54,11 @@ export class VoteResultsComponent
 	public averageEstimate: number;
 
 	/**
-	 * Reference to the chart object, useful to call methods on it.
-	 */
-	@ViewChild('myChart')
-	public myChart: BaseChartDirective;
-
-	/**
 	 * The precision used to round the {@link averageEstimate}.
 	 * A value of 0.1 means the average will be rounded to decimals e.g. 7.1
 	 * A value of 0.01 means the average will be rounded to cents e.g. 7.13
 	 */
 	private ROUNDING_PRECISION: number = 0.1;
-
-	/**
-	 * Integer number that represents the extra buffer that will appear in the chart on the y axis
-	 * on top of the maximum value already present in the graph.
-	 * This will avoid the graph representing e.g. a max value of 5 on the y axis where the chart
-	 * itself has a scale up to 5, which looks a bit bad in terms of UI
-	 */
-	private readonly Y_SCALE_MAX_OVERHEAD = 2;
 
 	/**
 	 * Calculate the chart data and the {@link averageEstimate} so to display this information
@@ -107,7 +93,6 @@ export class VoteResultsComponent
 
 		this.calculateAverageEstimate(estimatesSum, totalEstimates);
 		this.calculateEstimatesChartData(uniqueEstimates, estimatesOccurrences);
-		this.setCorrectYMaxScale(estimatesOccurrences);
 	}
 
 	/**
@@ -181,42 +166,5 @@ export class VoteResultsComponent
 		uniqueEstimates: string[]): number[]
 	{
 		return uniqueEstimates.map((estimate) => estimatesOccurrences.get(estimate));
-	}
-
-	/**
-	 * Set the maximum value of the Y scale, based on the maximum value that should be represented
-	 * plus a small buffer determined by {@link Y_SCALE_MAX_OVERHEAD}
-	 * @param estimatesOccurrences The estimates occurrence array needed to determenine the max
-	 * value on the y axis
-	 */
-	private setCorrectYMaxScale(estimatesOccurrences: Map<string, number>): void
-	{
-		let maxOccurrence = 0;
-		for (const occurrence of estimatesOccurrences.values())
-		{
-			if (occurrence > maxOccurrence)
-			{
-				maxOccurrence = occurrence;
-			}
-		}
-
-		this.updateYScaleMax(maxOccurrence);
-	}
-
-	/**
-	 * Update the chart by replacing the part of the object and retriggering the chart update.
-	 * @param maxOccurrence The maxOccurrence value used to determine the max y scale value
-	 */
-	private updateYScaleMax(maxOccurrence: number): void
-	{
-		let chartOptionsClone = JSON.parse(JSON.stringify(this.chartOptions));
-		// Assign the new y scale max value
-		chartOptionsClone.scales.yAxes[0].ticks.max = maxOccurrence + this.Y_SCALE_MAX_OVERHEAD;
-		// Reassign the callback that was not cloned (functions are not cloned)
-		chartOptionsClone.scales.yAxes[0].ticks.callback =
-			(value: number) => value % 1 === 0 ? value : undefined;
-
-		this.chartOptions = chartOptionsClone;
-		this.myChart.update();
 	}
 }
