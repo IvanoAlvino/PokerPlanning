@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, TemplateRef, ViewChild} from '@angular/core';
 import {UserEstimate} from "../services/room/domain/RoomStatus";
 import {RoomService} from "../services/room/room.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
 	selector: 'user',
@@ -33,13 +34,39 @@ export class UserComponent
 	@Input()
 	public userId: string;
 
-	constructor(private RoomService: RoomService)
+	@ViewChild('modal')
+	public changeModeratorModal: TemplateRef<any>
+
+	public newProposedModeratorUsername: string;
+
+	constructor(private RoomService: RoomService,
+				private dialog: MatDialog)
 	{
 	}
 
-	public changeModerator(newModeratorId: string): void
+	/**
+	 * Open a modal to ask for confirmation on the operation, and then change the room moderator
+	 * if the user confirms.
+	 * @param newProposedRoomModerator The user that might become moderator
+	 */
+	public changeModerator(newProposedRoomModerator: UserEstimate): void
 	{
-		this.RoomService.changeModerator(newModeratorId)
-			.catch((error) => console.log("Impossible to change moderator", error));
+		// Prepare data for the modal
+		this.newProposedModeratorUsername = newProposedRoomModerator.username;
+
+		this.dialog.open(this.changeModeratorModal, {
+				position: {
+					top: "10%"
+				}
+			})
+			.afterClosed()
+			.subscribe((result) =>
+			{
+				if (result === true)
+				{
+					this.RoomService.changeModerator(newProposedRoomModerator.userId)
+						.catch((error) => console.log("Impossible to change moderator", error));
+				}
+			});
 	}
 }
