@@ -105,7 +105,7 @@ export class VoteResultsComponent
 		estimatesOccurrences: Map<string, number>): void
 	{
 		let sortedUniqueEstimates = [...uniqueEstimates]
-			.map((estimate) => parseInt(estimate))
+			.map((estimate) => parseFloat(estimate))
 			.sort((first, second) => first - second)
 			.map((estimate) => estimate.toString());
 		this.chartXAxisLabels = sortedUniqueEstimates;
