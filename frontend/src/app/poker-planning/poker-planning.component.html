@@ -1,7 +1,7 @@
 <div class="d-flex">
 	<users-list *ngIf="lastMeaningfulUpdate"
 	            [userList]="lastMeaningfulUpdate.estimates"
-	            [isModerator]="isModerator()"
+	            [moderatorId]="lastMeaningfulUpdate.moderatorId"
 	            [userId]="lastMeaningfulUpdate.userId"
 	            [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing"
 	            class="w-25 pr-5">

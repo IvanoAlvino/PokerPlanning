@@ -14,7 +14,7 @@ export class UserComponent
 	 * The user object to display.
 	 */
 	@Input()
-	public user: UserEstimate;
+	public userToDisplay: UserEstimate;
 
 	/**
 	 * Whether the voting phase is currently ongoing.
@@ -23,16 +23,16 @@ export class UserComponent
 	public isVotingOngoing: boolean;
 
 	/**
-	 * Whether the currently logged in user is the room moderator.
+	 * The id of the current room moderator.
 	 */
 	@Input()
-	public isModerator: boolean;
+	public moderatorId: string;
 
 	/**
 	 * The id of the currently logged in user.
 	 */
 	@Input()
-	public userId: string;
+	public currentlyLoggedUserId: string;
 
 	@ViewChild('modal')
 	public changeModeratorModal: TemplateRef<any>

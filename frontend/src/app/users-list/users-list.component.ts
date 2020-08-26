@@ -25,10 +25,10 @@ export class UsersListComponent
 	}
 
 	/**
-	 * Whether the currently logged in user is the room moderator.
+	 * The id of the current room moderator.
 	 */
 	@Input()
-	public isModerator: boolean;
+	public moderatorId: string;
 
 	/**
 	 * The id of the currently logged in user.
