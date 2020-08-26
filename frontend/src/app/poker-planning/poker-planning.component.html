@@ -4,7 +4,7 @@
 	            [isModerator]="isModerator()"
 	            [userId]="lastMeaningfulUpdate.userId"
 	            [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing"
-	            class="w-25">
+	            class="w-25 pr-5">
 	</users-list>
 
 	<cards-list class="w-75" *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
