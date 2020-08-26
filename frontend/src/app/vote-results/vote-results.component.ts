@@ -84,7 +84,7 @@ export class VoteResultsComponent
 
 			// Update data used for average estimate calculation
 			totalEstimates++;
-			estimatesSum += parseInt(result.estimate);
+			estimatesSum += parseFloat(result.estimate);
 
 			// Update data that will be displayed in the chart
 			uniqueEstimates.add(result.estimate.toString());
