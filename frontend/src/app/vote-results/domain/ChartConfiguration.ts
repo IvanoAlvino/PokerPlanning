@@ -40,6 +40,9 @@ export class ChartConfiguration
 	 * The configuration object for the entire chart.
 	 */
 	public static CHART_OPTIONS: ChartOptions = {
+		animation: {
+			duration: 0
+		},
 		responsive: true,
 		scales: {
 			xAxes: [{
