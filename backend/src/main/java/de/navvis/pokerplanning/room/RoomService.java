@@ -92,7 +92,14 @@ public class RoomService
 		{
 			throw new IllegalArgumentException();
 		}
-		getRoom(roomId).registerVote(userId, estimate);
+
+		Room room = getRoom(roomId);
+		if (!room.isVotingPhase())
+		{
+			return;
+		}
+
+		room.registerVote(userId, estimate);
 	}
 
 	/**
