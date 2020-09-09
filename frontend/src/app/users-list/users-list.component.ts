@@ -48,10 +48,19 @@ export class UsersListComponent
 	 */
 	public getSortedEstimatesDESC(estimates: UserEstimate[]): UserEstimate[]
 	{
-		// TODO if the user did not vote, make it last ('?' has precedence)
 		// Clone the array not to tamper with original data
 		const sortedEstimate = [...estimates];
 		return sortedEstimate.sort((firstEstimate, secondEstimate) => {
+			if (firstEstimate.estimate === "?" && !secondEstimate.estimate)
+			{
+				return -1;
+			}
+
+			if (secondEstimate.estimate === "?" && !firstEstimate.estimate)
+			{
+				return 1;
+			}
+
 			if (firstEstimate.estimate === "?" || !firstEstimate.estimate)
 			{
 				return 1;
