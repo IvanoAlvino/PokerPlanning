@@ -1,6 +1,7 @@
 package de.navvis.pokerplanning.room;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
+@Log4j2
 public class RoomService
 {
 	/**
@@ -26,7 +28,8 @@ public class RoomService
 
 	/**
 	 * The map of all rooms.
-	 * // TODO clean this array periodically, otherwise it will only grow bigger and bigger
+	 * This array is cleaned everytime a new user tries to join any room, and at that point
+	 * every room which is older than {@link #ROOM_HOURS_TTL} will be deleted from memory.
 	 */
 	private static final Map<UUID, Room> rooms = new HashMap<>();
 
@@ -90,7 +93,7 @@ public class RoomService
 	{
 		if (estimate != null && !ALLOWED_ESTIMATES.contains(estimate))
 		{
-			// TODO log here what happened
+			log.info("Impossible to vote: roomId {}, userId {}, estimate {}", roomId, userId, estimate);
 			throw new IllegalArgumentException();
 		}
 
