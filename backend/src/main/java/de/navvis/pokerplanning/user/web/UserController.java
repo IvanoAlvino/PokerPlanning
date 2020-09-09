@@ -5,6 +5,7 @@ import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.web.exception.UserAlreadyExistsException;
 import de.navvis.pokerplanning.user.UserService;
 import de.navvis.pokerplanning.user.web.domain.User;
+import de.navvis.pokerplanning.user.web.exception.UnsafeUsernameException;
 import de.navvis.pokerplanning.user.web.rest.CreateUserRequest;
 import de.navvis.pokerplanning.web.exception.ConflictException;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
@@ -39,7 +40,7 @@ public class UserController
 		{
 			throw new NotFoundException();
 		}
-		catch (UserAlreadyExistsException e)
+		catch (UserAlreadyExistsException | UnsafeUsernameException e)
 		{
 			throw new ConflictException();
 		}

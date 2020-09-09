@@ -14,6 +14,7 @@ import de.navvis.pokerplanning.room.web.rest.CreateRoomResponse;
 import de.navvis.pokerplanning.room.web.rest.UserSessionOpenResponse;
 import de.navvis.pokerplanning.user.UserService;
 import de.navvis.pokerplanning.user.web.domain.User;
+import de.navvis.pokerplanning.user.web.exception.UnsafeUsernameException;
 import de.navvis.pokerplanning.web.exception.ConflictException;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
@@ -34,9 +35,9 @@ public class RoomController
 	public CreateRoomResponse createRoom(@RequestBody CreateRoomRequest request)
 	{
 		UUID roomId = roomService.createRoom().getId();
-		User user = userService.createUser(request.getModeratorUsername(), roomId);
 		try
 		{
+			User user = userService.createUser(request.getModeratorUsername(), roomId);
 			roomService.addUserToRoom(user, roomId);
 			roomService.setModeratorForRoom(user.getId(), roomId);
 		}
@@ -44,7 +45,7 @@ public class RoomController
 		{
 			throw new NotFoundException();
 		}
-		catch (UserAlreadyExistsException e)
+		catch (UserAlreadyExistsException | UnsafeUsernameException e)
 		{
 			throw new ConflictException();
 		}

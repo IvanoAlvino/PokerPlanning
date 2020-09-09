@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {RoomService} from "../services/room/room.service";
 import {MatInput} from "@angular/material/input";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user/user.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
 	selector: 'welcome-page',
@@ -25,9 +26,13 @@ export class WelcomePageComponent implements OnInit, AfterViewInit
 	@ViewChild('nameInput', {static: true})
 	private usernameInput: MatInput;
 
+	@ViewChild('unsafeUsernameModal')
+	public unsafeUsernameModal: TemplateRef<any>
+
 	constructor(private RoomService: RoomService,
-		private UserService: UserService,
-		private router: Router)
+				private UserService: UserService,
+				private router: Router,
+				private dialog: MatDialog)
 	{
 	}
 
@@ -48,7 +53,15 @@ export class WelcomePageComponent implements OnInit, AfterViewInit
 	 */
 	public async createNewRoom(): Promise<void>
 	{
-		await this.RoomService.createRoom(this.username);
+		try
+		{
+			await this.RoomService.createRoom(this.username);
+		}
+		catch
+		{
+			this.displayUnsafeUsernameModal();
+			return;
+		}
 		this.navigateToPokerPlanningPage();
 	}
 
@@ -57,8 +70,29 @@ export class WelcomePageComponent implements OnInit, AfterViewInit
 	 */
 	public async joinPlanning(): Promise<void>
 	{
-		await this.UserService.createUser(this.username, this.RoomService.roomId)
+		try
+		{
+			await this.UserService.createUser(this.username, this.RoomService.roomId)
+		}
+		catch
+		{
+			this.displayUnsafeUsernameModal();
+			return;
+		}
 		this.navigateToPokerPlanningPage();
+	}
+
+	/**
+	 * Show the modal that warns the user the username he selected contains unsafe chars.
+	 * @private
+	 */
+	private displayUnsafeUsernameModal(): void
+	{
+		this.dialog.open(this.unsafeUsernameModal, {
+			position: {
+				top: "10%"
+			}
+		});
 	}
 
 	/**
