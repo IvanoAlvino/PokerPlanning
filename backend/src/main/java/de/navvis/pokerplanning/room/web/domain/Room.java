@@ -11,14 +11,14 @@ import de.navvis.pokerplanning.user.web.domain.User;
 public class Room
 {
 	/**
-	 * The room's creation time.
-	 */
-	private final long creationTime = System.currentTimeMillis();
-
-	/**
 	 * The id of the room.
 	 */
 	private final UUID id = UUID.randomUUID();
+
+	/**
+	 * The room's creation time.
+	 */
+	private final long creationTime = System.currentTimeMillis();
 
 	/**
 	 * The list of users registered to the room.

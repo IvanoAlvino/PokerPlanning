@@ -12,7 +12,6 @@ import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
 import de.navvis.pokerplanning.room.web.exception.UserAlreadyExistsException;
 import de.navvis.pokerplanning.user.web.domain.User;
 
-import static de.navvis.pokerplanning.web.domain.AttributeName.USER_ID;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
@@ -27,6 +26,7 @@ public class RoomService
 
 	/**
 	 * The map of all rooms.
+	 * // TODO clean this array periodically, otherwise it will only grow bigger and bigger
 	 */
 	private static final Map<UUID, Room> rooms = new HashMap<>();
 
@@ -90,6 +90,7 @@ public class RoomService
 	{
 		if (estimate != null && !ALLOWED_ESTIMATES.contains(estimate))
 		{
+			// TODO log here what happened
 			throw new IllegalArgumentException();
 		}
 
@@ -138,8 +139,8 @@ public class RoomService
 	 */
 	private void enforceModeratorRights(Room room) throws IllegalAccessException
 	{
-		UUID userId = sessionService.safelyGetAttribute(USER_ID, UUID.class);
-		if (!room.isModerator(userId))
+		User user = sessionService.getUserForRoom(room.getId());
+		if (user == null || !room.isModerator(user.getId()))
 		{
 			throw new IllegalAccessException();
 		}

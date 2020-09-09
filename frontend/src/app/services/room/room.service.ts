@@ -6,6 +6,7 @@ import {UserSessionOpenResponse} from "./domain/UserSessionOpenResponse";
 import {VoteRequest} from "./domain/VoteRequest";
 import {RoomStatus} from "./domain/RoomStatus";
 import {ChangeModeratorRequest} from "./domain/ChangeModeratorRequest";
+import {ChangeRoomVotingStatusRequest} from "./domain/ChangeRoomVotingStatusRequest";
 
 @Injectable({
 	providedIn: 'root'
@@ -98,7 +99,10 @@ export class RoomService
 	{
 		try
 		{
-			await this.http.post(this.startVotingUrl, undefined).toPromise();
+			const changeRoomVotingStatusRequest: ChangeRoomVotingStatusRequest = {
+				roomId: this.roomId
+			}
+			await this.http.post(this.startVotingUrl, changeRoomVotingStatusRequest).toPromise();
 		}
 		catch (e)
 		{
@@ -113,7 +117,10 @@ export class RoomService
 	{
 		try
 		{
-			await this.http.post(this.finishVotingUrl, undefined).toPromise();
+			const changeRoomVotingStatusRequest: ChangeRoomVotingStatusRequest = {
+				roomId: this.roomId
+			}
+			await this.http.post(this.finishVotingUrl, changeRoomVotingStatusRequest).toPromise();
 		}
 		catch (e)
 		{

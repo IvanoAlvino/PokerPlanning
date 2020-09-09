@@ -159,6 +159,8 @@ export class PokerPlanningComponent implements OnInit
 	public flipVotedStateForCurrentUser(): void
 	{
 		let currentUser = this.getCurrentUserFromLastMeaningfulUpdate();
+		// TODO here currentUser CAN be undefined
+		// try to reproduce having a user name Robert <script>alert("hi");</script>
 		currentUser.voted = !currentUser.voted;
 	}
 
@@ -168,6 +170,8 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	private getCurrentUserFromLastMeaningfulUpdate(): UserEstimate
 	{
+		// TODO check here if lastMeaningfulUpdate can be undefined or return no user
+		// Maybe to reproduce, with user TEST do not vote at the first round, than on second round try to flip the card
 		return this.lastMeaningfulUpdate
 			.estimates
 			.find((estimate) => estimate.userId === this.lastMeaningfulUpdate.userId);

@@ -167,4 +167,6 @@ export class VoteResultsComponent
 	{
 		return uniqueEstimates.map((estimate) => estimatesOccurrences.get(estimate));
 	}
+
+	// TODO add confetti when everybody votes with the same vote (https://jsfiddle.net/dtrooper/AceJJ/)
 }

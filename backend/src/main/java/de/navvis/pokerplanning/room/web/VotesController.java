@@ -9,11 +9,11 @@ import de.navvis.pokerplanning.core.SessionService;
 import de.navvis.pokerplanning.room.RoomService;
 import de.navvis.pokerplanning.room.web.domain.UserEstimate;
 import de.navvis.pokerplanning.room.web.exception.NoSuchRoomException;
+import de.navvis.pokerplanning.room.web.rest.ChangeRoomVotingStatusRequest;
 import de.navvis.pokerplanning.room.web.rest.RoomStatus;
 import de.navvis.pokerplanning.room.web.rest.VoteRequest;
+import de.navvis.pokerplanning.user.web.domain.User;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
-
-import static de.navvis.pokerplanning.web.domain.AttributeName.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,11 +27,10 @@ public class VotesController
 	@PostMapping("/api/votes")
 	public void vote(@RequestBody VoteRequest request)
 	{
-		UUID userId = sessionService.safelyGetAttribute(USER_ID, UUID.class);
-		UUID roomId = request.getRoomId();
+		User user = sessionService.getUserForRoom(request.getRoomId());
 		try
 		{
-			roomService.vote(roomId, userId, request.getEstimate());
+			roomService.vote(request.getRoomId(), user.getId(), request.getEstimate());
 		}
 		catch (NoSuchRoomException e)
 		{
@@ -40,9 +39,9 @@ public class VotesController
 	}
 
 	@PostMapping("/api/startVoting")
-	public void startVoting()
+	public void startVoting(@RequestBody ChangeRoomVotingStatusRequest request)
 	{
-		UUID roomId = sessionService.safelyGetAttribute(ROOM_ID, UUID.class);
+		UUID roomId = request.getRoomId();
 		try
 		{
 			roomService.startVoting(roomId);
@@ -54,9 +53,9 @@ public class VotesController
 	}
 
 	@PostMapping("/api/finishVoting")
-	public void finishVoting()
+	public void finishVoting(@RequestBody ChangeRoomVotingStatusRequest request)
 	{
-		var roomId = sessionService.safelyGetAttribute(ROOM_ID, UUID.class);
+		UUID roomId = request.getRoomId();
 		try
 		{
 			roomService.finishVoting(roomId);
@@ -75,8 +74,8 @@ public class VotesController
 			List<UserEstimate> roomStatus = roomService.getStatus(roomId);
 			boolean isVotingOngoing = roomService.isVotingOngoing(roomId);
 			UUID moderatorId = roomService.getModeratorUsername(roomId);
-			UUID userId = sessionService.safelyGetAttribute(USER_ID, UUID.class);
-			return new RoomStatus(roomStatus, isVotingOngoing, moderatorId, userId);
+			User user = sessionService.getUserForRoom(roomId);
+			return new RoomStatus(roomStatus, isVotingOngoing, moderatorId, user.getId());
 		}
 		catch (NoSuchRoomException e)
 		{

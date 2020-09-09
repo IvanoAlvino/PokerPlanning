@@ -14,7 +14,6 @@ import de.navvis.pokerplanning.room.web.rest.CreateRoomResponse;
 import de.navvis.pokerplanning.room.web.rest.UserSessionOpenResponse;
 import de.navvis.pokerplanning.user.UserService;
 import de.navvis.pokerplanning.user.web.domain.User;
-import de.navvis.pokerplanning.web.domain.AttributeName;
 import de.navvis.pokerplanning.web.exception.ConflictException;
 import de.navvis.pokerplanning.web.exception.NotFoundException;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
@@ -53,13 +52,13 @@ public class RoomController
 	}
 
 	@GetMapping("/{roomId}")
-	public UserSessionOpenResponse isUserSessionOpen(@PathVariable UUID roomId)
+	public UserSessionOpenResponse isUserRegisteredInRoom(@PathVariable UUID roomId)
 	{
 		try
 		{
 			roomService.doesRoomExist(roomId);
-			boolean isUserSessionOpen = sessionService.getAttribute(AttributeName.USERNAME) != null;
-			return new UserSessionOpenResponse(isUserSessionOpen);
+			User user = sessionService.getUserForRoom(roomId);
+			return new UserSessionOpenResponse(user != null);
 		}
 		catch (NoSuchRoomException e)
 		{

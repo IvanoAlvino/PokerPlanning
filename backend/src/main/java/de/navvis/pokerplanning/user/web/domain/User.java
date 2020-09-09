@@ -9,9 +9,9 @@ import java.util.UUID;
 public class User
 {
 	/**
-	 * The name of the user;
+	 * The id of the user.
 	 */
-	private final String name;
+	private final UUID id = UUID.randomUUID();
 
 	/**
 	 * The room where the user is registered.
@@ -19,7 +19,7 @@ public class User
 	private final UUID roomId;
 
 	/**
-	 * The id of the user.
+	 * The name of the user;
 	 */
-	private final UUID id = UUID.randomUUID();
+	private final String name;
 }

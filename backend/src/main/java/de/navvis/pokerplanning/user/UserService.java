@@ -2,13 +2,11 @@ package de.navvis.pokerplanning.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 import de.navvis.pokerplanning.core.SessionService;
 import de.navvis.pokerplanning.user.web.domain.User;
 import de.navvis.pokerplanning.user.web.rest.CreateUserRequest;
-import de.navvis.pokerplanning.web.domain.AttributeName;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +21,7 @@ public class UserService
 	 */
 	public User createUser(CreateUserRequest userInfo)
 	{
+		// TODO sanitize name
 		return createUser(userInfo.getName(), userInfo.getRoomId());
 	}
 
@@ -33,10 +32,8 @@ public class UserService
 	 */
 	public User createUser(String username, UUID roomId)
 	{
-		User user = new User(username, roomId);
-		sessionService.setAttribute(AttributeName.USERNAME, username);
-		sessionService.setAttribute(AttributeName.USER_ID, user.getId());
-		sessionService.setAttribute(AttributeName.ROOM_ID, roomId);
+		User user = new User(roomId, username);
+		sessionService.updateRoomAndUserSessionObject(roomId, user);
 		return user;
 	}
 }
