@@ -27,7 +27,7 @@ public class VotesController
 	private final Boolean fun;
 
 	public VotesController(RoomService roomService,
-		SessionService sessionService, @Value("${instance.likes-fun}") Boolean fun)
+		SessionService sessionService, @Value("${instance.likes_fun}") Boolean fun)
 	{
 		this.roomService = roomService;
 		this.sessionService = sessionService;

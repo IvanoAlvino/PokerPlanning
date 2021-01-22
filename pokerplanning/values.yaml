@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 instance:
-  likes-fun: true
+  likes_fun: y
 
 replicaCount: 1
 
