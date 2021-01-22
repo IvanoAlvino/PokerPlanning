@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Label} from "ng2-charts";
 import {ChartConfiguration} from "./domain/ChartConfiguration";
-import {UserEstimate} from "../services/room/domain/RoomStatus";
+import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
 
 @Component({
 	selector: 'vote-results',
@@ -15,17 +15,32 @@ export class VoteResultsComponent
 	 * The list of estimates for all users.
 	 */
 	private _estimates: UserEstimate[];
+	private _estimateValues: Set<String>;
+	
+	private _fun: boolean;
 
 	@Input()
-	public set estimates(value: UserEstimate[])
+	public set roomStatus(value: RoomStatus)
 	{
-		this._estimates = value;
+		this._estimates = value ? value.estimates : [];
+		this._estimateValues = new Set(this._estimates.map((e) => e.estimate));
+		this._fun = value.fun;
 		this.displayEstimatesResult();
 	}
 
 	public get estimates(): UserEstimate[]
 	{
 		return this._estimates;
+	}
+
+	public get allEqual(): boolean
+	{
+		return  this._fun && this._estimateValues.size === 1;
+	}
+
+	public get noneEqual(): boolean
+	{
+		return this._fun && this._estimates.length > 1  && this._estimateValues.size === this._estimates.length;
 	}
 
 	/**

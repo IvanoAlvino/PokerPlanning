@@ -1,3 +1,29 @@
 .average {
 	font-size: 1.5em;
 }
+
+.kudos::before {
+		content: "";
+		position: fixed;
+		top: 0; 
+		left: 0;
+		bottom:0; 
+		right:0; 
+		background-image: url("/assets/kudos.gif");
+		background-size:100% 100%;
+		opacity: .95;
+		z-index: -200;
+}
+
+.shame::before {
+		content: "";
+		position: fixed;
+		top: 0; 
+		left: 0;
+		bottom:0; 
+		right:0; 
+		background-image: url("/assets/shame.gif");
+		background-size:100% 100%;
+		opacity: .95;
+		z-index: -200;
+}

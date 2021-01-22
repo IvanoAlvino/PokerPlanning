@@ -33,4 +33,9 @@ public class RoomStatus
 	 * The id of the current user connected to the room.
 	 */
 	private UUID userId;
+
+	/**
+	 * Enable fun mode for room
+	 */
+	private boolean fun;
 }

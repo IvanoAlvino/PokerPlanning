@@ -1,6 +1,7 @@
 package de.navvis.pokerplanning.room.web;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +16,6 @@ import de.navvis.pokerplanning.room.web.rest.VoteRequest;
 import de.navvis.pokerplanning.user.web.domain.User;
 import de.navvis.pokerplanning.web.exception.UnauthorizedException;
 
-@RequiredArgsConstructor
 @RestController
 @CrossOrigin
 public class VotesController
@@ -23,6 +23,16 @@ public class VotesController
 	private final RoomService roomService;
 
 	private final SessionService sessionService;
+
+	private final Boolean fun;
+
+	public VotesController(RoomService roomService,
+		SessionService sessionService, @Value("${instance.likes-fun}") Boolean fun)
+	{
+		this.roomService = roomService;
+		this.sessionService = sessionService;
+		this.fun = fun;
+	}
 
 	@PostMapping("/api/votes")
 	public void vote(@RequestBody VoteRequest request)
@@ -75,7 +85,7 @@ public class VotesController
 			boolean isVotingOngoing = roomService.isVotingOngoing(roomId);
 			UUID moderatorId = roomService.getModeratorUsername(roomId);
 			User user = sessionService.getUserForRoom(roomId);
-			return new RoomStatus(roomStatus, isVotingOngoing, moderatorId, user.getId());
+			return new RoomStatus(roomStatus, isVotingOngoing, moderatorId, user.getId(), this.fun);
 		}
 		catch (NoSuchRoomException e)
 		{
