@@ -24,7 +24,7 @@ export class VoteResultsComponent
 	{
 		this._estimates = value ? value.estimates : [];
 		this._estimateValues = new Set(this._estimates.map((e) => e.estimate));
-		this._fun = value.fun;
+		this._fun = value ? value.fun: false;
 		this.displayEstimatesResult();
 	}
 
