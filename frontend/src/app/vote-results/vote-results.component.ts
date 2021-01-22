@@ -35,12 +35,12 @@ export class VoteResultsComponent
 
 	public get allEqual(): boolean
 	{
-		return  this._fun && this._estimateValues.size === 1;
+		return  this._fun && this._estimates.length > 1 && this._estimateValues.size === 1;
 	}
 
 	public get noneEqual(): boolean
 	{
-		return this._fun && this._estimates.length > 1  && this._estimateValues.size === this._estimates.length;
+		return this._fun  && this._estimateValues.size === this._estimates.length  && this._estimates.length > 1;
 	}
 
 	/**
