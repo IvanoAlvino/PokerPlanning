@@ -20,9 +20,9 @@ export interface RoomStatus
 	 */
 	userId: string;
 
-  /**
-   * Use fun modes
-   */
+	/**
+	** The room allows fun
+	*/
 	fun: boolean;
 }
 
