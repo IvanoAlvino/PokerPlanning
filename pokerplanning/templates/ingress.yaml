@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "pokerplanning.fullname" . }}
+spec:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: Host(`planning.renvc.net`)
+    services:
+    - kind: Service
+      name: {{ include "pokerplanning.fullname" . }}
+      passHostHeader: true
+      port: 8080
+      scheme: http
