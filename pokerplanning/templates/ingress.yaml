@@ -1,17 +1,79 @@
----
+{{- if .Values.ingress.useNginX -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers X-Real-IP $remote_addr;
+      more_set_headers "X-Forwarded-Proto: https";
+  name: planning{{ .Values.ingress.dnsSuffix }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+    - host: planning{{ .Values.ingress.dnsSuffix }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "pokerplanning.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+  tls:
+    - hosts:
+        - planning{{ .Values.ingress.dnsSuffix }}
+
+{{ else }}
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "pokerplanning.fullname" . }}
+  name: {{ include "pokerplanning.fullname" . }}{{ .Values.ingress.dnsSuffix }}-http
+  namespace: {{ .Release.Namespace }}
 spec:
   entryPoints:
     - web
   routes:
   - kind: Rule
-    match: Host(`planning.renvc.net`)
+    match: Host(`plannig{{ .Values.ingress.dnsSuffix }}`)
+    middlewares:
+    - name: https-redirect
+      namespace: traefik
     services:
     - kind: Service
       name: {{ include "pokerplanning.fullname" . }}
       passHostHeader: true
-      port: 8080
+      port: {{ .Values.service.port }}
       scheme: http
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "pokerplanning.fullname" . }}{{ .Values.ingress.dnsSuffix }}-https
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: Host(`planning{{ .Values.ingress.dnsSuffix }}`)
+    services:
+    - kind: Service
+      name: {{ include "pokerplanning.fullname" . }}
+      passHostHeader: true
+      port: {{ .Values.service.port }}
+      scheme: http
+  tls:
+    store:
+      name: default
+      namespace: traefik
+{{ end }}
