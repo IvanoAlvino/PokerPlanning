@@ -21,9 +21,11 @@ spec:
         {{- include "pokerplanning.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "pokerplanning.serviceAccountName" . }}
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: {{ .Chart.Name }}
-          image: 625202226321.dkr.ecr.eu-central-1.amazonaws.com/poker-planning/backend:latest
+          image: docker.navvis.com/nvc/pokerplanning:latest
           imagePullPolicy: Always
           ports:
             - name: http
