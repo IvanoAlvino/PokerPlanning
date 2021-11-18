@@ -1,5 +1,26 @@
-.average {
+.mid-font-size {
 	font-size: 1.5em;
+}
+
+.large-font-bold {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-around;
+}
+
+.agreement-chart {
+  width: 100px;
+  padding-top: 10px;
+}
+
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .kudos::before {

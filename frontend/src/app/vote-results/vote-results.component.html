@@ -1,15 +1,31 @@
-<div class="text-center mb-2 average">
-	Average: {{averageEstimate}}
+<div class="statistics">
+  <!-- Average -->
+  <div class="text-center mb-2 flex-column-centered">
+    <div class="mid-font-size">Average</div>
+    <div class="large-font-bold">{{averageEstimate}}</div>
+  </div>
+
+  <!-- Agreement -->
+  <div class="text-center mb-2 flex-column-centered">
+    <div class="mid-font-size">Agreement</div>
+    <div class="agreement-chart">
+      <canvas baseChart
+              [datasets]="agreementRateChartData"
+              [legend]="false"
+              [chartType]="agreementRateChartType">
+      </canvas>
+    </div>
+  </div>
 </div>
-<div style="width: 100%">
-	<canvas baseChart
-	        [datasets]="chartEstimateData"
-	        [labels]="chartXAxisLabels"
-	        [options]="chartOptions"
-	        [legend]="false"
-	        [chartType]="chartType">
-	</canvas>
-</div>
+
+<!-- Estimates Chart -->
+<canvas baseChart
+        [datasets]="estimatesChartData"
+        [labels]="estimatesChartXAxisLabels"
+        [options]="chartOptions"
+        [legend]="false"
+        [chartType]="estimatesChartType">
+</canvas>
 
 <div class="kudos" *ngIf="allEqual"></div>
 <div class="shame" *ngIf="noneEqual"></div>
