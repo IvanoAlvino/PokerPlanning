@@ -19,6 +19,11 @@ export interface RoomStatus
 	 * The id of the user connected to the room.
 	 */
 	userId: string;
+
+	/**
+	** The room allows fun
+	*/
+	fun: boolean;
 }
 
 export interface UserEstimate

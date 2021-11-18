@@ -11,7 +11,7 @@
 	</cards-list>
 
 	<vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
-	              [estimates]="lastMeaningfulUpdate ? lastMeaningfulUpdate.estimates : []"
+	              [roomStatus]="lastMeaningfulUpdate"
 	              class="w-50">
 	</vote-results>
 </div>

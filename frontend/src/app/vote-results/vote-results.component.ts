@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {Label} from "ng2-charts";
 import {ChartConfiguration} from "./domain/ChartConfiguration";
-import {UserEstimate} from "../services/room/domain/RoomStatus";
+import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
 
 @Component({
 	selector: 'vote-results',
@@ -14,24 +14,44 @@ export class VoteResultsComponent
 	/**
 	 * The list of estimates for all users.
 	 */
-	private _estimates: UserEstimate[];
+	private _userEstimates: UserEstimate[];
+	private _estimateValues: Set<String>;
+
+	private _fun: boolean;
 
 	@Input()
-	public set estimates(value: UserEstimate[])
+	public set roomStatus(value: RoomStatus)
 	{
-		this._estimates = value;
+		this._userEstimates = value ? value.estimates : [];
+		this._estimateValues = new Set(this._userEstimates.map((e) => e.estimate));
+		this._fun = value ? value.fun: false;
 		this.displayEstimatesResult();
 	}
 
-	public get estimates(): UserEstimate[]
+	public get userEstimates(): UserEstimate[]
 	{
-		return this._estimates;
+		return this._userEstimates;
+	}
+
+	public get allEqual(): boolean
+	{
+		return  this._fun && this._userEstimates.length > 1 && this._estimateValues.size === 1;
+	}
+
+	public get noneEqual(): boolean
+	{
+		return this._fun  && this._estimateValues.size === this._userEstimates.length  && this._userEstimates.length > 1;
 	}
 
 	/**
-	 * The type of chart to display.
+	 * The type of chart to display for the estimates.
 	 */
-	public chartType: ChartType = ChartConfiguration.CHART_TYPE_BAR;
+	public estimatesChartType: ChartType = ChartConfiguration.CHART_TYPE_BAR;
+
+  /**
+   * The type of chart to display for the agreement rate.
+   */
+  public agreementRateChartType: ChartType = ChartConfiguration.CHART_TYPE_DOUGHNUT;
 
 	/**
 	 * The chart options.
@@ -39,19 +59,31 @@ export class VoteResultsComponent
 	public chartOptions: ChartOptions = ChartConfiguration.CHART_OPTIONS;
 
 	/**
-	 * The labels to use for the x-axis in the chart.
+	 * The labels to use for the x-axis in the chart for the estimates.
 	 */
-	public chartXAxisLabels: Label[] = [];
+	public estimatesChartXAxisLabels: Label[] = [];
 
 	/**
-	 * The estimates data used to plot in the chart.
+	 * The data used to plot in the chart for the estimates.
 	 */
-	public chartEstimateData: ChartDataSets[] = [];
+	public estimatesChartData: ChartDataSets[] = [];
+
+  /**
+   * The data used to plot in the chart for the agreement rate.
+   */
+  public agreementRateChartData: ChartDataSets[] = [];
 
 	/**
 	 * The average estimate.
 	 */
 	public averageEstimate: number;
+
+  /**
+   * The agreement rate is a number between 0 and 1 that indicates how each singular vote agrees to the average vote.
+   * If everybody votes the same, this number will be 0, and if everybody votes differently this number will take
+   * into account the average vote and each individual votes to estimate a lowe level of agreement.
+   */
+  public agreementRate: number;
 
 	/**
 	 * The precision used to round the {@link averageEstimate}.
@@ -74,24 +106,25 @@ export class VoteResultsComponent
 		let estimatesSum: number = 0;
 		let totalEstimates: number = 0;
 
-		this.estimates.forEach((result) =>
+		this.userEstimates.forEach((userEstimate) =>
 		{
-			// if user has not voted, or voted with '?', jump to next estimate
-			if (!result.voted || !result.estimate || result.estimate === "?")
+			if (!this.isValidNumericVote(userEstimate))
 			{
 				return;
 			}
 
 			// Update data used for average estimate calculation
 			totalEstimates++;
-			estimatesSum += parseFloat(result.estimate);
+			estimatesSum += parseFloat(userEstimate.estimate);
 
 			// Update data that will be displayed in the chart
-			uniqueEstimates.add(result.estimate.toString());
-			this.incrementOccurrenceForEstimate(estimatesOccurrences, +result.estimate);
+			uniqueEstimates.add(userEstimate.estimate.toString());
+			this.incrementOccurrenceForEstimate(estimatesOccurrences, userEstimate.estimate);
 		});
 
 		this.calculateAverageEstimate(estimatesSum, totalEstimates);
+    this.calculateAgreementRate();
+    this.plotAgreementRate();
 		this.calculateEstimatesChartData(uniqueEstimates, estimatesOccurrences);
 	}
 
@@ -108,8 +141,8 @@ export class VoteResultsComponent
 			.map((estimate) => parseFloat(estimate))
 			.sort((first, second) => first - second)
 			.map((estimate) => estimate.toString());
-		this.chartXAxisLabels = sortedUniqueEstimates;
-		this.chartEstimateData = [{
+		this.estimatesChartXAxisLabels = sortedUniqueEstimates;
+		this.estimatesChartData = [{
 			data: this.getOccurrencesForEstimates(estimatesOccurrences, sortedUniqueEstimates),
 			backgroundColor: ChartConfiguration.CHART_COLORS,
 			hoverBackgroundColor: ChartConfiguration.CHART_COLORS,
@@ -138,22 +171,64 @@ export class VoteResultsComponent
 		this.averageEstimate = Math.round(averageEstimate * precisionFactor) / precisionFactor;
 	}
 
+  /**
+   * Check if the given userEstimate is a valid, numeric vote.
+   * If user has not voted, or voted with '?', this method will return false.
+   * @param userEstimate The userEstimate to validate
+   */
+  private isValidNumericVote(userEstimate: UserEstimate): boolean {
+    return userEstimate.voted && userEstimate.estimate && userEstimate.estimate !== "?";
+  }
+
+  /**
+   * Calculate an agreement rate based on the individual votes and the average vote.
+   */
+  private calculateAgreementRate(): void {
+    let disagreementSum = 0.0;
+    let numberOfEstimates = 0;
+
+    for (const userEstimate of this.userEstimates) {
+      if (!this.isValidNumericVote(userEstimate)) {
+        continue;
+      }
+      const disagreement = Math.abs(parseFloat(userEstimate.estimate) - this.averageEstimate) / this.averageEstimate;
+      disagreementSum += disagreement;
+      numberOfEstimates++;
+    }
+
+    const averageDisagreement = disagreementSum / numberOfEstimates;
+    // Round to 2 decimals
+    this.agreementRate = Math.round((1.0 - averageDisagreement + Number.EPSILON) * 100) / 100;
+  }
+
+  /**
+   * Populate the agreement rate chart.
+   */
+  private plotAgreementRate(): void {
+    this.agreementRateChartData = [{
+      data: [this.agreementRate, 1 - this.agreementRate],
+      backgroundColor: [
+        'rgb(97, 186, 91)',
+        'rgb(235, 233, 228)'
+      ]
+    }];
+  }
+
 	/**
 	 * Increment the number of occurrences for the given estimate.
 	 * @param estimatesOccurrences The map used to track the number of occurrences of each estimate
 	 * @param estimate The estimate for which to increment the occurrence
 	 */
-	private incrementOccurrenceForEstimate(estimatesOccurrences: Map<string, number>,
-		estimate: number): void
+	private incrementOccurrenceForEstimate(estimatesOccurrences: Map<string, number>, estimate: string): void
 	{
 		let voteOccurrences = estimatesOccurrences.get(estimate.toString());
 		if (!voteOccurrences)
 		{
-			estimatesOccurrences.set(estimate.toString(), 1);
+			estimatesOccurrences.set(estimate, 1);
 		}
 		else
 		{
-			estimatesOccurrences.set(estimate.toString(), voteOccurrences + 1);
+			estimatesOccurrences.set(estimate, voteOccurrences + 1);
 		}
 	}
 
@@ -167,6 +242,4 @@ export class VoteResultsComponent
 	{
 		return uniqueEstimates.map((estimate) => estimatesOccurrences.get(estimate));
 	}
-
-	// TODO add confetti when everybody votes with the same vote (https://jsfiddle.net/dtrooper/AceJJ/)
 }

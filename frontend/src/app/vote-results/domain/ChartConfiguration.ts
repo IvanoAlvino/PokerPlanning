@@ -32,9 +32,14 @@ export class ChartConfiguration
 	];
 
 	/**
-	 * The type of chart to display.
+	 * The type of chart to display the estimates.
 	 */
 	public static CHART_TYPE_BAR: ChartType = 'bar';
+
+  /**
+   * The type of chart to display the average rate.
+   */
+  public static CHART_TYPE_DOUGHNUT: ChartType = 'doughnut';
 
 	/**
 	 * The configuration object for the entire chart.
@@ -46,24 +51,12 @@ export class ChartConfiguration
 		responsive: true,
 		scales: {
 			xAxes: [{
-				scaleLabel: {
-					labelString: "Estimate",
-					fontStyle: "italic",
-					display: true,
-					fontSize: 18,
-				},
 				ticks: {
 					beginAtZero: true,
 					fontSize: 24
 				}
 			}],
 			yAxes: [{
-				scaleLabel: {
-					labelString: "Number of votes",
-					fontStyle: "italic",
-					display: true,
-					fontSize: 18
-				},
 				ticks: {
 					beginAtZero: true,
 					// return the value to display only if integer
