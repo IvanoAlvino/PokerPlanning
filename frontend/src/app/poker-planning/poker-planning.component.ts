@@ -172,8 +172,7 @@ export class PokerPlanningComponent implements OnInit
 	{
 		// TODO check here if lastMeaningfulUpdate can be undefined or return no user
 		// Maybe to reproduce, with user TEST do not vote at the first round, than on second round try to flip the card
-		return this.lastMeaningfulUpdate
-			.estimates
+		return this.lastMeaningfulUpdate.estimates
 			.find((estimate) => estimate.userId === this.lastMeaningfulUpdate.userId);
 	}
 }

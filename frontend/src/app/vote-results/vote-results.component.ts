@@ -16,7 +16,7 @@ export class VoteResultsComponent
 	 */
 	private _estimates: UserEstimate[];
 	private _estimateValues: Set<String>;
-	
+
 	private _fun: boolean;
 
 	@Input()
@@ -103,7 +103,7 @@ export class VoteResultsComponent
 
 			// Update data that will be displayed in the chart
 			uniqueEstimates.add(result.estimate.toString());
-			this.incrementOccurrenceForEstimate(estimatesOccurrences, +result.estimate);
+			this.incrementOccurrenceForEstimate(estimatesOccurrences, result.estimate);
 		});
 
 		this.calculateAverageEstimate(estimatesSum, totalEstimates);
@@ -158,17 +158,16 @@ export class VoteResultsComponent
 	 * @param estimatesOccurrences The map used to track the number of occurrences of each estimate
 	 * @param estimate The estimate for which to increment the occurrence
 	 */
-	private incrementOccurrenceForEstimate(estimatesOccurrences: Map<string, number>,
-		estimate: number): void
+	private incrementOccurrenceForEstimate(estimatesOccurrences: Map<string, number>, estimate: string): void
 	{
 		let voteOccurrences = estimatesOccurrences.get(estimate.toString());
 		if (!voteOccurrences)
 		{
-			estimatesOccurrences.set(estimate.toString(), 1);
+			estimatesOccurrences.set(estimate, 1);
 		}
 		else
 		{
-			estimatesOccurrences.set(estimate.toString(), voteOccurrences + 1);
+			estimatesOccurrences.set(estimate, voteOccurrences + 1);
 		}
 	}
 
