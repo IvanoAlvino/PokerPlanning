@@ -12,7 +12,7 @@
 	<artifactId>pokerplanning</artifactId>
 	<version>1.0.0-RELEASE</version>
 	<name>pokerplanning</name>
-	<description>NavVis Poker Planning application</description>
+	<description>Poker Planning application</description>
 
 	<properties>
 		<java.version>11</java.version>
