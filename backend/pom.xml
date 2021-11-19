@@ -75,7 +75,7 @@
 				<version>2.7.1</version>
 				<configuration>
 					<to>
-						<image>625202226321.dkr.ecr.eu-central-1.amazonaws.com/poker-planning/backend</image>
+						<image>docker.navvis.com/nvc/pokerplanning</image>
 					</to>
 				</configuration>
 			</plugin>
