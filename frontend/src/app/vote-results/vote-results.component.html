@@ -13,6 +13,7 @@
         <canvas baseChart
                 [datasets]="agreementRateChartData"
                 [legend]="false"
+                [options]="agreementRateChartOptions"
                 [chartType]="agreementRateChartType">
         </canvas>
       </div>
@@ -23,7 +24,7 @@
   <canvas baseChart
           [datasets]="estimatesChartData"
           [labels]="estimatesChartXAxisLabels"
-          [options]="chartOptions"
+          [options]="estimatesChartOptions"
           [legend]="false"
           [chartType]="estimatesChartType">
   </canvas>

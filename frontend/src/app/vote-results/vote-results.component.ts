@@ -54,9 +54,14 @@ export class VoteResultsComponent
   public agreementRateChartType: ChartType = ChartConfiguration.CHART_TYPE_DOUGHNUT;
 
 	/**
-	 * The chart options.
+	 * The estimates chart options.
 	 */
-	public chartOptions: ChartOptions = ChartConfiguration.CHART_OPTIONS;
+	public estimatesChartOptions: ChartOptions = ChartConfiguration.ESTIMATES_CHART_OPTIONS;
+
+  /**
+   * The agreement rate chart options.
+   */
+  public agreementRateChartOptions: ChartOptions = ChartConfiguration.AGREEMENT_CHART_OPTIONS;
 
 	/**
 	 * The labels to use for the x-axis in the chart for the estimates.
