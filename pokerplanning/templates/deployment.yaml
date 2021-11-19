@@ -22,7 +22,7 @@ spec:
     spec:
       serviceAccountName: {{ include "pokerplanning.serviceAccountName" . }}
       imagePullSecrets:
-        - name: regcred
+        - name: tool-image-repository
       containers:
         - name: {{ .Chart.Name }}
           image: docker.navvis.com/nvc/pokerplanning:latest
