@@ -1,18 +1,16 @@
-<div class="d-flex">
+<div class="poker-planning-container">
 	<users-list *ngIf="lastMeaningfulUpdate"
 	            [userList]="lastMeaningfulUpdate.estimates"
 	            [moderatorId]="lastMeaningfulUpdate.moderatorId"
 	            [userId]="lastMeaningfulUpdate.userId"
-	            [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing"
-	            class="w-25 pr-5">
+	            [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing">
 	</users-list>
 
-	<cards-list class="w-75" *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
+	<cards-list *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
 	</cards-list>
 
 	<vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
-	              [roomStatus]="lastMeaningfulUpdate"
-	              class="w-50">
+	              [roomStatus]="lastMeaningfulUpdate">
 	</vote-results>
 </div>
 

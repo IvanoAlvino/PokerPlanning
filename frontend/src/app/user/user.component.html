@@ -1,18 +1,20 @@
 <div class="flex-container" [class.voted]="userToDisplay.voted" [class.not-voted]="!userToDisplay.voted">
-	<!-- Change Moderator button -->
-	<div *ngIf="moderatorId === currentlyLoggedUserId && userToDisplay.userId !== currentlyLoggedUserId"
-	     (click)="changeModerator(userToDisplay)"
-	     class="icon star">
+	<div class="first-row">
+    <!-- Change Moderator button -->
+    <div *ngIf="moderatorId === currentlyLoggedUserId && userToDisplay.userId !== currentlyLoggedUserId"
+         (click)="changeModerator(userToDisplay)"
+         class="icon star">
+    </div>
+    <!-- Moderator Star -->
+    <div *ngIf="moderatorId === userToDisplay.userId" class="icon colored-star"></div>
+    <!-- Username-->
+    <div class="info">{{userToDisplay.username}}</div>
+  </div>
+
+	<div *ngIf="!isVotingOngoing" class="info vote">
+    <span *ngIf="userToDisplay.voted">{{userToDisplay.estimate}}</span>
+    <span *ngIf="!userToDisplay.voted" class="no-vote-text">no vote</span>
 	</div>
-
-	<div *ngIf="moderatorId === userToDisplay.userId" class="icon colored-star">
-	</div>
-
-	<span class="pl-2 info">{{userToDisplay.username}}</span>
-
-	<span *ngIf="!isVotingOngoing && userToDisplay.voted" class="pl-2 info vote">
-		{{userToDisplay.estimate}}
-	</span>
 </div>
 
 <!-- The html for the modal that asks for change room moderator confirmation -->

@@ -5,7 +5,6 @@ import {UserService} from "../services/user/user.service";
 import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
 
 @Component({
-	selector: 'poker-planning',
 	templateUrl: './poker-planning.component.html',
 	styleUrls: ['./poker-planning.component.scss']
 })

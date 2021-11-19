@@ -1,10 +1,12 @@
-<div class="user-list">
+<div class="outer-list-container">
 	<h3>User List</h3>
-	<span *ngFor="let user of userList">
-		<user [userToDisplay]="user"
-		      [isVotingOngoing]="isVotingOngoing"
-		      [currentlyLoggedUserId]="userId"
-		      [moderatorId]="moderatorId">
-		</user>
-	</span>
+  <div class="user-list">
+    <div class="user-item" *ngFor="let user of userList">
+      <user [userToDisplay]="user"
+            [isVotingOngoing]="isVotingOngoing"
+            [currentlyLoggedUserId]="userId"
+            [moderatorId]="moderatorId">
+      </user>
+    </div>
+  </div>
 </div>

@@ -1,3 +1,29 @@
 :host {
-	text-align: right;
+  background-color: beige;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 35px;
+}
+
+.outer-list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+}
+
+.user-item {
+  background-color: ivory;
+  padding: 5px;
+  margin: 5px 2px;
+  border-radius: 5px;
+  width: 180px;
+}
+
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
 }

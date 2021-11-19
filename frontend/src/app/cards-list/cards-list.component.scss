@@ -1,6 +1,9 @@
+:host {
+  max-width: 600px;
+}
+
 .card-list {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	padding-right: 30%;
 }

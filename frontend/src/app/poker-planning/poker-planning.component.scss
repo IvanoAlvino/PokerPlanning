@@ -1,3 +1,10 @@
 :host {
 	width: 100%;
 }
+
+.poker-planning-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,6 +1,8 @@
 .poker-card {
-	width: 125px;
-	height: 153px;
+  min-width: 80px;
+	max-width: 125px;
+  min-height: 125px;
+  max-height: 195px;
 	margin-right: 12px;
 	margin-bottom: 12px;
 	border: none;

@@ -8,7 +8,14 @@
 
 .flex-container {
 	display: flex;
-	justify-content: flex-end;
+  flex-direction: column;
+	justify-content: center;
+  align-items: center;
+}
+
+.first-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 .star {
@@ -71,4 +78,10 @@
 
 .vote {
 	min-width: 35px;
+  text-align: center;
+}
+
+.no-vote-text {
+  font-style: italic;
+  padding: 0 5px;
 }
