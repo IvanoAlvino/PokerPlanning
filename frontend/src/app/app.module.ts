@@ -17,6 +17,7 @@ import {UsersListComponent} from './users-list/users-list.component';
 import {VoteResultsComponent} from './vote-results/vote-results.component';
 import {ChartsModule} from "ng2-charts";
 import {MatDialogModule} from "@angular/material/dialog";
+import { FireworksComponent } from './fireworks/fireworks/fireworks.component';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 		UserComponent,
 		UsersListComponent,
 		VoteResultsComponent,
+		FireworksComponent,
 	],
 	imports: [
 		BrowserModule,
