@@ -21,9 +21,9 @@ export interface RoomStatus
 	userId: string;
 
 	/**
-	** The room allows fun
+	* Allow fireworks to be displayed in the event of maximum agreement rate.
 	*/
-	fun: boolean;
+	allowFireworks: boolean;
 }
 
 export interface UserEstimate
