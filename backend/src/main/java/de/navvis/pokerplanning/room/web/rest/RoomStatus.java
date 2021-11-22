@@ -35,7 +35,7 @@ public class RoomStatus
 	private UUID userId;
 
 	/**
-	 * Enable fun mode for room
+	 * Allow fireworks to be displayed in the event of maximum agreement rate.
 	 */
-	private boolean fun;
+	private boolean allowFireworks;
 }

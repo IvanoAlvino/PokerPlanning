@@ -2,11 +2,6 @@
   width: 100%;
 }
 
-.beige-background {
-  background-color: beige;
-  border-radius: 5px;
-}
-
 .mid-font-size {
 	font-size: 1.5em;
 }
@@ -33,28 +28,3 @@
   flex-basis: 120px;
 }
 
-.kudos::before {
-		content: "";
-		position: fixed;
-		top: 0;
-		left: 0;
-		bottom:0;
-		right:0;
-		background-image: url("/assets/kudos.gif");
-		background-size:100% 100%;
-		opacity: .7;
-		z-index: -200;
-}
-
-.shame::before {
-		content: "";
-		position: fixed;
-		top: 0;
-		left: 0;
-		bottom:0;
-		right:0;
-		background-image: url("/assets/shame.gif");
-		background-size:100% 100%;
-		opacity: .95;
-		z-index: -200;
-}

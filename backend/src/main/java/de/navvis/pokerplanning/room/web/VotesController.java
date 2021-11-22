@@ -1,6 +1,5 @@
 package de.navvis.pokerplanning.room.web;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -24,14 +23,17 @@ public class VotesController
 
 	private final SessionService sessionService;
 
-	private final Boolean fun;
+	/**
+	 * Allow fireworks to be displayed in the event of maximum agreement rate.
+	 */
+	private final Boolean allowFireworks;
 
 	public VotesController(RoomService roomService,
-		SessionService sessionService, @Value("${instance.likes_fun}") Boolean fun)
+		SessionService sessionService, @Value("${instance.allow_fireworks}") Boolean allowFireworks)
 	{
 		this.roomService = roomService;
 		this.sessionService = sessionService;
-		this.fun = fun;
+		this.allowFireworks = allowFireworks;
 	}
 
 	@PostMapping("/api/votes")
@@ -85,7 +87,7 @@ public class VotesController
 			boolean isVotingOngoing = roomService.isVotingOngoing(roomId);
 			UUID moderatorId = roomService.getModeratorUsername(roomId);
 			User user = sessionService.getUserForRoom(roomId);
-			return new RoomStatus(roomStatus, isVotingOngoing, moderatorId, user.getId(), this.fun);
+			return new RoomStatus(roomStatus, isVotingOngoing, moderatorId, user.getId(), this.allowFireworks);
 		}
 		catch (NoSuchRoomException e)
 		{

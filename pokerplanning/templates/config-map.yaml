@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: {{ include "pokerplanning.fullname" . }}
 data:
-  INSTANCE_LIKES_FUN: {{ quote .Values.instance.likes_fun }}
+  INSTANCE_ALLOW_FIREWORKS: {{ quote .Values.instance.allow_fireworks }}

@@ -1,35 +1,31 @@
-<div [class.beige-background]="allEqual || noneEqual">
-  <div class="statistics">
-    <!-- Average -->
-    <div class="text-center mb-2 flex-column-centered">
-      <div class="mid-font-size">Average</div>
-      <div class="large-font-bold">{{averageEstimate}}</div>
-    </div>
-
-    <!-- Agreement -->
-    <div class="text-center mb-2 flex-column-centered">
-      <div class="mid-font-size">Agreement</div>
-      <div class="agreement-chart">
-        <canvas baseChart
-                [datasets]="agreementRateChartData"
-                [legend]="false"
-                [options]="agreementRateChartOptions"
-                [chartType]="agreementRateChartType">
-        </canvas>
-      </div>
-    </div>
+<div class="statistics">
+  <!-- Average -->
+  <div class="text-center mb-2 flex-column-centered">
+    <div class="mid-font-size">Average</div>
+    <div class="large-font-bold">{{averageEstimate}}</div>
   </div>
 
-  <!-- Estimates Chart -->
-  <canvas baseChart
-          [datasets]="estimatesChartData"
-          [labels]="estimatesChartXAxisLabels"
-          [options]="estimatesChartOptions"
-          [legend]="false"
-          [chartType]="estimatesChartType">
-  </canvas>
-
-  <div class="kudos" *ngIf="allEqual"></div>
-  <div class="shame" *ngIf="noneEqual"></div>
+  <!-- Agreement -->
+  <div class="text-center mb-2 flex-column-centered">
+    <div class="mid-font-size">Agreement</div>
+    <div class="agreement-chart">
+      <canvas baseChart
+              [datasets]="agreementRateChartData"
+              [legend]="false"
+              [options]="agreementRateChartOptions"
+              [chartType]="agreementRateChartType">
+      </canvas>
+    </div>
+  </div>
 </div>
-  <app-fireworks *ngIf="agreementRate === 1"></app-fireworks>
+
+<!-- Estimates Chart -->
+<canvas baseChart
+        [datasets]="estimatesChartData"
+        [labels]="estimatesChartXAxisLabels"
+        [options]="estimatesChartOptions"
+        [legend]="false"
+        [chartType]="estimatesChartType">
+</canvas>
+
+<app-fireworks *ngIf="shouldDisplayFireworks()"></app-fireworks>

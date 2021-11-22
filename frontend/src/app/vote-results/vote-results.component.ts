@@ -14,34 +14,20 @@ export class VoteResultsComponent
 	/**
 	 * The list of estimates for all users.
 	 */
-	private _userEstimates: UserEstimate[];
-	private _estimateValues: Set<String>;
+	private userEstimates: UserEstimate[];
 
-	private _fun: boolean;
+	/**
+   * Allow fireworks to be displayed in the event of maximum {@link agreementRate}.
+   */
+  private allowFireworks: boolean;
 
-	@Input()
-	public set roomStatus(value: RoomStatus)
-	{
-		this._userEstimates = value ? value.estimates : [];
-		this._estimateValues = new Set(this._userEstimates.map((e) => e.estimate));
-		this._fun = value ? value.fun: false;
-		this.displayEstimatesResult();
-	}
-
-	public get userEstimates(): UserEstimate[]
-	{
-		return this._userEstimates;
-	}
-
-	public get allEqual(): boolean
-	{
-		return  this._fun && this._userEstimates.length > 1 && this._estimateValues.size === 1;
-	}
-
-	public get noneEqual(): boolean
-	{
-		return this._fun  && this._estimateValues.size === this._userEstimates.length  && this._userEstimates.length > 1;
-	}
+  @Input()
+  public set roomStatus(value: RoomStatus)
+  {
+    this.userEstimates = value ? value.estimates : [];
+    this.allowFireworks = value ? value.allowFireworks: false;
+    this.displayEstimatesResult();
+  }
 
 	/**
 	 * The type of chart to display for the estimates.
@@ -247,4 +233,11 @@ export class VoteResultsComponent
 	{
 		return uniqueEstimates.map((estimate) => estimatesOccurrences.get(estimate));
 	}
+
+  /**
+   * Whether fireworks should be displayed.
+   */
+  public shouldDisplayFireworks(): boolean {
+    return this.allowFireworks && this.agreementRate === 1;
+  }
 }
