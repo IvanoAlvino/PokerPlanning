@@ -42,7 +42,7 @@ export class UsersListComponent
 	@Input()
 	public isVotingOngoing: boolean;
 
-	/**
+  /**
 	 * Clone the provided estimates array and sort it by estimate value, in a descending order.
 	 * @param estimates The array of estimates to sort
 	 */
@@ -74,4 +74,18 @@ export class UsersListComponent
 			return parseFloat(secondEstimate.estimate) - parseFloat(firstEstimate.estimate);
 		});
 	}
+
+	public getVote(user: UserEstimate): string
+  {
+    if (!user.voted) {
+      return '-';
+    } else {
+      return user.estimate;
+    }
+  }
+
+  public getModeratorUsername(): string {
+    const moderator = this.userList.find((user) => user.userId === this.moderatorId);
+    return moderator ? moderator.username : "User";
+  }
 }

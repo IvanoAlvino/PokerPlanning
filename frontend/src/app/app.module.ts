@@ -12,7 +12,6 @@ import {PokerPlanningComponent} from './poker-planning/poker-planning.component'
 import {AppComponent} from "./app.component";
 import {CardsListComponent} from './cards-list/cards-list.component';
 import {CardComponent} from './card/card.component';
-import {UserComponent} from './user/user.component';
 import {UsersListComponent} from './users-list/users-list.component';
 import {VoteResultsComponent} from './vote-results/vote-results.component';
 import {ChartsModule} from "ng2-charts";
@@ -22,6 +21,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import { ChangeRoomAdminModalComponent } from './change-room-admin-modal/change-room-admin-modal.component';
 import {MatSelectModule} from "@angular/material/select";
+import {MatCardModule} from "@angular/material/card";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
 	declarations: [
@@ -30,7 +31,6 @@ import {MatSelectModule} from "@angular/material/select";
 		PokerPlanningComponent,
 		CardsListComponent,
 		CardComponent,
-		UserComponent,
 		UsersListComponent,
 		VoteResultsComponent,
 		FireworksComponent,
@@ -48,7 +48,9 @@ import {MatSelectModule} from "@angular/material/select";
     MatDialogModule,
     MatToolbarModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule,
+    MatChipsModule
   ],
 	providers: [],
 	bootstrap: [AppComponent]

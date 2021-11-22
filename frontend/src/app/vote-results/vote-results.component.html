@@ -1,31 +1,35 @@
-<div class="statistics">
-  <!-- Average -->
-  <div class="text-center mb-2 flex-column-centered">
-    <div class="mid-font-size">Average</div>
-    <div class="large-font-bold">{{averageEstimate}}</div>
-  </div>
 
-  <!-- Agreement -->
-  <div class="text-center mb-2 flex-column-centered">
-    <div class="mid-font-size">Agreement</div>
-    <div class="agreement-chart">
+  <mat-card>
+    <mat-card-title class="statistics">
+      <!-- Average -->
+      <div class="text-center mb-2 flex-column-centered">
+        <div class="mid-font-size">Average</div>
+        <div class="large-font-bold">{{averageEstimate}}</div>
+      </div>
+
+      <!-- Agreement -->
+      <div class="text-center mb-2 flex-column-centered">
+        <div class="mid-font-size">Agreement</div>
+        <div class="agreement-chart">
+          <canvas baseChart
+                  [datasets]="agreementRateChartData"
+                  [legend]="false"
+                  [options]="agreementRateChartOptions"
+                  [chartType]="agreementRateChartType">
+          </canvas>
+        </div>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <!-- Estimates Chart -->
       <canvas baseChart
-              [datasets]="agreementRateChartData"
+              [datasets]="estimatesChartData"
+              [labels]="estimatesChartXAxisLabels"
+              [options]="estimatesChartOptions"
               [legend]="false"
-              [options]="agreementRateChartOptions"
-              [chartType]="agreementRateChartType">
+              [chartType]="estimatesChartType">
       </canvas>
-    </div>
-  </div>
-</div>
+    </mat-card-content>
+  </mat-card>
 
-<!-- Estimates Chart -->
-<canvas baseChart
-        [datasets]="estimatesChartData"
-        [labels]="estimatesChartXAxisLabels"
-        [options]="estimatesChartOptions"
-        [legend]="false"
-        [chartType]="estimatesChartType">
-</canvas>
-
-<app-fireworks *ngIf="shouldDisplayFireworks()"></app-fireworks>
+  <app-fireworks *ngIf="shouldDisplayFireworks()"></app-fireworks>
