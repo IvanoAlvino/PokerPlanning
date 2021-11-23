@@ -1,11 +1,18 @@
-<div class="outer-list-container">
-	<h3>User List</h3>
-  <div class="user-list">
-    <div class="user-item" *ngFor="let user of userList">
-      <user [userToDisplay]="user"
-            [isVotingOngoing]="isVotingOngoing"
-            [moderatorId]="moderatorId">
-      </user>
-    </div>
-  </div>
-</div>
+<mat-card class="users-list-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ getModeratorUsername() }}</mat-card-title>
+    <mat-card-subtitle>Administrator</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="user-list">
+    <mat-chip-list class="chips-list">
+      <mat-chip *ngFor="let user of userList" [selected]="user.voted">
+        <span class="chip-username">{{user.username}}</span>
+        <span *ngIf="!isVotingOngoing" class="vote-container" [class.voted]="user.voted">
+          {{getVote(user)}}
+        </span>
+      </mat-chip>
+    </mat-chip-list>
+  </mat-card-content>
+</mat-card>

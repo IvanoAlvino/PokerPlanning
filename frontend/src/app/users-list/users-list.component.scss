@@ -1,29 +1,53 @@
 :host {
-  background-color: beige;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 35px;
-}
-
-.outer-list-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 500px;
-}
-
-.user-item {
-  background-color: ivory;
-  padding: 5px;
-  margin: 5px 2px;
-  border-radius: 5px;
-  width: 180px;
-}
-
-.user-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
   width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.users-list-card {
+  min-width: 270px;
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: 35px;
+  overflow: hidden;
+}
+
+.user-list-title {
+  text-align: center;
+}
+
+.vote-container {
+  margin-left: 8px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  &.voted {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.chip-username {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.mat-chip.mat-standard-chip::after {
+  background: none !important;
+}
+
+.example-header-image {
+  background-image: url('../../assets/admin.png');
+  background-size: cover;
+}
+
+.mat-card-header .mat-card-title {
+  margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 500px;
 }
