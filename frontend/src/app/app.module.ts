@@ -18,6 +18,8 @@ import {VoteResultsComponent} from './vote-results/vote-results.component';
 import {ChartsModule} from "ng2-charts";
 import {MatDialogModule} from "@angular/material/dialog";
 import { FireworksComponent } from './fireworks/fireworks/fireworks.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
 	declarations: [
@@ -31,17 +33,19 @@ import { FireworksComponent } from './fireworks/fireworks/fireworks.component';
 		VoteResultsComponent,
 		FireworksComponent,
 	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		BrowserAnimationsModule,
-		MatButtonModule,
-		MatInputModule,
-		HttpClientModule,
-		FormsModule,
-		ChartsModule,
-		MatDialogModule
-	],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
+    HttpClientModule,
+    FormsModule,
+    ChartsModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatIconModule
+  ],
 	providers: [],
 	bootstrap: [AppComponent]
 })

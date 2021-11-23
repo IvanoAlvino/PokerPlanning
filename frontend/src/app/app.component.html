@@ -1,6 +1,15 @@
-<div class="entire-app-container">
-  <h1 class="text-center">Poker Planning</h1>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Poker Planning</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-raised-button>Change Room Admin</button>
+    <button mat-icon-button class="toolbar-icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 
+<div class="entire-app-container">
   <div class="d-flex flex-column bd-highlight mt-5 mb-3 align-items-center">
     <router-outlet></router-outlet>
   </div>
