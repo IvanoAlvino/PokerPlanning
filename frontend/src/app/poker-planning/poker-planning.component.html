@@ -1,26 +1,41 @@
-<div class="poker-planning-container">
-	<users-list *ngIf="lastMeaningfulUpdate"
-	            [userList]="lastMeaningfulUpdate.estimates"
-	            [moderatorId]="lastMeaningfulUpdate.moderatorId"
-	            [userId]="lastMeaningfulUpdate.userId"
-	            [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing">
-	</users-list>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Poker Planning</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()">
+      Change Admin
+    </button>
+    <button mat-icon-button class="toolbar-icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-	<cards-list *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
-	</cards-list>
+<div class="entire-app-container">
+  <div class="poker-planning-container">
+    <users-list *ngIf="lastMeaningfulUpdate"
+                [userList]="lastMeaningfulUpdate.estimates"
+                [moderatorId]="lastMeaningfulUpdate.moderatorId"
+                [userId]="lastMeaningfulUpdate.userId"
+                [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing">
+    </users-list>
 
-	<vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
-	              [roomStatus]="lastMeaningfulUpdate">
-	</vote-results>
-</div>
+    <cards-list *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
+    </cards-list>
 
-<div class="d-flex justify-content-center" *ngIf="isModerator()">
-	<button type="button" class="btn btn-success m-2"
-	        (click)="startVoting()" *ngIf="!isVoteOngoing">
-		Start Voting
-	</button>
-	<button type="button" class="btn btn-success m-2"
-	        (click)="finishVoting()" *ngIf="isVoteOngoing">
-		Finish Voting
-	</button>
+    <vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
+                  [roomStatus]="lastMeaningfulUpdate">
+    </vote-results>
+  </div>
+
+  <div class="d-flex justify-content-center" *ngIf="isModerator()">
+    <button type="button" class="btn btn-success m-2"
+            (click)="startVoting()" *ngIf="!isVoteOngoing">
+      Start Voting
+    </button>
+    <button type="button" class="btn btn-success m-2"
+            (click)="finishVoting()" *ngIf="isVoteOngoing">
+      Finish Voting
+    </button>
+  </div>
 </div>

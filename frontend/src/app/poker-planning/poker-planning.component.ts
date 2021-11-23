@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {RoomService} from "../services/room/room.service";
 import {UserService} from "../services/user/user.service";
 import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
+import {MatDialog} from "@angular/material/dialog";
+import {ChangeRoomAdminModalComponent} from "../change-room-admin-modal/change-room-admin-modal.component";
 
 @Component({
 	templateUrl: './poker-planning.component.html',
@@ -27,12 +29,12 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	private updatesIntervalId: number;
 
-	constructor(private route: ActivatedRoute,
-		private router: Router,
-		private RoomService: RoomService,
-		private UserService: UserService)
-	{
-	}
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private RoomService: RoomService,
+              private UserService: UserService,
+              private MatDialog: MatDialog) {
+  }
 
 	async ngOnInit()
 	{
@@ -174,4 +176,26 @@ export class PokerPlanningComponent implements OnInit
 		return this.lastMeaningfulUpdate.estimates
 			.find((estimate) => estimate.userId === this.lastMeaningfulUpdate.userId);
 	}
+
+  /**
+   * Open a modal to ask for confirmation on the operation, and then change the room moderator
+   * if the user confirms.
+   * @param newProposedRoomModerator The user that might become moderator
+   */
+  public changeRoomAdmin(): void {
+    this.MatDialog.open(ChangeRoomAdminModalComponent, {
+      position: {
+        top: "10%"
+      }
+    })
+      .afterClosed()
+      .subscribe((newAdminId) =>
+      {
+        if (newAdminId !== undefined && newAdminId !== "")
+        {
+          this.RoomService.changeModerator(newAdminId)
+            .catch((error) => console.log("Impossible to change moderator", error));
+        }
+      });
+  }
 }

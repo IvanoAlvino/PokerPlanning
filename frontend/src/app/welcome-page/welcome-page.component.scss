@@ -1,12 +1,23 @@
+:host {
+  width: 100%;
+}
+
 .main-button {
-	width: 100%;
+	width: 35%;
 }
 
 .name-form {
-	width: 100%;
+	width: 35%;
 }
 
 mat-form-field {
 	text-align: center;
 	width: 100%;
+}
+
+.welcome-container {
+  padding: 25px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

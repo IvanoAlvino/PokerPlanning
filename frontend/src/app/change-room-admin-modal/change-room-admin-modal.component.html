@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Change Room Admin</h2>
+<div mat-dialog-content>
+  <p>The room Administrator is the person who can start and stop votes</p>
+  <div class="new-admin-selectbox-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Select the new room admin</mat-label>
+      <mat-select [(value)]="selectedUserId">
+        <mat-option *ngFor="let user of availableUsers" value="{{user.userId}}">
+          {{user.username}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <span class="dialog-actions-spacer"></span>
+  <button mat-button [mat-dialog-close]="selectedUserId" cdkFocusInitial>Ok</button>
+</div>
+

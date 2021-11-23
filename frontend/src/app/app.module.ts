@@ -20,6 +20,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { FireworksComponent } from './fireworks/fireworks/fireworks.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import { ChangeRoomAdminModalComponent } from './change-room-admin-modal/change-room-admin-modal.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
 	declarations: [
@@ -32,6 +34,7 @@ import {MatIconModule} from "@angular/material/icon";
 		UsersListComponent,
 		VoteResultsComponent,
 		FireworksComponent,
+  ChangeRoomAdminModalComponent,
 	],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import {MatIconModule} from "@angular/material/icon";
     ChartsModule,
     MatDialogModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
 	providers: [],
 	bootstrap: [AppComponent]

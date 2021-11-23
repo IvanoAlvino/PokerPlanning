@@ -1,36 +1,45 @@
-<form class="name-form">
-	<mat-form-field>
-		<mat-label>Insert your name</mat-label>
-		<textarea matInput placeholder="Ex. Lisa, Lisa or Lisa" name="username"
-		          #nameInput="matInput" #name="ngModel"
-		          (keydown.enter)="handleEnterKey()"
-		          [(ngModel)]="username" required minlength="3">
-		</textarea>
-	</mat-form-field>
-</form>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Poker Planning</span>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-<button mat-raised-button color="primary" class="p-2 main-button mb-3"
-        (click)="createNewRoom()" [disabled]="name.invalid" [hidden]="onlyJoining">
-	I want to start a planning
-</button>
+<div class="welcome-container">
+  <form class="name-form">
+    <mat-form-field>
+      <mat-label>Insert your name</mat-label>
+      <textarea matInput placeholder="Ex. Lisa, Lisa or Lisa" name="username"
+                #nameInput="matInput" #name="ngModel"
+                (keydown.enter)="handleEnterKey()"
+                [(ngModel)]="username" required minlength="3">
+      </textarea>
+    </mat-form-field>
+  </form>
 
-<button mat-raised-button class="p-2 main-button"
-        (click)="joinPlanning()" [disabled]="name.invalid" [hidden]="!onlyJoining">
-	I want to join a planning
-</button>
+  <button mat-raised-button color="primary" class="p-2 main-button mb-3"
+          (click)="createNewRoom()" [disabled]="name.invalid" [hidden]="onlyJoining">
+    I want to start a planning
+  </button>
 
-<!-- The html for the modal that notifies the username contains unsafe chars -->
-<ng-template #unsafeUsernameModal>
-	<mat-dialog-content class="mat-typography">
-		<h2>Unsafe username detected</h2>
-		<div>
-			The username you chose contains potentially unsafe characters.
-		</div>
-		<div>
-			Please avoid any of the following chars: <code>!"#$%&'()*+,-./:;<=>?@[\]^_`{{|}~</code>
-		</div>
-	</mat-dialog-content>
-	<mat-dialog-actions align="end" class="mt-3">
-		<button mat-button mat-dialog-close cdkFocusInitial>Close</button>
-	</mat-dialog-actions>
-</ng-template>
+  <button mat-raised-button class="p-2 main-button"
+          (click)="joinPlanning()" [disabled]="name.invalid" [hidden]="!onlyJoining">
+    I want to join a planning
+  </button>
+
+  <!-- The html for the modal that notifies the username contains unsafe chars -->
+  <ng-template #unsafeUsernameModal>
+    <mat-dialog-content class="mat-typography">
+      <h2>Unsafe username detected</h2>
+      <div>
+        The username you chose contains potentially unsafe characters.
+      </div>
+      <div>
+        Please avoid any of the following chars: <code>!"#$%&'()*+,-./:;<=>?@[\]^_`{{|}~</code>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end" class="mt-3">
+      <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+</div>

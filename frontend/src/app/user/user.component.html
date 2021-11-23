@@ -1,10 +1,5 @@
 <div class="flex-container" [class.voted]="userToDisplay.voted" [class.not-voted]="!userToDisplay.voted">
 	<div class="first-row">
-    <!-- Change Moderator button -->
-    <div *ngIf="moderatorId === currentlyLoggedUserId && userToDisplay.userId !== currentlyLoggedUserId"
-         (click)="changeModerator(userToDisplay)"
-         class="icon star">
-    </div>
     <!-- Moderator Star -->
     <div *ngIf="moderatorId === userToDisplay.userId" class="icon colored-star"></div>
     <!-- Username-->
@@ -17,16 +12,3 @@
 	</div>
 </div>
 
-<!-- The html for the modal that asks for change room moderator confirmation -->
-<ng-template #modal>
-	<mat-dialog-content class="mat-typography">
-		<h2>Change Room Moderator</h2>
-		<div>
-			Do you want to switch the Room moderator to be <code>{{newProposedModeratorUsername}}</code>
-		</div>
-	</mat-dialog-content>
-	<mat-dialog-actions align="end">
-		<button mat-button mat-dialog-close>Cancel</button>
-		<button mat-button [mat-dialog-close]="true" cdkFocusInitial>Confirm</button>
-	</mat-dialog-actions>
-</ng-template>

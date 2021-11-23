@@ -4,7 +4,6 @@
     <div class="user-item" *ngFor="let user of userList">
       <user [userToDisplay]="user"
             [isVotingOngoing]="isVotingOngoing"
-            [currentlyLoggedUserId]="userId"
             [moderatorId]="moderatorId">
       </user>
     </div>
