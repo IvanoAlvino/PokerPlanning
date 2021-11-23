@@ -2,12 +2,9 @@
   width: 100%;
 }
 
-.main-button {
+.name-form, .main-button {
 	width: 35%;
-}
-
-.name-form {
-	width: 35%;
+  min-width: 200px;
 }
 
 mat-form-field {

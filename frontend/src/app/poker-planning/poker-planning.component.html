@@ -5,7 +5,7 @@
     <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()">
       Change Admin
     </button>
-    <button mat-icon-button class="toolbar-icon">
+    <button mat-icon-button class="toolbar-icon" (click)="showCopiedToClipboardMessage()" [cdkCopyToClipboard]="getPageUrl()">
       <mat-icon>share</mat-icon>
     </button>
   </mat-toolbar-row>

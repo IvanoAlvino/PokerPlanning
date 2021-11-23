@@ -5,6 +5,7 @@ import {UserService} from "../services/user/user.service";
 import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
 import {MatDialog} from "@angular/material/dialog";
 import {ChangeRoomAdminModalComponent} from "../change-room-admin-modal/change-room-admin-modal.component";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
 	templateUrl: './poker-planning.component.html',
@@ -33,7 +34,8 @@ export class PokerPlanningComponent implements OnInit
               private router: Router,
               private RoomService: RoomService,
               private UserService: UserService,
-              private MatDialog: MatDialog) {
+              private MatDialog: MatDialog,
+              private MatSnackBar: MatSnackBar) {
   }
 
 	async ngOnInit()
@@ -197,5 +199,13 @@ export class PokerPlanningComponent implements OnInit
             .catch((error) => console.log("Impossible to change moderator", error));
         }
       });
+  }
+
+  public getPageUrl(): string {
+    return window.location.href;
+  }
+
+  public showCopiedToClipboardMessage(): void {
+    this.MatSnackBar.open("URL copied to clipboard!", undefined, {duration: 2000});
   }
 }

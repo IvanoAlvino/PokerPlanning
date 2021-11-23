@@ -23,6 +23,8 @@ import { ChangeRoomAdminModalComponent } from './change-room-admin-modal/change-
 import {MatSelectModule} from "@angular/material/select";
 import {MatCardModule} from "@angular/material/card";
 import {MatChipsModule} from "@angular/material/chips";
+import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
 	declarations: [
@@ -50,7 +52,9 @@ import {MatChipsModule} from "@angular/material/chips";
     MatIconModule,
     MatSelectModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    ClipboardModule,
+    MatSnackBarModule
   ],
 	providers: [],
 	bootstrap: [AppComponent]
