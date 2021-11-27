@@ -52,14 +52,20 @@ export class ChartConfiguration
 				ticks: {
 					beginAtZero: true,
 					fontSize: 24
-				}
+				},
+        gridLines: {
+          display: false,
+        },
 			}],
 			yAxes: [{
 				ticks: {
 					beginAtZero: true,
 					// return the value to display only if integer
 					callback: (value: number) => value % 1 === 0 ? value : undefined
-				}
+				},
+        gridLines: {
+          display: false
+        }
 			}]
 		},
 		plugins: {
