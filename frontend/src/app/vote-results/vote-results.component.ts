@@ -199,7 +199,7 @@ export class VoteResultsComponent
     this.agreementRateChartData = [{
       data: [this.agreementRate, 1 - this.agreementRate],
       backgroundColor: [
-        'rgb(63, 81, 181)',
+        '#61bd4f',
         'rgb(235, 233, 228)'
       ]
     }];
