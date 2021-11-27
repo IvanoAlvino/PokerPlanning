@@ -7,7 +7,7 @@
 
   <mat-card-content class="user-list">
     <mat-chip-list class="chips-list">
-      <mat-chip *ngFor="let user of userList" [selected]="user.voted">
+      <mat-chip *ngFor="let user of userList" [class.color-green]="user.voted">
         <span class="chip-username">{{user.username}}</span>
         <span *ngIf="!isVotingOngoing" class="vote-container" [class.voted]="user.voted">
           {{getVote(user)}}

@@ -22,9 +22,12 @@
   box-sizing: border-box;
   border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.2);
+  min-width: 20px;
+  display: flex;
+  justify-content: center;
 
   &.voted {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #99d18f;
   }
 }
 
@@ -50,4 +53,8 @@
   text-overflow: ellipsis;
   display: inline-block;
   max-width: 500px;
+}
+
+.color-green {
+  background-color: #61bd4f;
 }
