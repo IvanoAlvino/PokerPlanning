@@ -126,7 +126,7 @@ body {
 .pyro {
   width:      100%;
   height:     100%;
-  top:        0;
+  top:        64px; // leave space for the navbar to be clickable even if fireworks are present
   left:       0;
   position:   fixed;
 }
