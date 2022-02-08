@@ -46,7 +46,7 @@ service:
 
 ingress:
   useNginX: true
-  dnsSuffix: .renvc.net
+  dnsSuffix: .iv.renvc.net
   
 
 resources: {}
