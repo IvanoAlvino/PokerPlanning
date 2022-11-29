@@ -1,4 +1,4 @@
-interface RoomResponse
+export interface RoomResponse
 {
 	roomId: string;
 }

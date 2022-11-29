@@ -7,6 +7,7 @@ import {VoteRequest} from "./domain/VoteRequest";
 import {RoomStatus} from "./domain/RoomStatus";
 import {ChangeModeratorRequest} from "./domain/ChangeModeratorRequest";
 import {ChangeRoomVotingStatusRequest} from "./domain/ChangeRoomVotingStatusRequest";
+import {RoomResponse} from "./domain/RoomResponse";
 
 @Injectable({
 	providedIn: 'root'
