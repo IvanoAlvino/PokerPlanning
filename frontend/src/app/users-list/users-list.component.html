@@ -5,14 +5,16 @@
     <mat-card-subtitle>Administrator</mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content class="user-list">
-    <mat-chip-list class="chips-list">
-      <mat-chip *ngFor="let user of userList" [class.color-green]="user.voted">
-        <span class="chip-username">{{user.username}}</span>
-        <span *ngIf="!isVotingOngoing" class="vote-container" [class.voted]="user.voted">
-          {{getVote(user)}}
+  <mat-card-content>
+    <mat-chip-listbox>
+      <mat-chip-option *ngFor="let user of userList" color="accent" [selected]="user.voted">
+        <span class="span-container-text">
+          <span class="chip-username">{{user.username}}</span>
+          <span *ngIf="!isVotingOngoing" class="vote-container">
+            {{getVote(user)}}
+          </span>
         </span>
-      </mat-chip>
-    </mat-chip-list>
+      </mat-chip-option>
+    </mat-chip-listbox>
   </mat-card-content>
 </mat-card>
