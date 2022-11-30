@@ -1,3 +1,8 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+$color-config: mat.get-color-config(mat.$pink-palette);
+
 :host {
   width: 100%;
   display: flex;
@@ -35,7 +40,10 @@
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
+}
+
+.span-container-text {
+  display: flex;
 }
 
 .mat-chip.mat-standard-chip::after {

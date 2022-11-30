@@ -17,15 +17,16 @@ export class VoteResultsComponent
 	private userEstimates: UserEstimate[];
 
 	/**
-   * Allow fireworks to be displayed in the event of maximum {@link agreementRate}.
+   * Allow fireworks to be displayed in the event of maximum {@link unanimousAgreement}.
    */
-  private allowFireworks: boolean;
+  public allowFireworks: boolean;
 
   @Input()
   public set roomStatus(value: RoomStatus)
   {
     this.userEstimates = value ? value.estimates : [];
     this.allowFireworks = value ? value.allowFireworks: false;
+    this.unanimousAgreement = this.isAgreementUnanimous();
     this.displayEstimatesResult();
   }
 
@@ -34,20 +35,10 @@ export class VoteResultsComponent
 	 */
 	public estimatesChartType: ChartType = ChartConfiguration.CHART_TYPE_BAR;
 
-  /**
-   * The type of chart to display for the agreement rate.
-   */
-  public agreementRateChartType: ChartType = ChartConfiguration.CHART_TYPE_DOUGHNUT;
-
 	/**
 	 * The estimates chart options.
 	 */
 	public estimatesChartOptions: ChartOptions = ChartConfiguration.ESTIMATES_CHART_OPTIONS;
-
-  /**
-   * The agreement rate chart options.
-   */
-  public agreementRateChartOptions: ChartOptions = ChartConfiguration.AGREEMENT_CHART_OPTIONS;
 
 	/**
 	 * The labels to use for the x-axis in the chart for the estimates.
@@ -59,22 +50,15 @@ export class VoteResultsComponent
 	 */
 	public estimatesChartData: ChartDataSets[] = [];
 
-  /**
-   * The data used to plot in the chart for the agreement rate.
-   */
-  public agreementRateChartData: ChartDataSets[] = [];
-
 	/**
 	 * The average estimate.
 	 */
 	public averageEstimate: number;
 
   /**
-   * The agreement rate is a number between 0 and 1 that indicates how each singular vote agrees to the average vote.
-   * If everybody votes the same, this number will be 0, and if everybody votes differently this number will take
-   * into account the average vote and each individual votes to estimate a lowe level of agreement.
+   * Whether all users voted the same.
    */
-  public agreementRate: number;
+  public unanimousAgreement: boolean;
 
 	/**
 	 * The precision used to round the {@link averageEstimate}.
@@ -114,8 +98,6 @@ export class VoteResultsComponent
 		});
 
 		this.calculateAverageEstimate(estimatesSum, totalEstimates);
-    this.calculateAgreementRate();
-    this.plotAgreementRate();
 		this.calculateEstimatesChartData(uniqueEstimates, estimatesOccurrences);
 	}
 
@@ -147,18 +129,18 @@ export class VoteResultsComponent
 	/**
 	 * Calculate the average estimate, with decimal precision.
 	 * @param estimatesSum The total sum of all estimates
-	 * @param totalEstimates The
+	 * @param totalEstimates The number of estimates
 	 */
 	private calculateAverageEstimate(estimatesSum: number, totalEstimates: number)
 	{
+    if (estimatesSum == 0 || totalEstimates == 0)
+    {
+      this.averageEstimate = 0;
+      return;
+    }
+
 		let precisionFactor = 1 / this.ROUNDING_PRECISION;
 		let averageEstimate = estimatesSum / totalEstimates;
-
-		if (estimatesSum == 0 || totalEstimates == 0)
-		{
-			this.averageEstimate = 0;
-			return;
-		}
 		this.averageEstimate = Math.round(averageEstimate * precisionFactor) / precisionFactor;
 	}
 
@@ -169,40 +151,6 @@ export class VoteResultsComponent
    */
   private isValidNumericVote(userEstimate: UserEstimate): boolean {
     return userEstimate.voted && userEstimate.estimate && userEstimate.estimate !== "?";
-  }
-
-  /**
-   * Calculate an agreement rate based on the individual votes and the average vote.
-   */
-  private calculateAgreementRate(): void {
-    let disagreementSum = 0.0;
-    let numberOfEstimates = 0;
-
-    for (const userEstimate of this.userEstimates) {
-      if (!this.isValidNumericVote(userEstimate)) {
-        continue;
-      }
-      const disagreement = Math.abs(parseFloat(userEstimate.estimate) - this.averageEstimate) / this.averageEstimate;
-      disagreementSum += disagreement;
-      numberOfEstimates++;
-    }
-
-    const averageDisagreement = disagreementSum / numberOfEstimates;
-    // Round to 2 decimals
-    this.agreementRate = Math.round((1.0 - averageDisagreement + Number.EPSILON) * 100) / 100;
-  }
-
-  /**
-   * Populate the agreement rate chart.
-   */
-  private plotAgreementRate(): void {
-    this.agreementRateChartData = [{
-      data: [this.agreementRate, 1 - this.agreementRate],
-      backgroundColor: [
-        '#61bd4f',
-        'rgb(235, 233, 228)'
-      ]
-    }];
   }
 
 	/**
@@ -238,6 +186,31 @@ export class VoteResultsComponent
    * Whether fireworks should be displayed.
    */
   public shouldDisplayFireworks(): boolean {
-    return this.allowFireworks && this.agreementRate === 1;
+    return this.allowFireworks && this.unanimousAgreement;
+  }
+
+  private isAgreementUnanimous(): boolean {
+    const numericEstimates = this.userEstimates
+      .filter(userEstimate => this.isValidNumericVote(userEstimate));
+
+    if (numericEstimates.length === 0) {
+      return false;
+    }
+
+    let previousEstimate = undefined;
+    for (const estimate of numericEstimates) {
+      if (previousEstimate === undefined) {
+        previousEstimate = parseFloat(estimate.estimate);
+        continue;
+      }
+
+      // If current estimate is different then previous one, return false
+      if (estimate !== previousEstimate) {
+        return false;
+      }
+    }
+
+    // All estimates are the same
+    return true;
   }
 }

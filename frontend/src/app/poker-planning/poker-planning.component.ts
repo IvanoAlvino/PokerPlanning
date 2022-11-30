@@ -3,9 +3,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {RoomService} from "../services/room/room.service";
 import {UserService} from "../services/user/user.service";
 import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
-import {MatDialog} from "@angular/material/dialog";
 import {ChangeRoomAdminModalComponent} from "../change-room-admin-modal/change-room-admin-modal.component";
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
 	templateUrl: './poker-planning.component.html',
@@ -154,20 +154,6 @@ export class PokerPlanningComponent implements OnInit
 	}
 
 	/**
-	 * Flip the {@link UserEstimate#voted} state for the current user.
-	 * This operation is not strictly required, because the state is updated accordingly as soon
-	 * as the result of the update operation comes in from the server, but updating the local
-	 * state before that makes the UI snappier.
-	 */
-	public flipVotedStateForCurrentUser(): void
-	{
-		let currentUser = this.getCurrentUserFromLastMeaningfulUpdate();
-		// TODO here currentUser CAN be undefined
-		// try to reproduce having a user name Robert <script>alert("hi");</script>
-		currentUser.voted = !currentUser.voted;
-	}
-
-	/**
 	 * Get the {@link UserEstimate} object corresponding to the current user from the
 	 * {@link lastMeaningfulUpdate} object.
 	 */
@@ -182,7 +168,6 @@ export class PokerPlanningComponent implements OnInit
   /**
    * Open a modal to ask for confirmation on the operation, and then change the room moderator
    * if the user confirms.
-   * @param newProposedRoomModerator The user that might become moderator
    */
   public changeRoomAdmin(): void {
     this.MatDialog.open(ChangeRoomAdminModalComponent, {

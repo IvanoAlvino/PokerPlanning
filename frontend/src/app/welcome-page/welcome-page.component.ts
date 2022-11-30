@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {RoomService} from "../services/room/room.service";
-import {MatInput} from "@angular/material/input";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user/user.service";
+import {MatInput} from "@angular/material/input";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({

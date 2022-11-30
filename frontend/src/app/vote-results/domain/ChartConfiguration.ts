@@ -34,11 +34,6 @@ export class ChartConfiguration
 	 */
 	public static CHART_TYPE_BAR: ChartType = 'bar';
 
-  /**
-   * The type of chart to display the average rate.
-   */
-  public static CHART_TYPE_DOUGHNUT: ChartType = 'doughnut';
-
 	/**
 	 * The configuration object for the estimates chart.
 	 */
@@ -75,12 +70,4 @@ export class ChartConfiguration
 			}
 		}
 	};
-
-  /**
-   * The configuration object for the agreement rate chart.
-   */
-  public static AGREEMENT_CHART_OPTIONS: ChartOptions = {
-    tooltips: {enabled: false},
-    hover: {mode: null},
-  };
 }

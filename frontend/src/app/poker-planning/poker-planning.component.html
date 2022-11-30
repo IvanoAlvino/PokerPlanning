@@ -2,10 +2,10 @@
   <mat-toolbar-row>
     <span>Poker Planning</span>
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()">
+    <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()" color="accent">
       Change Admin
     </button>
-    <button mat-icon-button class="toolbar-icon" (click)="showCopiedToClipboardMessage()" [cdkCopyToClipboard]="getPageUrl()">
+    <button mat-icon-button class="toolbar-icon" (click)="showCopiedToClipboardMessage()" [cdkCopyToClipboard]="getPageUrl()" color="accent">
       <mat-icon>share</mat-icon>
     </button>
   </mat-toolbar-row>
@@ -20,7 +20,7 @@
                 [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing">
     </users-list>
 
-    <cards-list *ngIf="isVoteOngoing" (onCardSelect)="flipVotedStateForCurrentUser()">
+    <cards-list *ngIf="isVoteOngoing">
     </cards-list>
 
     <vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
