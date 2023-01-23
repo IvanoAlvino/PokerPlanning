@@ -7,12 +7,10 @@
 
   <mat-card-content>
     <mat-chip-listbox>
-      <mat-chip-option *ngFor="let user of userList" color="accent" [selected]="user.voted">
+      <mat-chip-option *ngFor="let user of userList" color="accent" [selected]="user.voted"
+                       [matBadge]="user.estimate" [matBadgeHidden]="isVotingOngoing || !user.voted" matBadgeSize="medium">
         <span class="span-container-text">
           <span class="chip-username">{{user.username}}</span>
-          <span *ngIf="!isVotingOngoing" class="vote-container">
-            {{getVote(user)}}
-          </span>
         </span>
       </mat-chip-option>
     </mat-chip-listbox>

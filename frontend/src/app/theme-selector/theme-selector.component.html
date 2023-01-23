@@ -1,0 +1,36 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" color="accent">
+  <mat-icon fontIcon="format_color_fill"></mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <mat-radio-group color="primary" class="themes-radio-group" [(ngModel)]="selectedTheme">
+    <mat-radio-button [value]="ThemeEnum.DEEP_PURPLE">
+      <div class="radio-button-container">
+        <span>Deep Purple & Amber</span>
+        <theme-icon [backgroundColor]="'#fff'" [iconButtonColor]="'#ffc107'" [iconToolbarColor]="'#673ab7'">
+        </theme-icon>
+      </div>
+    </mat-radio-button>
+    <mat-radio-button [value]="ThemeEnum.INDIGO_PINK">
+      <div class="radio-button-container">
+        <span>Indigo & Pink</span>
+        <theme-icon [backgroundColor]="'#fff'" [iconButtonColor]="'#e91e63'" [iconToolbarColor]="'#3f51b5'">
+        </theme-icon>
+      </div>
+    </mat-radio-button>
+    <mat-radio-button [value]="ThemeEnum.PINK_BLUE">
+      <div class="radio-button-container">
+        <span>Pink & Blue grey</span>
+        <theme-icon [backgroundColor]="'#303030'" [iconButtonColor]="'#607d8b'" [iconToolbarColor]="'#e91e63'">
+        </theme-icon>
+      </div>
+    </mat-radio-button>
+    <mat-radio-button [value]="ThemeEnum.PURPLE_GREEN">
+      <div class="radio-button-container">
+        <span>Purple & Green</span>
+        <theme-icon [backgroundColor]="'#303030'" [iconButtonColor]="'#4caf50'" [iconToolbarColor]="'#9c27b0'">
+        </theme-icon>
+      </div>
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-menu>

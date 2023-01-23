@@ -24,6 +24,11 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCardModule} from "@angular/material/card";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatBadgeModule} from "@angular/material/badge";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatRadioModule} from "@angular/material/radio";
+import { ThemeIconComponent } from './theme-icon/theme-icon.component';
+import { ThemeSelectorComponent } from './theme-selector/theme-selector.component';
 
 @NgModule({
 	declarations: [
@@ -36,26 +41,31 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 		VoteResultsComponent,
 		FireworksComponent,
   ChangeRoomAdminModalComponent,
+  ThemeIconComponent,
+  ThemeSelectorComponent,
 	],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatInputModule,
-        HttpClientModule,
-        FormsModule,
-        ChartsModule,
-        MatDialogModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatSelectModule,
-        MatCardModule,
-        MatChipsModule,
-        ClipboardModule,
-        MatSnackBarModule,
-        MatChipsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
+    HttpClientModule,
+    FormsModule,
+    ChartsModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSelectModule,
+    MatCardModule,
+    MatChipsModule,
+    ClipboardModule,
+    MatSnackBarModule,
+    MatChipsModule,
+    MatBadgeModule,
+    MatMenuModule,
+    MatRadioModule
+  ],
 	providers: [],
 	bootstrap: [AppComponent]
 })

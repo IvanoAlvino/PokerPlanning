@@ -2,12 +2,21 @@
   <mat-toolbar-row>
     <span>Poker Planning</span>
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()" color="accent">
+
+    <!-- Change admin button -->
+    <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()" color="accent"
+            class="change-admin-button">
       Change Admin
     </button>
-    <button mat-icon-button class="toolbar-icon" (click)="showCopiedToClipboardMessage()" [cdkCopyToClipboard]="getPageUrl()" color="accent">
+
+    <!-- Share button -->
+    <button mat-icon-button (click)="showCopiedToClipboardMessage()"
+            [cdkCopyToClipboard]="getPageUrl()" color="accent">
       <mat-icon>share</mat-icon>
     </button>
+
+    <!-- Change theme button -->
+    <theme-selector></theme-selector>
   </mat-toolbar-row>
 </mat-toolbar>
 

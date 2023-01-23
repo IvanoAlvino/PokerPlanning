@@ -75,15 +75,6 @@ export class UsersListComponent
 		});
 	}
 
-	public getVote(user: UserEstimate): string
-  {
-    if (!user.voted) {
-      return '-';
-    } else {
-      return user.estimate;
-    }
-  }
-
   public getModeratorUsername(): string {
     const moderator = this.userList.find((user) => user.userId === this.moderatorId);
     return moderator ? moderator.username : "User";

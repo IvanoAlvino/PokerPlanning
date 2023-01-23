@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <p>The room admin is the person who can start and stop voting sessions.</p>
   <div class="new-admin-selectbox-container">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" color="accent">
       <mat-label>Select the new room admin</mat-label>
       <mat-select [(value)]="selectedUserId">
         <mat-option *ngFor="let user of availableUsers" value="{{user.userId}}">

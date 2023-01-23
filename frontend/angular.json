@@ -28,7 +28,23 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/themes/light-indigo-pink.scss",
+              {
+                "input": "src/themes/light-deeppurple-amber.scss",
+                "bundleName": "light-deeppurple-amber",
+                "inject": false
+              },
+              {
+                "input": "src/themes/dark-purple-green.scss",
+                "bundleName": "dark-purple-green",
+                "inject": false
+              },
+              {
+                "input": "src/themes/dark-pink-blue-grey.scss",
+                "bundleName": "dark-pink-blue-grey",
+                "inject": false
+              }
             ],
             "scripts": [
             ],
