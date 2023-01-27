@@ -1,5 +1,6 @@
 :host {
 	width: 100%;
+  height: 100%;
 }
 
 .change-admin-button {
@@ -24,6 +25,27 @@
   justify-content: center;
 }
 
+.example-list-wrapping {
+  max-width: 100%;
+}
+
+div {
+  &.mat-caption {
+    padding-bottom: 16px;
+  }
+}
+
 .action-buttons {
   padding-top: 16px;
+}
+
+mat-sidenav {
+  width: 30%;
+  min-width: 300px;
+  padding: 64px 16px;
+}
+
+.sidenav-container {
+  width: 100%;
+  height: 100%;
 }

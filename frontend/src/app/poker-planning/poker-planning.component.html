@@ -1,50 +1,83 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>Poker Planning</span>
-    <span class="toolbar-spacer"></span>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav [mode]="sidenavMode" opened>
+    <div class="mat-h2">Hints for pointing</div>
 
-    <!-- Change admin button -->
-    <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()" color="accent"
-            class="change-admin-button">
-      Change Admin
-    </button>
+    <div class="mat-subtitle-2">Repositories</div>
+    <div class="mat-caption">
+      Does the changes affect both Frontend and Backend, or just one repository?
+    </div>
+    <div class="mat-subtitle-2">Syncing</div>
+    <div class="mat-caption">
+      Does this ticket require syncing between different internal teams in the company?
+    </div>
+    <div class="mat-subtitle-2">Dependency</div>
+    <div class="mat-caption">
+      Does it modify the frontend or backend APIs, and are this APIs currently used by other teams in the company?
+    </div>
+    <div class="mat-subtitle-2">UI/UX</div>
+    <div class="mat-caption">
+      Do you rely on work to be done from a different team?
+    </div>
+    <div class="mat-subtitle-2">APIs</div>
+    <div class="mat-caption">
+      Does it modify the frontend or backend APIs, and are this APIs currently used by other teams in the company?
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
 
-    <!-- Share button -->
-    <button mat-icon-button (click)="showCopiedToClipboardMessage()"
-            [cdkCopyToClipboard]="getPageUrl()" color="accent">
-      <mat-icon>share</mat-icon>
-    </button>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <mat-icon fontIcon="menu" (click)="sidenav.toggle()"></mat-icon>
+        <span class="ms-sm-1">Poker Planning</span>
+        <span class="toolbar-spacer"></span>
 
-    <!-- Change theme button -->
-    <theme-selector></theme-selector>
-  </mat-toolbar-row>
-</mat-toolbar>
+        <!-- Change admin button -->
+        <button mat-raised-button *ngIf="isModerator()" (click)="changeRoomAdmin()" color="accent"
+                class="change-admin-button">
+          Change Admin
+        </button>
 
-<div class="entire-app-container">
-  <div class="poker-planning-container">
-    <users-list *ngIf="lastMeaningfulUpdate"
-                [userList]="lastMeaningfulUpdate.estimates"
-                [moderatorId]="lastMeaningfulUpdate.moderatorId"
-                [userId]="lastMeaningfulUpdate.userId"
-                [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing">
-    </users-list>
+        <!-- Share button -->
+        <button mat-icon-button (click)="showCopiedToClipboardMessage()"
+                [cdkCopyToClipboard]="getPageUrl()" color="accent">
+          <mat-icon>share</mat-icon>
+        </button>
 
-    <cards-list *ngIf="isVoteOngoing">
-    </cards-list>
+        <!-- Change theme button -->
+        <theme-selector></theme-selector>
+      </mat-toolbar-row>
+    </mat-toolbar>
 
-    <vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
-                  [roomStatus]="lastMeaningfulUpdate">
-    </vote-results>
-  </div>
 
-  <div class="d-flex justify-content-center action-buttons" *ngIf="isModerator()">
-    <button mat-raised-button color="primary"
-            (click)="startVoting()" *ngIf="!isVoteOngoing">
-      Start Voting
-    </button>
-    <button mat-raised-button color="primary"
-            (click)="finishVoting()" *ngIf="isVoteOngoing">
-      Finish Voting
-    </button>
-  </div>
-</div>
+    <div class="entire-app-container">
+      <div class="poker-planning-container">
+        <users-list *ngIf="lastMeaningfulUpdate"
+                    [userList]="lastMeaningfulUpdate.estimates"
+                    [moderatorId]="lastMeaningfulUpdate.moderatorId"
+                    [userId]="lastMeaningfulUpdate.userId"
+                    [isVotingOngoing]="lastMeaningfulUpdate.votingOngoing">
+        </users-list>
+
+        <cards-list *ngIf="isVoteOngoing">
+        </cards-list>
+
+        <vote-results [hidden]="!lastMeaningfulUpdate || isVoteOngoing"
+                      [roomStatus]="lastMeaningfulUpdate">
+        </vote-results>
+      </div>
+
+      <div class="d-flex justify-content-center action-buttons" *ngIf="isModerator()">
+        <button mat-raised-button color="primary"
+                (click)="startVoting()" *ngIf="!isVoteOngoing">
+          Start Voting
+        </button>
+        <button mat-raised-button color="primary"
+                (click)="finishVoting()" *ngIf="isVoteOngoing">
+          Finish Voting
+        </button>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

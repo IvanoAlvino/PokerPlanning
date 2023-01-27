@@ -29,6 +29,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatRadioModule} from "@angular/material/radio";
 import { ThemeIconComponent } from './theme-icon/theme-icon.component';
 import { ThemeSelectorComponent } from './theme-selector/theme-selector.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
 	declarations: [
@@ -64,7 +66,9 @@ import { ThemeSelectorComponent } from './theme-selector/theme-selector.componen
     MatChipsModule,
     MatBadgeModule,
     MatMenuModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSidenavModule,
+    MatListModule
   ],
 	providers: [],
 	bootstrap: [AppComponent]

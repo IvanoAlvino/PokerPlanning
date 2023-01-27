@@ -13,6 +13,5 @@ $theme: mat.define-dark-theme((
 
 // Include all theme styles for the components.
 .dark-purple-green {
-  @include mat.all-component-themes($theme);
-  @include mat.typography-hierarchy($theme);
+  @include mat.all-component-colors($theme);
 }

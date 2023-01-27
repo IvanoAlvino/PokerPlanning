@@ -13,6 +13,5 @@ $theme: mat.define-light-theme((
 
 // Include all theme styles for the components.
 .light-deeppurple-amber {
-  @include mat.all-component-themes($theme);
-  @include mat.typography-hierarchy($theme);
+  @include mat.all-component-colors($theme);
 }

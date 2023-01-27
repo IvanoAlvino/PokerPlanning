@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RoomService} from "../services/room/room.service";
 import {UserService} from "../services/user/user.service";
@@ -6,6 +6,7 @@ import {RoomStatus, UserEstimate} from "../services/room/domain/RoomStatus";
 import {ChangeRoomAdminModalComponent} from "../change-room-admin-modal/change-room-admin-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDrawerMode} from "@angular/material/sidenav";
 
 @Component({
 	templateUrl: './poker-planning.component.html',
@@ -30,6 +31,16 @@ export class PokerPlanningComponent implements OnInit
 	 */
 	private updatesIntervalId: number;
 
+  /**
+   * The current sidenav mode.
+   */
+  public sidenavMode: MatDrawerMode = 'side';
+
+  /**
+   * The threshold in pixed under which a screen is considered small
+   */
+  private SMALL_SCREEN_THRESHOLD = 768;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private RoomService: RoomService,
@@ -40,6 +51,7 @@ export class PokerPlanningComponent implements OnInit
 
 	async ngOnInit()
 	{
+    this.updateSidenavMode();
 		try
 		{
 			await this.redirectUserToWelcomePageIfNotRegistered();
@@ -50,7 +62,17 @@ export class PokerPlanningComponent implements OnInit
 		}
 	}
 
-	/**
+  /**
+   * Update the sidenav mode based on the current viewport width.
+   */
+  @HostListener('window:resize')
+  private updateSidenavMode(): void
+  {
+    const isSmallScreen = window.innerWidth < this.SMALL_SCREEN_THRESHOLD;
+    this.sidenavMode = isSmallScreen ? 'over' : 'side';
+  }
+
+  /**
 	 * Check if user has no session open already with the server, and navigate to the welcome page
 	 * if this is the case so that the user can register to the room.
 	 * If user is already registered to the room, this method will only make sure he will be polling
