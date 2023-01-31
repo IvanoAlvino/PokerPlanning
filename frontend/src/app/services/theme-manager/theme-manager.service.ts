@@ -3,8 +3,20 @@ import {Injectable} from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class ThemeManagerService {
 
+  /**
+   * The key used to store the chosen theme in local storage.
+   */
+  private static readonly SAVED_THEME: string = "saved_theme_id";
+
+  /**
+   * The currently active theme.
+   */
   public activeTheme: ThemeEnum = ThemeEnum.INDIGO_PINK;
 
+  /**
+   * Set the given theme as the active one.
+   * @param theme The theme to set as active
+   */
   public setTheme(theme: ThemeEnum): void {
     let linkElementForKey: HTMLLinkElement;
 
@@ -39,9 +51,13 @@ export class ThemeManagerService {
         break;
     }
 
+    localStorage.setItem(ThemeManagerService.SAVED_THEME, theme.toString());
     this.activeTheme = theme;
   }
 
+  /**
+   * Remove the current class from the body element that is actually specifying the theme css to load.
+   */
   private removeCurrentThemeClassFromBodyElement(): void {
     switch (this.activeTheme) {
       case ThemeEnum.DEEP_PURPLE:
@@ -59,16 +75,28 @@ export class ThemeManagerService {
     }
   }
 
+  /**
+   * Find or create the <link> html element with the classname containing the given key.
+   * @param key The string that will allow to select a specific html link element.
+   */
   private getLinkElementForKey(key: string): HTMLLinkElement {
     return this.getExistingLinkElementByKey(key) || this.createLinkElementWithKey(key);
   }
 
+  /**
+   * Get the <link> html element with the classname containing the given key.
+   * @param key The string that will allow to select a specific html link element.
+   */
   private getExistingLinkElementByKey(key: string): HTMLLinkElement {
     return document.head.querySelector(
       `link[rel="stylesheet"].${this.getClassNameForKey(key)}`
     );
   }
 
+  /**
+   * Create a link element with a class containing the given key.
+   * @param key A string that will end up in a class in the html link element.
+   */
   private createLinkElementWithKey(key: string): HTMLLinkElement {
     const linkEl = document.createElement('link');
     linkEl.setAttribute('rel', 'stylesheet');
@@ -77,8 +105,22 @@ export class ThemeManagerService {
     return linkEl;
   }
 
+  /**
+   * Elaborate the given key and create a unique class name.
+   * @param key The string to use in the class name.
+   */
   private getClassNameForKey(key: string): string {
     return `style-manager-${key}`;
+  }
+
+  /**
+   * Look for existing settings saved in local storage and load the theme.
+   */
+  public loadSavedTheme(): void {
+    const savedThemeId = localStorage.getItem(ThemeManagerService.SAVED_THEME);
+    if (savedThemeId) {
+      this.setTheme(parseInt(savedThemeId));
+    }
   }
 }
 
