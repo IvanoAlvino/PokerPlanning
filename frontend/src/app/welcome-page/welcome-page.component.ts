@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {RoomService} from "../services/room/room.service";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user/user.service";
-import {MatInput} from "@angular/material/input";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -10,7 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 	templateUrl: './welcome-page.component.html',
 	styleUrls: ['./welcome-page.component.scss']
 })
-export class WelcomePageComponent implements OnInit, AfterViewInit
+export class WelcomePageComponent implements OnInit
 {
 	/**
 	 * The username introduced in the form.
@@ -22,9 +21,6 @@ export class WelcomePageComponent implements OnInit, AfterViewInit
 	 * This will be set to true when e.g. a link of an already created room is visited.
 	 */
 	public onlyJoining: boolean;
-
-	@ViewChild('nameInput', {static: true})
-	private usernameInput: MatInput;
 
 	@ViewChild('unsafeUsernameModal')
 	public unsafeUsernameModal: TemplateRef<any>
@@ -40,12 +36,6 @@ export class WelcomePageComponent implements OnInit, AfterViewInit
 	{
 		// check if user has landed on this page from an invite link
 		this.onlyJoining = this.UserService.onlyJoining;
-	}
-
-	public ngAfterViewInit(): void
-	{
-		// set the focus on the name input
-		setTimeout(() => this.usernameInput.focus(), 700);
 	}
 
 	/**

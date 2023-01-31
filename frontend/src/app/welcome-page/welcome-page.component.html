@@ -1,29 +1,32 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span>Poker Planning</span>
+    <span class="toolbar-spacer"></span>
+    <!-- Change theme button -->
+    <theme-selector></theme-selector>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="welcome-container">
-  <form class="name-form">
-    <mat-form-field color="accent">
-      <mat-label>Insert your name</mat-label>
-      <textarea matInput placeholder="Ex. Lisa, Lisa or Lisa" name="username"
-                #nameInput="matInput" #name="ngModel"
-                (keydown.enter)="handleEnterKey()"
-                [(ngModel)]="username" required minlength="3">
-      </textarea>
-    </mat-form-field>
-  </form>
+  <mat-form-field color="accent">
+    <mat-label>Insert your name</mat-label>
+    <input matInput placeholder="Ex. Lisa, Marina or Sasha" name="username"
+              #name="ngModel"
+              (keydown.enter)="handleEnterKey()"
+              [(ngModel)]="username" required minlength="3">
+    <mat-hint align="start">
+      <strong>"I hereby declare I will not lie"</strong>
+    </mat-hint>
+  </mat-form-field>
 
-  <button mat-raised-button color="primary" class="p-2 main-button mb-3"
-          (click)="createNewRoom()" [disabled]="name.invalid" [hidden]="onlyJoining">
-    I want to start a planning
+  <button mat-raised-button color="primary" class="p-2 mb-3 main-button"
+          (click)="createNewRoom()" [disabled]="name.invalid" *ngIf="!onlyJoining">
+    Start
   </button>
 
-  <button mat-raised-button class="p-2 main-button"
-          (click)="joinPlanning()" [disabled]="name.invalid" [hidden]="!onlyJoining">
-    I want to join a planning
+  <button mat-raised-button class="p-2 mb-3 main-button"
+          (click)="joinPlanning()" [disabled]="name.invalid" *ngIf="onlyJoining">
+    Join
   </button>
 
   <!-- The html for the modal that notifies the username contains unsafe chars -->

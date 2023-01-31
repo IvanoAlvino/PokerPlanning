@@ -2,19 +2,18 @@
   width: 100%;
 }
 
-.name-form, .main-button {
-	width: 35%;
-  min-width: 200px;
-}
-
-mat-form-field {
-	text-align: center;
-	width: 100%;
-}
-
 .welcome-container {
   padding: 25px 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 25%;
+  margin: 0 auto;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.main-button {
+  align-self: end;
 }
