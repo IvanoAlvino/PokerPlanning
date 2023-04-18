@@ -25,7 +25,7 @@ spec:
         - name: tool-image-repository
       containers:
         - name: {{ .Chart.Name }}
-          image: docker.navvis.com/nvc/pokerplanning:latest
+          image: {{ .Values.application.image }}
           imagePullPolicy: Always
           ports:
             - name: http
