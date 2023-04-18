@@ -73,3 +73,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Image path of the actual built image where it can be pulled from. For NVC, replace this with the cluster-specific
+# URL, should be something like `<random-numbers>.dkr.ecr.<region>.amazonaws.com/nvc/pokerplanning:latest`
+application:
+  image: docker.navvis.com/nvc/pokerplanning:latest
